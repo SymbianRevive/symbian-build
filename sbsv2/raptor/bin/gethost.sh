@@ -26,8 +26,8 @@
 getopts de  OPT
 
 if [[ "${OSTYPE}" =~ "linux" ]]; then
-	ARCH=$(uname -i)
-        LIBC=$(echo /lib/libc-* | sed -r 's#.*/libc-([0-9]*)\.([0-9]*)(\.([0-9]*))?.so#libc\1_\2#')
+	ARCH=$(uname -m)
+	LIBC=$(LANG=C /lib/libc.so.6 |sed -rn 's/^GNU C Library .* version ([0-9]+)\.([0-9]+).*/libc\1_\2/p')
         HOSTPLATFORM="linux ${ARCH} ${LIBC}"
 
 	if [ "$LIBC" == "libc2_3" ]; then
