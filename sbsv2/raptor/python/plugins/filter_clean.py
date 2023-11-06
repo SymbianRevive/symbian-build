@@ -47,6 +47,9 @@ class FilterClean(filter_interface.Filter):
 	def write(self, text):
 		"process some log text"
 		
+		if isinstance(text, bytes):
+			text = text.decode()
+		
 		for line in text.splitlines():
 		
 			if self.removeTargets:
@@ -124,8 +127,12 @@ class FilterClean(filter_interface.Filter):
 	def saveItem(self, path):
 		"put path into a temporary file."
 		try:
-			self.tmp.write(path + "\n")
+			if isinstance(path, str):
+				path = path.encode()
+			self.tmp.write(path + b"\n")
 		except:
+			import traceback
+			traceback.print_exc()
 			sys.stderr.write("sbs: could not write temporary file in FilterClean\n")
 			self.ok = False
 	

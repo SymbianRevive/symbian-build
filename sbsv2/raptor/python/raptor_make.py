@@ -53,17 +53,17 @@ def XMLEscapeLog(stream):
 	inRecipe = False
 
 	for line in stream:
-		if line.startswith("<recipe"):
+		if line.startswith(b"<recipe"):
 			inRecipe = True
-		elif line.startswith("</recipe"):
+		elif line.startswith(b"</recipe"):
 			inRecipe = False
 			
 		# unless we are inside a "recipe", any line not starting
 		# with "<" is free text that must be escaped.
-		if inRecipe or line.startswith("<"):
+		if inRecipe or line.startswith(b"<"):
 			yield line
 		else:
-			yield escape(line)
+			yield escape(line.decode()).encode()
 
 def AnnoFileParseOutput(annofile):
 	""" A generator that extracts log output from an emake annotation file, 
@@ -431,7 +431,7 @@ include %s
 			# So we need to find all the values before we can write
 			# anything out.
 			md5hash = hashlib.md5()
-			md5hash.update(iface.name)
+			md5hash.update(iface.name.encode())
 
 			# we need an Evaluator to get parameter values for this
 			# Specification in the context of this Configuration
@@ -447,7 +447,7 @@ include %s
 						value = ""
 
 				parameters.append((k, value))
-				md5hash.update(value)
+				md5hash.update(value.encode())
 
 			# parameters required by the interface
 			for p in iface.GetParams(self.raptor.cache):
@@ -691,6 +691,7 @@ include %s
 					return False
 
 			except Exception as e:
+				traceback.print_exc()
 				self.raptor.Error("Exception '%s' during '%s'", str(e), command)
 				self.Tidy()
 				# Still report end-time of the build

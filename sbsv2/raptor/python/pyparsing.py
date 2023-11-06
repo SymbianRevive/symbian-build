@@ -565,6 +565,7 @@ class ParserElement(object):
     def normalizeParseActionArgs( f ):
         """Internal method used to decorate parse actions that take fewer than 3 arguments,
            so that all parse actions can be called as f(s,l,t)."""
+        return f
         STAR_ARGS = 4
 
         try:

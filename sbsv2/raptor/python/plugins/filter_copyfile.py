@@ -49,6 +49,9 @@ class FilterCopyFile(filter_interface.Filter):
 	def write(self, text):
 		"process some log text"
 		
+		if isinstance(text, bytes):
+			text = text.decode()
+		
 		for line in text.splitlines():
 			if line.startswith("<finalcopy"):
 				source_start = line.find("source='")

@@ -10,7 +10,7 @@
 		<env name='GCC' default='$(GCCPREFIX)g++$(DOTEXE)' type='tool'/>
 		<env name='AR' default='$(GCCPREFIX)ar$(DOTEXE)' type='tool'/>
 		
-		<set name='COMPILER' value='$(GCC) -c' type='tool' versionCommand='$(GCC) -v' versionResult='gcc version (3.[456])|(4.[0-9])'/>
+		<set name='COMPILER' value='$(GCC) -c' type='tool' versionCommand='$(GCC) -v' versionResult='.*'/>
 		<set name='LINKER' value='$(GCC)'/>
 
 		<!-- tools and scripts -->

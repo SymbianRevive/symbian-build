@@ -57,6 +57,9 @@ class FilterLogfile(filter_interface.Filter):
 
 	def write(self, text):
 		"""Write text into the log file"""
+		
+		if isinstance(text, bytes):
+			text = text.decode()
 
 		self.out.write(text)
 		return True

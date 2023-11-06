@@ -38,7 +38,7 @@ ifeq ($(TARGETS),)
   ifneq ($(filter $(HOSTPLATFORM),win),win)
     # Some tools not built for windows
     # Some of these don't support our special clean mode
-    TARGETS:=$(TARGETS) bash make python codewarrior bvcpp dialog
+    #TARGETS:=$(TARGETS) bash make python codewarrior bvcpp dialog
     #  Build pvm and pvmgmake later when they have been corrected
     # pvmgmake  pvm
   endif

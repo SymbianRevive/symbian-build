@@ -1294,7 +1294,7 @@ class ToolSet(object):
 	irrelevant_vars = ['PWD','OLDPWD','PID','PPID', 'SHLVL' ]
 
 
-	shell_version=".*GNU bash, version [34].*"
+	shell_version=".*GNU bash, version [345].*"
 	shell_re = re.compile(shell_version)
 	if 'SBS_BUILD_DIR' in os.environ:
 		cachefile_basename = str(generic_path.Join(os.environ['SBS_BUILD_DIR'],"toolcheck_cache_"))

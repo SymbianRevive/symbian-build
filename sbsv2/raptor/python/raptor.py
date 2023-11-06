@@ -1083,7 +1083,6 @@ class Raptor(object):
 		except Exception as e:
 			self.out = sys.stdout # make sure that we can actually get errors out.
 			self.logOpen = False
-			traceback.print_exc()
 			self.FatalError("Unable to open the output logs: %s" % str(e))
 
 	def CloseLog(self):

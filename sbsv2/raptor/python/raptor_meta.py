@@ -489,7 +489,7 @@ class MetaDataFile(object):
 
 			pattern += r'\s*)'
 			# Work on all Macros in one substitution.
-			text = re.sub(pattern, r"\1\2", preProcessorOutput)
+			text = re.sub(pattern, r"\1\2", preProcessorOutput.decode())
 			text = re.sub(r"\n[\t ]*", r"\n", text)
 
 			self.__PreProcessedContent[key] = text
@@ -1172,7 +1172,7 @@ class BldInfFile(MetaDataFile):
 		absroot_str = os.path.abspath(str(bldinfpath)).lower().replace("\\","/")
 
 		uniqueid = hashlib.md5()
-		uniqueid.update(absroot_str)
+		uniqueid.update(absroot_str.encode())
 
 		specnamecomponents = (re.sub("^[A-Za-z]:", "", absroot_str)).split('/') # split, removing any drive identifier (if present)
 
@@ -2651,7 +2651,7 @@ class MetaReader(object):
 
 		    # Keep a short version of the key for use in filenames.
 			uniq = hashlib.md5()
-			uniq.update(key)
+			uniq.update(key.encode())
 
 			detail['key'] = key
 			detail['key_md5'] = "p_" + uniq.hexdigest()

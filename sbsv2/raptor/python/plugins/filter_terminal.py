@@ -216,6 +216,9 @@ class FilterTerminal(filter_interface.Filter):
 	def write(self, text):
 		"""Write errors and warnings to stdout"""
 		
+		if isinstance(text, bytes):
+			text = text.decode()
+		
 		if text.startswith("<error"):
 			start = text.find(">")
 			end = text.rfind("<")
