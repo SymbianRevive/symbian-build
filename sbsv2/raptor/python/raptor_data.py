@@ -911,7 +911,7 @@ class Variant(Model, Config):
 			return True
 
 		pname = self.extends
-		while pname is not None and pname is not '':
+		while pname is not None and pname != '':
 			parent = cache.FindNamedVariant(pname)
 			if parent is None:
 				break
@@ -1177,13 +1177,13 @@ class Tool(object):
 	log = raptor_utilities.nulllog
 
 	# For use in dealing with tools that return non-ascii version strings.
-	nonascii = ""
-	identity_chartable = chr(0)
+	nonascii = b""
+	identity_chartable = b"\0"
 	for c in range(1,128):
-		identity_chartable += chr(c)
+		identity_chartable += bytes((c,))
 	for c in range(128,256):
-		nonascii += chr(c)
-		identity_chartable += " "
+		nonascii += bytes((c,))
+		identity_chartable += b" "
 
 	def __init__(self, name, command, versioncommand, versionresult, id=""):
 		self.name = name
@@ -1203,7 +1203,7 @@ class Tool(object):
 		self.versioncommand = toolset.ExpandAll(self.versioncommand)
 		self.versionresult  = toolset.ExpandAll(self.versionresult)
 		self.command = toolset.ExpandAll(self.command)
-		self.key = hashlib.md5(self.versioncommand + self.versionresult).hexdigest()
+		self.key = hashlib.md5((self.versioncommand + self.versionresult).encode()).hexdigest()
 		
 		# We need the tool's date to find out if we should check it.
 		try:
@@ -1247,7 +1247,7 @@ class Tool(object):
 		# Some tools return version strings with unicode characters! 
 		# There is no good response other than a lot of decoding and encoding.
 		# Simpler to ignore it:
-		versionoutput_a = versionoutput.translate(Tool.identity_chartable,"")
+		versionoutput_a = versionoutput.translate(Tool.identity_chartable, b"").decode()
 
 		if versionoutput_a and self.vre.search(versionoutput_a) != None:
 			log.Debug("tool '%s' returned an acceptable version '%s'", self.name, versionoutput_a)
