@@ -1,3 +1,10 @@
 = Cross-platform Symbian^3 Build Tools
 
 CAUTION: Currently work in progress!!!
+
+== Status
+
+`sbsv2`:: Most stuff works(TM)
+`rcomp`:: Builds using SBSv2
+`elf2e32`:: Don't care, @fedor4ever's is better anyway
+Everything else:: Not tested yet 🙃
