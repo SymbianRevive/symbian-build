@@ -32,6 +32,9 @@
 #include "ERRORHAN.H"
 #include <cstring>
 #include <cstdlib>
+#ifdef __LINUX__
+#include <unistd.h>
+#endif
 
 #if defined(__MSVCDOTNET__) || defined(__TOOLS2__)
 using std::ifstream;
