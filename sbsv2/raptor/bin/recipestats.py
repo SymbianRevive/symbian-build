@@ -71,7 +71,7 @@ class BuildStats(object):
 
 	def recipe_csv(self):
 		s = '"name", "time", "count"\n'
-		l = sorted(self.stats.values(), key= lambda r: r.time, reverse=True)
+		l = sorted(list(self.stats.values()), key= lambda r: r.time, reverse=True)
 		for r in l:
 			s += '"%s",%s,%d\n' % (r.name, str(r.time), r.count)
 		return s
@@ -131,8 +131,8 @@ def main():
 		if pm is not None:
 			if phase is not None:
 				if options.buildhosts_flag:
-					print('"%s"\n' % phase)
-					print(st.hosts_csv())
+					print(('"%s"\n' % phase))
+					print((st.hosts_csv()))
 			st.hosts = {}	
 			phase = pm.groups()[0]
 			continue
@@ -149,7 +149,7 @@ def main():
 				s -= start_time
 
 				continue
-			except ValueError, e:
+			except ValueError as e:
 				raise Exception("Parse problem: float conversion on these groups: %s\n%s" %(str(tm.groups()), str(e)))
 		else:
 			if l2.find("<time") is not -1:
@@ -168,10 +168,10 @@ def main():
 		st.add(s, elapsed, rname, status, host, phase)
 
 	if options.buildhosts_flag:
-		print('"%s"\n' % phase)
-		print(st.hosts_csv())
+		print(('"%s"\n' % phase))
+		print((st.hosts_csv()))
 	else:
-		print(st.recipe_csv())
+		print((st.recipe_csv()))
 
 
 if __name__ == '__main__': main()

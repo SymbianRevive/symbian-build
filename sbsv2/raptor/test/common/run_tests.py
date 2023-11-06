@@ -61,7 +61,7 @@ if options.what_failed:
 		what_failed_file = open("what_failed", "r")
 		what_failed = what_failed_file.readline()
 		what_failed_file.close()
-		print "Running: run " + what_failed
+		print("Running: run " + what_failed)
 		
 		first = what_failed.find('"')
 		second = what_failed.find('"', (first + 1))
@@ -89,8 +89,8 @@ if options.upload != None:
 		else:
 			branch = options.branch
 	else:
-		print "Warning: Test branch not set - Use " + \
-				"'-b [master|fix|wip]'\n Using default of 'Fix'..."
+		print("Warning: Test branch not set - Use " + \
+				"'-b [master|fix|wip]'\n Using default of 'Fix'...")
 		branch = "fix"
 
 if options.debug_mode:
@@ -104,8 +104,8 @@ if options.test_home != None:
 		os.environ["HOME"] = os.environ["SBS_HOME"] + "/test/custom_options/" \
 				+ home_dir + "/"
 	else:
-		print "Warning: Path to custom .sbs_init.xml file not found (" + \
-				home_dir + ")\nUsing defaults..."
+		print("Warning: Path to custom .sbs_init.xml file not found (" + \
+				home_dir + ")\nUsing defaults...")
 		options.test_home = None
 
 
@@ -144,32 +144,32 @@ class TestRun(object):
 
 	def show(self):
 		for test_set in self.test_set:
-			print "\n\n" + str(test_set.suite_dir) + ":\n"
+			print("\n\n" + str(test_set.suite_dir) + ":\n")
 			
 			# If a suite has failed/erroneous tests, add it to what_failed
 			if (test_set.fail_total + test_set.exception_total) > 0:
 				self.suites_failed.append(test_set.suite_dir)
 				
 			if len(test_set.test_set) < 1:
-				print "No tests run"
+				print("No tests run")
 			else:
-				print "PASSED: " + str(test_set.pass_total)
-				print "FAILED: " + str(test_set.fail_total)
+				print("PASSED: " + str(test_set.pass_total))
+				print("FAILED: " + str(test_set.fail_total))
 				if test_set.skip_total > 0:
-					print "SKIPPED: " + str(test_set.skip_total)
+					print("SKIPPED: " + str(test_set.skip_total))
 				if test_set.exception_total > 0:
-					print "EXCEPTIONS: " + str(test_set.exception_total)
+					print("EXCEPTIONS: " + str(test_set.exception_total))
 		
 				if test_set.fail_total > 0:
-					print "\nFAILED TESTS:"
+					print("\nFAILED TESTS:")
 					
 					# Add each failed test to what_failed and print it
 					for test in test_set.failed_tests:
 						self.tests_failed.append("^" + test + ".py")
-						print "\t", test
+						print("\t", test)
 		
 				if test_set.exception_total > 0:
-					print "\nERRONEOUS TESTS:"
+					print("\nERRONEOUS TESTS:")
 					
 					# Add each erroneous test to what_failed and print it
 					for test in test_set.error_tests:
@@ -177,7 +177,7 @@ class TestRun(object):
 						second = test.find("'", (first + 1))
 						self.tests_failed.append("^" +
 								test[(first + 1):second] + ".py")
-						print "\t", test
+						print("\t", test)
 						
 	def what_failed(self):
 		"Create the file for --what-failed if there were failing tests"
@@ -244,7 +244,7 @@ class Suite(TestRun):
 		self.start_times = {}
 		self.end_times = {}
 		
-		print "\n\nRunning " + str(self.suite_dir) + "..."
+		print("\n\nRunning " + str(self.suite_dir) + "...")
 
 		# Iterate through all files in specified directory
 		for test in os.listdir(self.suite_dir):
@@ -263,14 +263,14 @@ class Suite(TestRun):
 								(raptor_tests.ReplaceEnvs(self.suite_dir
 								+ "/" + test))))
 					except:
-						print "\n", (sys.exc_type.__name__ + ":"), \
-								sys.exc_value, "\n", \
-								traceback.print_tb(sys.exc_traceback)
+						print("\n", (sys.exc_type.__name__ + ":"), \
+								sys.exc_info()[1], "\n", \
+								traceback.print_tb(sys.exc_info()[2]))
 	
 		test_number = 0
 		test_total = len(self.test_set)
 		if test_total < 1:
-			print "No tests in suite "+self.suite_dir+" matched by specification '"+self.test_pattern+"' (regex: /.*"+self.test_pattern+".*/)\n";
+			print("No tests in suite "+self.suite_dir+" matched by specification '"+self.test_pattern+"' (regex: /.*"+self.test_pattern+".*/)\n");
 		# Run each test, capturing all its details and its results
 		for test in self.test_set:
 			test_number += 1
@@ -287,7 +287,7 @@ class Suite(TestRun):
 					test_number_text += "    So far " + str(self.exception_total) + \
 							" ERRONEOUS"
 				
-				print test_number_text
+				print(test_number_text)
 				
 				test_object = test.run()
 				
@@ -317,7 +317,7 @@ class Suite(TestRun):
 				
 				run_time_seconds = (str(run_time.seconds) + "." + \
 						str(format_milliseconds(run_time.microseconds)))
-				print ("RunTime: " + run_time_seconds + "s")
+				print(("RunTime: " + run_time_seconds + "s"))
 				# Add to pass/fail count and save result to dictionary
 				if test_object.result == raptor_tests.SmokeTest.PASS:
 					self.pass_total += 1
@@ -330,14 +330,14 @@ class Suite(TestRun):
 					self.skip_total += 1
 				# Clean epocroot after running each test if --clean option is specified
 				if options.clean:
-					print "\nCLEANING TEST RESULTS..."
+					print("\nCLEANING TEST RESULTS...")
 					raptor_tests.clean_epocroot()
 					
 			except:
-				print "\nTEST ERROR:"
-				print (sys.exc_type.__name__ + ":"), \
-						sys.exc_value, "\n", \
-						traceback.print_tb(sys.exc_traceback)
+				print("\nTEST ERROR:")
+				print((sys.exc_type.__name__ + ":"), \
+						sys.exc_info()[1], "\n", \
+						traceback.print_tb(sys.exc_info()[2]))
 				self.exception_total += 1
 				self.error_tests.append(str(self.test_set[test_number - 1]))
 								
@@ -353,7 +353,7 @@ class Suite(TestRun):
 		if options.upload:
 			self.create_tri(seconds)
 
-		print ("\n" + str(self.suite_dir) + " RunTime: " + seconds + "s")
+		print(("\n" + str(self.suite_dir) + " RunTime: " + seconds + "s"))
 
 	def create_csv(self):
 		"""
@@ -389,8 +389,8 @@ class Suite(TestRun):
 						self.results[test_id] + "\n")
 			csv_file.close()
 			
-		except OSError, e:
-			print "SBS_TESTS: Error:", e
+		except OSError as e:
+			print("SBS_TESTS: Error:", e)
 			
 			
 	def create_tri(self, overall_seconds):
@@ -441,10 +441,10 @@ class Suite(TestRun):
 						"\t</TestSet>\n" + \
 					"</TestRunInfo>")
 			tri_file.close()
-			print "Tests uploaded to '" + self.upload_location + "' (" + \
-					branch + ")"
-		except OSError, e:
-			print "SBS_TESTS: Error:", e
+			print("Tests uploaded to '" + self.upload_location + "' (" + \
+					branch + ")")
+		except OSError as e:
+			print("SBS_TESTS: Error:", e)
 
 class SuiteRun(TestRun):
 	""" Represents a 'run' of a number of test suites """
@@ -495,15 +495,15 @@ class SuiteRun(TestRun):
 			options_dir = "defaults)"
 		else:
 			options_dir = "'" + options.test_home + "' options file)"
-		print "\n(Tests run using %s" %options_dir
+		print("\n(Tests run using %s" %options_dir)
 
 		# Summarise the entire test run
 		if self.suitepattern and (len(suites) < 1):
-			print "\nNo suites matched specification '" + self.suitepattern + \
-					"'\n"
+			print("\nNo suites matched specification '" + self.suitepattern + \
+					"'\n")
 		else:
-			print "Overall summary (%d suites, %d tests):" \
-					%(len(suites), self.test_total)
+			print("Overall summary (%d suites, %d tests):" \
+					%(len(suites), self.test_total))
 			self.show()
 			self.what_failed()
 	        
@@ -512,7 +512,7 @@ class SuiteRun(TestRun):
 		"""
 		This method sorts values in a dictionary
 		"""
-		keys = input_dict.keys()
+		keys = list(input_dict.keys())
 		keys.sort()
 		return keys
 

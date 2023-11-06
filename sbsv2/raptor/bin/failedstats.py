@@ -19,7 +19,7 @@
 # Needs raptor --tracking option to set make to use -debug=v
 # An example bit of make output that can be analysed:
 #
-
+"""
  File `fred.exe' does not exist.
   Considering target file `fred.in'.
    File `fred.in' does not exist.

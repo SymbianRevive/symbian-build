@@ -38,9 +38,9 @@ class FilterTagCounter(filter_interface.FilterSAX):
 	def startElement(self, name, attributes):
 		if name == "buildlog":
 			# print out the attributes of the "top" element
-			print "version:"
-			for a,v in attributes.items():
-				print a, "=", v
+			print("version:")
+			for a,v in list(attributes.items()):
+				print(a, "=", v)
 		
 		# push name onto the stack of names and increment the count
 		self.names.append(name)
@@ -60,15 +60,15 @@ class FilterTagCounter(filter_interface.FilterSAX):
 	
 	def endDocument(self):
 		# report
-		print "\nsummary:"
+		print("\nsummary:")
 		for name,nos in sorted(self.count.items()):
 			if name in self.interesting or len(self.interesting) == 0:
-				print name, nos[0], nos[1]
+				print(name, nos[0], nos[1])
 			
-		print "\nparsing:"
-		print "errors =", self.errors
-		print "fatals =", self.fatals
-		print "warnings =", self.warns
+		print("\nparsing:")
+		print("errors =", self.errors)
+		print("fatals =", self.fatals)
+		print("warnings =", self.warns)
 	
 	def error(self, exception):
 		self.errors += 1

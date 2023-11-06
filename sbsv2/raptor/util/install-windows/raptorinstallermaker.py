@@ -45,7 +45,7 @@ def generateinstallerversion(sbshome = None):
 		res = sbs_version_matcher.match(line)
 		if res:
 			raptorversion = res.group(1)
-			print "Successfully determined Raptor version %s" % raptorversion
+			print("Successfully determined Raptor version %s" % raptorversion)
 
 	versioncommand.wait() # Wait for process to end
 	
@@ -55,9 +55,9 @@ def unzipnsis(pathtozip):
 	global tempdir
 	tempdir = tempfile.mkdtemp()
 	un = unzip.unzip()
-	print "Unzipping NSIS to %s..." % tempdir
+	print("Unzipping NSIS to %s..." % tempdir)
 	un.extract(pathtozip, tempdir)
-	print "Done."
+	print("Done.")
 
 	# Ensure the correct executable is called	
 	dotexe=""
@@ -73,16 +73,16 @@ def unzipnsis(pathtozip):
 	
 def runmakensis(nsiscommand):
 	# Create makensis subprocess
-	print "Running NSIS command\n%s" % nsiscommand
+	print("Running NSIS command\n%s" % nsiscommand)
 	makensis = subprocess.Popen(nsiscommand, shell=True)
 	makensis.wait() # Wait for process to end
 
 def cleanup():
 	""" Clean up tempdir """
 	global tempdir
-	print "Cleaning up temporary directory %s" % tempdir
+	print("Cleaning up temporary directory %s" % tempdir)
 	shutil.rmtree(tempdir,True)
-	print "Done."
+	print("Done.")
 
 def __writeDirTreeToArchive(zip, dirlist, sbshome, win32supportdirs=False):
 	"""Auxilliary function to write all files in each directory trees of dirlist into the
@@ -108,7 +108,7 @@ def __writeDirTreeToArchive(zip, dirlist, sbshome, win32supportdirs=False):
 					else:
 						destination = os.path.join("sbs", dirname.rstrip(os.sep).replace(sbshome, "").strip(os.sep), file)
 					
-					print "Compressing", origin, "\tto\t", destination 
+					print("Compressing", origin, "\tto\t", destination) 
 					zip.write(origin, destination)
 
 def writeZip(filename, sbshome, sbsbvdir, sbscygwindir, sbsmingwdir, sbspythondir):
@@ -135,24 +135,24 @@ def writeZip(filename, sbshome, sbsbvdir, sbscygwindir, sbsmingwdir, sbspythondi
 		for name in sbshome_files:
 			origin = os.path.join(sbshome, name)
 			destination = os.path.join("sbs", name)
-			print "Compressing", origin, "\tto\t", destination 
+			print("Compressing", origin, "\tto\t", destination) 
 			zip.write(origin, destination)
 		
 		# Write all files in the the directories in the top-level of SBS_HOME into the archive
-		print "Reading the sbs directories..."
+		print("Reading the sbs directories...")
 		__writeDirTreeToArchive(zip, sbshome_dirs, sbshome, win32supportdirs=False)
-		print "Writing sbs directories to the archive is complete."
+		print("Writing sbs directories to the archive is complete.")
 		
 		# Write all files in the the win32 support directories in the top-level of SBS_HOME into the archive
-		print "Reading the win32 support directories"
+		print("Reading the win32 support directories")
 		__writeDirTreeToArchive(zip, win32_dirs, sbshome, win32supportdirs=True)
-		print "Writing win32 support directories to the archive is complete."
+		print("Writing win32 support directories to the archive is complete.")
 		
 		zip.close()
-		print "Zipoutput: \"" + os.path.join(os.getcwd(), filename) + "\""
-		print "Zip file creation successful."
-	except Exception, e:
-		print "Error: failed to create zip file: %s" % str(e)
+		print("Zipoutput: \"" + os.path.join(os.getcwd(), filename) + "\"")
+		print("Zip file creation successful.")
+	except Exception as e:
+		print("Error: failed to create zip file: %s" % str(e))
 		sys.exit(2)
 
 # Create CLI and parse it
@@ -186,21 +186,21 @@ parser.add_option("--nozip", dest="nozip", help="Do not create a zip archive of 
 win32supportdirs = {"bv":"bv", "cygwin":"cygwin", "mingw":"mingw", "python":"python264"}
 
 if options.sbshome == None:
-	print "ERROR: no SBS_HOME passed in. Exiting..."
+	print("ERROR: no SBS_HOME passed in. Exiting...")
 	sys.exit(2)
 elif not os.path.isdir(options.sbshome):
-	print "ERROR: the specified SBS_HOME directory \"%s\" does not exist. Cannot build installer. Exiting..."
+	print("ERROR: the specified SBS_HOME directory \"%s\" does not exist. Cannot build installer. Exiting...")
 	sys.exit(2)
 
 if options.win32support == None:
-	print "ERROR: no win32support directory specified. Unable to proceed. Exiting..."
+	print("ERROR: no win32support directory specified. Unable to proceed. Exiting...")
 	sys.exit(2)
 else:
 	# Check for command line overrides to defaults
 	for directory in win32supportdirs:
-		print "Checking for location \"%s\"..." % directory
+		print("Checking for location \"%s\"..." % directory)
 		value = getattr(options,directory)
-		print "Directory is %s" % str(value)
+		print("Directory is %s" % str(value))
 		if value != None: # Command line override
 			if value.lower().startswith("win32support"):
 				# Strip off "WIN32SUPPORT\" and join to Win32 support location
@@ -212,21 +212,21 @@ else:
 		else: # Use default location
 			win32supportdirs[directory] = os.path.join(options.win32support, win32supportdirs[directory])
 		
-	print "\n\nIdentified win32supportdirs are = %s\n\n" % win32supportdirs
+	print("\n\nIdentified win32supportdirs are = %s\n\n" % win32supportdirs)
 
 	# Check that all the specified directories exist and exit if any of them is missing.
 	for directory in win32supportdirs:
 		dir = win32supportdirs[directory]
 		if os.path.isdir(dir):
-			print "Found directory %s" % dir
+			print("Found directory %s" % dir)
 		else:
-			print "ERROR: directory %s does not exist. Cannot build installer. Exiting..." % dir
+			print("ERROR: directory %s does not exist. Cannot build installer. Exiting..." % dir)
 			sys.exit(2)
 
 
 raptorversion = options.versionprefix + generateinstallerversion(options.sbshome) + options.versionpostfix
 
-print "Using Raptor version %s ..." % raptorversion
+print("Using Raptor version %s ..." % raptorversion)
 
 if not options.noexe:
 	makensispath = unzipnsis("." + os.sep + "NSIS.zip")
@@ -260,20 +260,20 @@ if not options.noexe:
 	
 	runmakensis(nsiscommand)
 else:
-	print "Not creating .exe as requested."
+	print("Not creating .exe as requested.")
 
 # Only clean NSIS installation in the temporary directory if requested
 if not options.noclean:
 	cleanup()
 else:
-	print "Not cleaning makensis in %s" % makensispath
+	print("Not cleaning makensis in %s" % makensispath)
 
 # Only create zip archive if required
 if not options.nozip:
 	filename = "sbs-" + raptorversion + ".zip"
 	writeZip(filename, options.sbshome, win32supportdirs["bv"], win32supportdirs["cygwin"], win32supportdirs["mingw"], win32supportdirs["python"])
 else:
-	print "Not creating zip archive as requested."
+	print("Not creating zip archive as requested.")
 
-print "Finished."
+print("Finished.")
 

@@ -19,7 +19,7 @@
 # Needs raptor --tracking option to set make to use -debug=v
 # An example bit of make output that can be analysed:
 #
-
+"""
  File `fred.exe' does not exist.
   Considering target file `fred.in'.
    File `fred.in' does not exist.
@@ -85,9 +85,9 @@ def genstats(file,showmissing):
 	for k in filecount:
 		if showmissing:
 			if filecount[k] > 0:
-				print "%s: %i" % (k,filecount[k])
+				print("%s: %i" % (k,filecount[k]))
 		else:
-			print "%s: %i" % (k,filecount[k])
+			print("%s: %i" % (k,filecount[k]))
 
 
 parser = OptionParser(prog = "matchmade",

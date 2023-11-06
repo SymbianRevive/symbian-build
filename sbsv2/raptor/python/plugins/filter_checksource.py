@@ -119,7 +119,7 @@ if not raptor_utilities.getOSPlatform().startswith("linux"):
 		def startelement(self, name, attrs):
 			# Check the source code cpp files - obtained from the "source" 
 			# attribute of compile and other tags 
-			if 'source' in attrs.keys():
+			if 'source' in list(attrs.keys()):
 				if attrs['source'] != "":
 					self.filestocheck.append(attrs['source'])
 			
@@ -227,7 +227,7 @@ if not raptor_utilities.getOSPlatform().startswith("linux"):
 					dep = os.path.abspath(dep).replace('\\', '/')
 					self.checksource(dep)
 					
-			except Exception, e:
+			except Exception as e:
 				sys.stderr.write("sbs: FilterCheckSource failed: %s\n" % str(e))
 				
 			if self.errors == 0:
@@ -243,7 +243,7 @@ if not raptor_utilities.getOSPlatform().startswith("linux"):
 				self.checked.append(normedpath)
 				try:
 					realpath = self.casechecker.checkcase(normedpath)
-				except IOError, e:
+				except IOError as e:
 					# file does not exist so just return
 					return
 										
@@ -267,7 +267,7 @@ if not raptor_utilities.getOSPlatform().startswith("linux"):
 			path = path.replace('\\', '/')
 			
 			if not os.path.exists(path):
-				raise IOError, path + " does not exist"
+				raise IOError(path + " does not exist")
 				
 			parts = path.split('/')
 			
@@ -284,7 +284,7 @@ if not raptor_utilities.getOSPlatform().startswith("linux"):
 					
 					for dirItem in dirItems:
 						if os.path.isdir(os.path.join(dirBeingChecked, dirItem)):
-							if not cacheItem.has_key(dirItem):
+							if dirItem not in cacheItem:
 								cacheItem[dirItem] = {}
 							
 							if not found:
@@ -314,7 +314,7 @@ if not raptor_utilities.getOSPlatform().startswith("linux"):
 			return dirBeingChecked
 	
 		def checkkeyignorecase(self, dictionary, keyToFind):
-			for key in dictionary.keys():
+			for key in list(dictionary.keys()):
 				if re.search("^" + keyToFind + "$", key, re.IGNORECASE):
 					
 					if not keyToFind == key:
@@ -334,10 +334,10 @@ if not raptor_utilities.getOSPlatform().startswith("linux"):
 			lines = []
 			try:
 				fh = open(dotdfile, "r")
-			except IOError, e:
-				print "Error: Failed to open file \"%s\": %s" % (dotdfile, e.strerror)
-			except Exception, e:
-				print "Error: Unknown error: %s" % str(e)
+			except IOError as e:
+				print("Error: Failed to open file \"%s\": %s" % (dotdfile, e.strerror))
+			except Exception as e:
+				print("Error: Unknown error: %s" % str(e))
 			else:
 				lines = fh.readlines()
 				fh.close()

@@ -38,7 +38,7 @@ class FilterLogfile(filter_interface.Filter):
 				dirname = str(self.raptor.logFileName.Dir())
 				if dirname and not os.path.isdir(dirname):
 					os.makedirs(dirname)
-			except os.error, e:
+			except os.error as e:
 				if e.errno != errno.EEXIST:
 					sys.stderr.write("%s : error: cannot create directory %s\n" % \
 						(str(raptor.name), dirname))

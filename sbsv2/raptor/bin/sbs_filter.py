@@ -21,9 +21,9 @@ import traceback
 
 # intercept the -h option
 if "-h" in sys.argv or "--help" in sys.argv:
-	print "usage:", sys.argv[0], "[sbs options]"
-	print "  The log data is read from stdin."
-	print "  Type 'sbs -h' for a list of sbs options."
+	print("usage:", sys.argv[0], "[sbs options]")
+	print("  The log data is read from stdin.")
+	print("  Type 'sbs -h' for a list of sbs options.")
 	sys.exit(0)
 	
 # get the absolute path to this script
@@ -60,7 +60,7 @@ try:
 	# Open the requested plugins using the pluginbox
 	the_raptor.out.open(raptor_params, the_raptor.filterList, pbox)
 	
-except Exception, e:
+except Exception as e:
 	sys.stderr.write("error: problem while creating filters %s\n" % str(e))
 	traceback.print_exc()
 	sys.exit(1)
@@ -71,7 +71,7 @@ try:
 	while line:
 		line = sys.stdin.readline()
 		the_raptor.out.write(line)
-except Exception,e:
+except Exception as e:
 	sys.stderr.write("error: problem while filtering: %s\n" % str(e))
 	traceback.print_exc()
 	sys.exit(1)

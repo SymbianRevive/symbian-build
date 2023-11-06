@@ -140,14 +140,14 @@ class Timing(object):
 			match = re.match(re.compile(".*object_type='(?P<object_type>.*?)'"),
 					source)
 			attributes["object_type"] = match.group("object_type")
-		except AttributeError, e:
-			print e
+		except AttributeError as e:
+			print(e)
 			attributes["object_type"] = ""
 		try:
 			match = re.match(re.compile(".*task='(?P<task>.*?)'"), source)
 			attributes["task"] = match.group("task")
-		except AttributeError, e:
-			print e
+		except AttributeError as e:
+			print(e)
 			attributes["task"] = ""
 		try:
 			match = re.match(re.compile(".*key='(?P<key>.*?)'"), source)

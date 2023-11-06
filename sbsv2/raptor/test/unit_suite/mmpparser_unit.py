@@ -140,7 +140,7 @@ ALWAYS_BUILD_AS_ARM
 NOEXPORTLIBRARY
 TARGET FRED
 TARGETTYPE EXE
-SOURCEPATH \usr
+SOURCEPATH \\usr
 SOURCE alice.cia fred.cpp bob.cpp
 SOURCEPATH \someotherplace\ 
 SOURCE custard.cpp the.cpp dragon.cpp
@@ -163,7 +163,7 @@ UID 0x12354 123455
 """
 
 TARGET FRED12345
-SOURCEPATH \usr
+SOURCEPATH \\usr
 
 
 """, 'mustmatch': r"Remembering self.sourcepath state:"}, \
@@ -175,7 +175,7 @@ LIBRARY  eexe euser
 ALWAYS_BUILD_AS_ARM
 NOEXPORTLIBRARY
 TARGET FRED
-SOURCEPATH \usr
+SOURCEPATH \\usr
 START ARMCC
 ARMLIBS somepath
 ARMRT
@@ -336,10 +336,10 @@ unpaged
 			mp = MMPParser(tester)
 			try:
 				result = mp.mmp.parseString(i['text'])
-			except ParseException,e:
+			except ParseException as e:
 				pass
-			self.assertEquals(result[0],'MMP')
-			self.assertNotEquals(re.search(i['mustmatch'],tester.output,re.M),None)
+			self.assertEqual(result[0],'MMP')
+			self.assertNotEqual(re.search(i['mustmatch'],tester.output,re.M),None)
 
 # run all the tests
 

@@ -32,7 +32,7 @@ class TestRaptorData(unittest.TestCase):
 		
 	def SetEnv(self, name, value):
 		# set environment variable and remember the old value (if there is one)		
-		if os.environ.has_key(name):
+		if name in os.environ:
 			self.envStack[name] = os.environ[name]
 		os.environ[name] = value
 		
@@ -41,7 +41,7 @@ class TestRaptorData(unittest.TestCase):
 			
 	def RestoreEnv(self, name):
 		# put environment back to its state before SetEnv
-		if self.envStack.has_key(name):
+		if name in self.envStack:
 			os.environ[name] = self.envStack[name]
 		else:
 			del os.environ[name]    # was not defined
@@ -62,9 +62,9 @@ class TestRaptorData(unittest.TestCase):
 		spec.AddVariant(var)
 		spec.AddVariant("AlwaysBuildAsArm")
 
-		self.failUnless(spec)
-		self.failUnless(spec.Valid())
-		self.failUnless(var.Valid())
+		self.assertTrue(spec)
+		self.assertTrue(spec.Valid())
+		self.assertTrue(var.Valid())
 		self.assertEqual(spec.name, "myProject")
 
 
@@ -102,8 +102,8 @@ class TestRaptorData(unittest.TestCase):
 
 	def testSimpleVariant(self):
 		var = raptor_data.Variant()
-		self.failUnless(var)
-		self.failIf( var.Valid() )
+		self.assertTrue(var)
+		self.assertFalse( var.Valid() )
 
 		var.SetProperty("name", "ABC")
 		var.SetProperty("extends", "DEF")
@@ -116,12 +116,12 @@ class TestRaptorData(unittest.TestCase):
 		var.SetProperty("host", "win32")
 		self.assertEqual(var.host, "win32")
 
-		self.failUnless( var.Valid() )
+		self.assertTrue( var.Valid() )
 
 		var.AddOperation( raptor_data.Set("CC", "armcc") )
 		var.AddOperation( raptor_data.Set("LN", "armlink") )
 
-		self.failUnless( var.Valid() )
+		self.assertTrue( var.Valid() )
 
 		var.SetProperty("extends", "")
 		ops = var.GetAllOperationsRecursively(None)
@@ -147,9 +147,9 @@ class TestRaptorData(unittest.TestCase):
 		varC.AddOperation( raptor_data.Set("V3", "3C") )
 		varC.AddOperation( raptor_data.Set("V4", "4C") )
 
-		self.failUnless( varA.Valid() )
-		self.failUnless( varB.Valid() )
-		self.failUnless( varC.Valid() )
+		self.assertTrue( varA.Valid() )
+		self.assertTrue( varB.Valid() )
+		self.assertTrue( varC.Valid() )
 
 		r.cache.AddVariant(varA)
 		r.cache.AddVariant(varB)
@@ -190,9 +190,9 @@ class TestRaptorData(unittest.TestCase):
 		varC.AddOperation( raptor_data.Set("V3", "3C") )
 		varC.AddOperation( raptor_data.Set("V4", "4C") )
 
-		self.failUnless( varA.Valid() )
-		self.failUnless( varB.Valid() )
-		self.failUnless( varC.Valid() )
+		self.assertTrue( varA.Valid() )
+		self.assertTrue( varB.Valid() )
+		self.assertTrue( varC.Valid() )
 
 		r.cache.AddVariant(varA)
 		r.cache.AddVariant(varB)
@@ -235,7 +235,7 @@ class TestRaptorData(unittest.TestCase):
 		alias.SetProperty("meaning", "A.B.C")
 		r.cache.AddAlias(alias)
 
-		self.failUnless( alias.Valid() )
+		self.assertTrue( alias.Valid() )
 
 		e = r.GetEvaluator(None, alias.GenerateBuildUnits(r.cache)[0] )
 		self.assertEqual( e.Get("V1"), "1A" )
@@ -288,8 +288,8 @@ class TestRaptorData(unittest.TestCase):
 		group2.AddChild( raptor_data.GroupRef("group1") )
 		r.cache.AddGroup(group2)
 
-		self.failUnless( group1.Valid() )
-		self.failUnless( group2.Valid() )
+		self.assertTrue( group1.Valid() )
+		self.assertTrue( group2.Valid() )
 
 		buildUnits = group1.GenerateBuildUnits(r.cache)
 		self.assertEqual( len(buildUnits), 2 )
@@ -328,13 +328,13 @@ class TestRaptorData(unittest.TestCase):
 
 	def testRefs(self):
 		i1 = raptor_data.InterfaceRef()
-		self.failIf(i1.Valid())
+		self.assertFalse(i1.Valid())
 
 		i2 = raptor_data.InterfaceRef("")
-		self.failIf(i2.Valid())
+		self.assertFalse(i2.Valid())
 
 		i3 = raptor_data.InterfaceRef("ABC_abc.123")
-		self.failUnless(i3.Valid())
+		self.assertTrue(i3.Valid())
 		self.assertEqual(i3.ref, "ABC_abc.123")
 
 
@@ -407,7 +407,7 @@ class TestRaptorData(unittest.TestCase):
 		try:
 			eval = aRaptor.GetEvaluator(None, toolVar.GenerateBuildUnits(aRaptor.cache)[0])
 			value = eval.Get("ENVVAR_TOOL_WITH_SPACES")
-		except Exception, e:
+		except Exception as e:
 			exceptionText = str(e)
 			
 		if self.isWin():
@@ -421,7 +421,7 @@ class TestRaptorData(unittest.TestCase):
 		try:
 			eval = aRaptor.GetEvaluator(None, toolchainpathVar.GenerateBuildUnits(aRaptor.cache)[0])
 			value = eval.Get("ENVVAR_TOOLCHAINPATH_WITH_SPACES")
-		except Exception, e:
+		except Exception as e:
 			exceptionText = str(e)
 			
 		if self.isWin():
@@ -438,14 +438,14 @@ class TestRaptorData(unittest.TestCase):
 		exceptionText = ""
 		try:
 			eval = aRaptor.GetEvaluator(None, toolVar.GenerateBuildUnits(aRaptor.cache)[0])
-		except Exception, e:
+		except Exception as e:
 			exceptionText = str(e)
 		self.assertTrue(exceptionText.startswith(invalidValueException % ("ENVVAR_TOOL_WITH_SPACES", "tool")))
 
 		exceptionText = ""
 		try:
 			eval = aRaptor.GetEvaluator(None, toolchainpathVar.GenerateBuildUnits(aRaptor.cache)[0])
-		except Exception, e:
+		except Exception as e:
 			exceptionText = str(e)			
 		self.assertTrue(exceptionText.startswith(invalidValueException % ("ENVVAR_TOOLCHAINPATH_WITH_SPACES", "toolchainpath")))
 
@@ -464,7 +464,7 @@ class TestRaptorData(unittest.TestCase):
 		try:	
 			eval = aRaptor.GetEvaluator(None, var.GenerateBuildUnits(aRaptor.cache)[0] )
 			badval = eval.Get("RAPTOR_SAYS_NO")
-		except raptor_data.UninitialisedVariableException, e:
+		except raptor_data.UninitialisedVariableException as e:
 			return
 
 		self.assertTrue(False)
@@ -482,25 +482,25 @@ class TestRaptorData(unittest.TestCase):
 		
 		base = cache.FindNamedInterface("Base.XYZ")
 		p = base.GetParams(cache)
-		self.failUnless(self.checkForParam(p, "A", None))
-		self.failUnless(self.checkForParam(p, "B", "baseB"))
-		self.failUnless(self.checkForParam(p, "C", "baseC"))
+		self.assertTrue(self.checkForParam(p, "A", None))
+		self.assertTrue(self.checkForParam(p, "B", "baseB"))
+		self.assertTrue(self.checkForParam(p, "C", "baseC"))
 		
 		extended = cache.FindNamedInterface("Extended.XYZ")
 		p = extended.GetParams(cache)
-		self.failUnless(self.checkForParam(p, "A", None))
-		self.failUnless(self.checkForParam(p, "B", "baseB"))
-		self.failUnless(self.checkForParam(p, "C", "extC"))
-		self.failUnless(self.checkForParam(p, "D", None))
+		self.assertTrue(self.checkForParam(p, "A", None))
+		self.assertTrue(self.checkForParam(p, "B", "baseB"))
+		self.assertTrue(self.checkForParam(p, "C", "extC"))
+		self.assertTrue(self.checkForParam(p, "D", None))
 		f = extended.GetFLMIncludePath(cache=cache)
 		self.assertEqual(f.File(), "ext.flm")
 		
 		extended = cache.FindNamedInterface("Extended2.XYZ")
 		p = extended.GetParams(cache)
-		self.failUnless(self.checkForParam(p, "A", None))
-		self.failUnless(self.checkForParam(p, "B", "baseB"))
-		self.failUnless(self.checkForParam(p, "C", "extC"))
-		self.failUnless(self.checkForParam(p, "D", None))
+		self.assertTrue(self.checkForParam(p, "A", None))
+		self.assertTrue(self.checkForParam(p, "B", "baseB"))
+		self.assertTrue(self.checkForParam(p, "C", "extC"))
+		self.assertTrue(self.checkForParam(p, "D", None))
 		f = extended.GetFLMIncludePath(cache)
 		self.assertEqual(f.File(), "base.flm")
 
@@ -593,14 +593,14 @@ class TestRaptorData(unittest.TestCase):
 		             "VEFABZ", "VGHABZ", "ABCDEFGHIJABZ", "ABCDEFGHKLABZ",
 				     "VEFCDZ", "VGHCDZ", "ABCDEFGHIJCDZ", "ABCDEFGHKLCDZ" ]
 		
-		self.failUnlessEqual(len(units), len(expected))
+		self.assertEqual(len(units), len(expected))
 		
 		for u in units:
 			vars = "".join([v.name for v in u.variants])
-			self.failUnless(vars in expected, vars + " was not expected")
+			self.assertTrue(vars in expected, vars + " was not expected")
 			expected.remove(vars)
 		
-		self.failUnless(len(expected) == 0, str(expected) + " not found")
+		self.assertTrue(len(expected) == 0, str(expected) + " not found")
 		
 # run all the tests
 

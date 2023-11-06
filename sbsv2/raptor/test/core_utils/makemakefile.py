@@ -23,7 +23,7 @@ def writeline(line, filehandle):
 	Calls the filehandle's write method with line as an argument. Note:
 	filehandle can be STDOUT or STDERR or a real file. The client code
 	should take care of the creation of the filehandle object"""
-	print >> filehandle, line,
+	print(line, end=' ', file=filehandle)
 
 def info(arg, filehandle):
 	writeline("# INFO: " + str(arg), filehandle)

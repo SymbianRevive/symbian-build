@@ -29,18 +29,18 @@ class TestRaptor(unittest.TestCase):
 
 	def testConstructor(self):
 		r = raptor.Raptor()
-		self.failUnless(r)
+		self.assertTrue(r)
 
 
 	def testHome(self):
 		r = raptor.Raptor()
-		self.failUnless(r.home)
+		self.assertTrue(r.home)
 		r = raptor.Raptor("dirname")
-		self.failUnless(r.errorCode == 1) # picked up that dirname doesn't exist
+		self.assertTrue(r.errorCode == 1) # picked up that dirname doesn't exist
 		
 
 	def testVersion(self):
-		self.failUnless(re.match("^\d+\.\d+\.", raptor_version.fullversion()))
+		self.assertTrue(re.match("^\d+\.\d+\.", raptor_version.fullversion()))
 
 
 	def testCLISupport(self):
@@ -176,38 +176,38 @@ class TestRaptor(unittest.TestCase):
 		self.r.out = OutputMock()
 		self.r.Info("hello %s", "world", planet="earth")
 		expected = "<info planet='earth'>hello world</info>\n"
-		self.assertEquals(self.r.out.actual, expected)
+		self.assertEqual(self.r.out.actual, expected)
 		
 	def testWarnAttributes(self):
 		self.r.out = OutputMock()
 		self.r.Warn("look out", where="behind you")
 		expected = "<warning where='behind you'>look out</warning>\n"
-		self.assertEquals(self.r.out.actual, expected)
+		self.assertEqual(self.r.out.actual, expected)
 		
 	def testErrorAttributes(self):
 		self.r.out = OutputMock()
 		self.r.Error("messed up %s and %s", "all", "sundry", bldinf="bld.inf")
 		expected = "<error bldinf='bld.inf'>messed up all and sundry</error>\n"
-		self.assertEquals(self.r.out.actual, expected)	
+		self.assertEqual(self.r.out.actual, expected)	
 		
 	# Test Info, Warn & Error functions to ensure XML control chars are escaped
 	def testInfoXMLEscaped(self):
 		self.r.out = OutputMock()
 		self.r.Info("h&l>o<&amp;")
 		expected = "<info>h&amp;l&gt;o&lt;&amp;amp;</info>\n"
-		self.assertEquals(self.r.out.actual, expected)
+		self.assertEqual(self.r.out.actual, expected)
 		
 	def testWarnXMLEscaped(self):
 		self.r.out = OutputMock()
 		self.r.Warn("h&l>o<&amp;")
 		expected = "<warning>h&amp;l&gt;o&lt;&amp;amp;</warning>\n"
-		self.assertEquals(self.r.out.actual, expected)
+		self.assertEqual(self.r.out.actual, expected)
 		
 	def testErrorXMLEscaped(self):
 		self.r.out = OutputMock()
 		self.r.Error("h&l>o<&amp;")
 		expected = "<error>h&amp;l&gt;o&lt;&amp;amp;</error>\n"
-		self.assertEquals(self.r.out.actual, expected)
+		self.assertEqual(self.r.out.actual, expected)
 	
 		
 # Mock output class preserving output for checking

@@ -72,12 +72,12 @@ class FilterCopyFile(filter_interface.Filter):
 		return self.ok
 
 	def flushcopies(self):
-		for source in self.files.keys():
+		for source in list(self.files.keys()):
 			for dest in self.files[source]:
 				try:
 					copyfile(source, dest)
-				except IOError, e:
-					print "<error>%s</error>" % str(e)
+				except IOError as e:
+					print("<error>%s</error>" % str(e))
 		self.files = {}
 		
 

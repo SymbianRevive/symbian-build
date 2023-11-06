@@ -24,7 +24,7 @@ def run():
 
 	# create some empty source files just to test createvmaps command file handling:
 	test_cpp_files = []
-	for i in xrange(0,16):
+	for i in range(0,16):
 		tf = "smoke_suite/test_resources/bv/variant1/test_createvmap{0:02}.cpp".format(i)
 		f = open(tf,"w+")
 		f.close()

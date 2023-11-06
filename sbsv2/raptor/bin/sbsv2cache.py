@@ -51,7 +51,7 @@ class ComponentReleasable(object):
 	
 	# If EPOCROOT is set, provide a means to confirm that potentially publishable releasables live under EPOCROOT/epoc32
 	ReleaseTreeMatch = None
-	if os.environ.has_key("EPOCROOT"):
+	if "EPOCROOT" in os.environ:
 		ReleaseTreeMatch = re.compile(r'\"*'+os.path.abspath(os.path.join(os.environ["EPOCROOT"],"epoc32")).replace('\\',r'\/').replace('\/',r'[\\|\/]+')+r'[\\|\/]+', re.IGNORECASE)
 		
 	def __init__(self, aBldInfFile, aVerbose=False):
@@ -66,15 +66,15 @@ class ComponentReleasable(object):
 			return True
 		
 		if self.__Verbose:
-			print "Discarding: \'%s\' from \'%s\' as not in the release tree." % (aBuildItem, self.__BldInfFile)
+			print("Discarding: \'%s\' from \'%s\' as not in the release tree." % (aBuildItem, self.__BldInfFile))
 		return False
 
 	def __StoreBuildItem(self, aPlatform, aVariant, aBuildItem):
-		if not self.__BuildOutput.has_key(aPlatform):
+		if aPlatform not in self.__BuildOutput:
 			self.__BuildOutput[aPlatform] = {}
 			if aPlatform != "ALL":
 				self.__Platforms[aPlatform.upper()] = 1
-		if not self.__BuildOutput[aPlatform].has_key(aVariant):
+		if aVariant not in self.__BuildOutput[aPlatform]:
 			self.__BuildOutput[aPlatform][aVariant] = {}
 		
 		if aBuildItem:
@@ -97,10 +97,10 @@ class ComponentReleasable(object):
 	def Finalise(self):
 		# Re-visit the stored build items and, in the context of all build platforms having been processed for the
 		# component, copy platform-generic "ALL" output to the concrete build platform outputs
-		if self.__BuildOutput.has_key("ALL"):
-			allItems = self.__BuildOutput["ALL"]["ALL"].keys()		
-			for platform in self.__BuildOutput.keys():
-				for variant in self.__BuildOutput[platform].keys():
+		if "ALL" in self.__BuildOutput:
+			allItems = list(self.__BuildOutput["ALL"]["ALL"].keys())		
+			for platform in list(self.__BuildOutput.keys()):
+				for variant in list(self.__BuildOutput[platform].keys()):
 					for allItem in allItems:
 						self.__StoreBuildItem(platform, variant, allItem)			
 			del self.__BuildOutput["ALL"]
@@ -139,7 +139,7 @@ def processReleasableElement(aContext, aName, aValue, aVerbose):
 		if configMatchResults.group('PLATFORMADD'):
 			platform += configMatchResults.group('PLATFORMADD')
 	
-	if not BuildReleasables.has_key(bldinf):
+	if bldinf not in BuildReleasables:
 		BuildReleasables[bldinf] = ComponentReleasable(bldinf, aVerbose)
 	
 	componentReleasable = BuildReleasables[bldinf]
@@ -147,11 +147,11 @@ def processReleasableElement(aContext, aName, aValue, aVerbose):
 	if aName == "export" :
 		componentReleasable.AddExport(aValue["destination"], aValue["source"])
 	elif aName == "member":
-		componentReleasable.AddExport(aValue.keys()[0], aContext["zipfile"])
+		componentReleasable.AddExport(list(aValue.keys())[0], aContext["zipfile"])
 	elif aName == "build":
-		componentReleasable.AddBuildOutput(aValue.keys()[0], platform, variant)
+		componentReleasable.AddBuildOutput(list(aValue.keys())[0], platform, variant)
 	elif aName == "resource" or aName == "bitmap":
-		item = aValue.keys()[0]
+		item = list(aValue.keys())[0]
 		# Identify winscw urel/udeb specific resources, and store accordingly
 		winscwTreeMatchResult = WinscwTreeMatch.search(item)
 		if platform == "winscw" and winscwTreeMatchResult:
@@ -159,7 +159,7 @@ def processReleasableElement(aContext, aName, aValue, aVerbose):
 		else:
 			componentReleasable.AddBuildOutput(item, platform)
 	elif aName == "stringtable":
-		componentReleasable.AddBuildOutput(aValue.keys()[0])			
+		componentReleasable.AddBuildOutput(list(aValue.keys())[0])			
 
 def parseLog(aLog, aVerbose):
 	if not os.path.exists(aLog):
@@ -174,7 +174,7 @@ def parseLog(aLog, aVerbose):
 	def start_element(name, attributes):
 		if name == "whatlog" or name == "archive":
 			elementContext.update(attributes)
-		elif elementContext.has_key("bldinf"):
+		elif "bldinf" in elementContext:
 			if name == "export":
 				# Exports are all attributes, so deal with them directly
 				processReleasableElement(elementContext, name, attributes, aVerbose)
@@ -189,7 +189,7 @@ def parseLog(aLog, aVerbose):
 			del elementContext["zipfile"]
 	
 	def char_data(data):
-		if elementContext.has_key("bldinf") and currentElement:
+		if "bldinf" in elementContext and currentElement:
 			processReleasableElement(elementContext, currentElement.pop(), {str(data):1}, aVerbose)
 	
 	parser.StartElementHandler = start_element
@@ -198,10 +198,10 @@ def parseLog(aLog, aVerbose):
 
 	try:
 		if aVerbose:
-			print "Parsing: " + aLog
+			print("Parsing: " + aLog)
 			
 		parser.ParseFile(open(aLog, "r"))
-	except xml.parsers.expat.ExpatError, e:	
+	except xml.parsers.expat.ExpatError as e:	
 		error("Failure parsing log file \'%s\' (line %s)" % (aLog, e.lineno))
 
 def normFileForCache(aFile):
@@ -238,7 +238,7 @@ def createCacheFile(aComponentReleasable, aOutputPath, aSourceExports, aVerbose)
 	bldInfLoc = WinDriveMatch.sub("",os.path.dirname(aComponentReleasable.GetBldInf())).replace("/", "\\")
 
 	if aVerbose:
-		print "Creating: " + cacheFile
+		print("Creating: " + cacheFile)
 	
 	if not os.path.exists(cacheFileDir):
 		os.makedirs(cacheFileDir)
@@ -250,13 +250,13 @@ def createCacheFile(aComponentReleasable, aOutputPath, aSourceExports, aVerbose)
 		if exports:
 			cacheFileObject.write(CacheExportGroup % bldInfLoc)
 			if aSourceExports:
-				dumpCacheFileList(cacheFileObject, exports.items(), True)
+				dumpCacheFileList(cacheFileObject, list(exports.items()), True)
 			else:
-				dumpCacheFileList(cacheFileObject, exports.keys())
+				dumpCacheFileList(cacheFileObject, list(exports.keys()))
 	
 		buildOutput = aComponentReleasable.GetBuildOutput()		
 		if buildOutput:
-			for plat in buildOutput.keys():
+			for plat in list(buildOutput.keys()):
 				# Most cache output is represented as if performed for the "abld target" phase, but tools platforms
 				# are presented as if performed by "abld build", and so must additionally replicate any exports
 				# performed for the component in their variant output
@@ -265,14 +265,14 @@ def createCacheFile(aComponentReleasable, aOutputPath, aSourceExports, aVerbose)
 				if plat == "tools" or plat == "tools2":
 					phase = "build"
 					if exports:
-						additionalOutput = exports.keys()
+						additionalOutput = list(exports.keys())
 				
-				for variant in buildOutput[plat].keys():
+				for variant in list(buildOutput[plat].keys()):
 					cacheFileObject.write(CacheBuildOutputGroup % (bldInfLoc, phase, plat, variant))
-					dumpCacheFileList(cacheFileObject, buildOutput[plat][variant].keys() + additionalOutput)
+					dumpCacheFileList(cacheFileObject, list(buildOutput[plat][variant].keys()) + additionalOutput)
 	
 		cacheFileObject.write(CachePlatsGroup)
-		dumpCacheFileList(cacheFileObject, aComponentReleasable.GetPlatforms().keys())
+		dumpCacheFileList(cacheFileObject, list(aComponentReleasable.GetPlatforms().keys()))
 		
 		cacheFileObject.close()
 	except IOError:
@@ -292,18 +292,18 @@ def main():
 		parser.print_help()
 		sys.exit(1)
 		
-	print "sbsv2cache: started"
+	print("sbsv2cache: started")
 	
 	# Parse build logs to populate the BuildReleasables dictionary
 	for log in options.logs:
 		parseLog(os.path.abspath(log), options.verbose)
 	
 	# Finalise components in BuildReleasables and create cache files as we go
-	for component in BuildReleasables.keys():
+	for component in list(BuildReleasables.keys()):
 		BuildReleasables[component].Finalise()
 		createCacheFile(BuildReleasables[component], os.path.abspath(options.outputpath), options.sourceexports, options.verbose)
 		
-	print "sbsv2cache: finished"
+	print("sbsv2cache: finished")
 	
 if __name__ == "__main__":
 	main()

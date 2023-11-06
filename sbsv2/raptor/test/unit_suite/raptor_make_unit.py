@@ -34,7 +34,7 @@ class TestRaptorMake(unittest.TestCase):
 		for file in fileList:
 			name = file.GetLocalString()
 			if not os.path.exists(name):
-				print "did not find", name
+				print("did not find", name)
 				return False
 		return True
 	
@@ -42,7 +42,7 @@ class TestRaptorMake(unittest.TestCase):
 		for file in fileList:
 			name = file.GetLocalString()
 			if os.path.exists(name):
-				print "found unwanted", name
+				print("found unwanted", name)
 				return False
 		return True
 	
@@ -89,7 +89,7 @@ class TestRaptorMake(unittest.TestCase):
 		maker.Write(m1, [spec], [bldunit])
 		
 		# test and clean
-		self.failUnless(self.checkMakefiles(makefiles))
+		self.assertTrue(self.checkMakefiles(makefiles))
 		self.cleanMakefiles(makefiles)
 
 
@@ -188,7 +188,7 @@ class TestRaptorMake(unittest.TestCase):
 		maker.Write(makefiles[0], [top1, top2], [buildunit1, buildunit2])
 		
 		# test and clean
-		self.failUnless(self.checkMakefiles(makefiles))
+		self.assertTrue(self.checkMakefiles(makefiles))
 		self.cleanMakefiles(makefiles)
 		
 		
@@ -313,7 +313,7 @@ class TestRaptorMake(unittest.TestCase):
 		maker.Write(makefiles[0], specs=[top], configs=[b1,b2,b3,b4,b5,b6])
 		
 		# test and clean
-		self.failUnless(self.checkMakefiles(makefiles))
+		self.assertTrue(self.checkMakefiles(makefiles))
 		self.cleanMakefiles(makefiles)
 		
 
@@ -382,9 +382,9 @@ class TestRaptorMake(unittest.TestCase):
 		maker.Write(makefiles[0], [f1, f2, f3], [b1, b2, b3])
 		
 		# test and clean
-		self.failUnless(self.checkMakefiles(makefiles))
+		self.assertTrue(self.checkMakefiles(makefiles))
 		self.cleanMakefiles(makefiles)
-		self.failUnless(self.checkNotMakefiles(prunes))
+		self.assertTrue(self.checkNotMakefiles(prunes))
 		self.cleanMakefiles(prunes)
 		
 		

@@ -135,7 +135,7 @@ def resolveSymbianPath(aFileRoot, aReference, aMainType="", aSubType="", aEPOCRO
 	
 	if isinstance(resolvedPath, list):
 		# In this case, this is a list of export destinations, 
-		makefilePath = map(lambda x: str(generic_path.Path(x)), resolvedPath)
+		makefilePath = [str(generic_path.Path(x)) for x in resolvedPath]
 	else:
 		makefilePath = str(generic_path.Path(resolvedPath))
 	
@@ -153,7 +153,7 @@ class ExternalTool(object):
 		self.__Output = []
 
 	def call(self, aArgs):		
-		print "RUNNNING: %s %s" %(self.__Tool, aArgs)
+		print("RUNNNING: %s %s" %(self.__Tool, aArgs))
 		(input, output) = os.popen2(self.__Tool + " " + aArgs)
 		self.__Output = output.read()
 		return output.close() 
@@ -217,12 +217,12 @@ def copyfile(_source, _destination):
 		try:
 			sourceStat = os.stat(source_str)
 			sourceMTime = sourceStat[stat.ST_MTIME]
-		except OSError, e:
+		except OSError as e:
 			message = "Source of copyfile does not exist:  " + str(source)
 			raise IOError(message)
 		try:
 			destMTime = os.stat(dest_str)[stat.ST_MTIME]
-		except OSError, e:
+		except OSError as e:
 			pass # destination doesn't have to exist
 
 		if destMTime == 0 or destMTime < sourceMTime:
@@ -234,7 +234,7 @@ def copyfile(_source, _destination):
 			# preserve permissions
 			shutil.copy(source_str, dest_str)
 
-	except Exception,e:
+	except Exception as e:
 		message = "Could not update " + dest_str + " from " + source_str + " : " + str(e)
 		raise IOError(message)
 

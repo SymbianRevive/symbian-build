@@ -47,7 +47,7 @@ if not os.path.isdir(romfillin_epocroot+'/epoc32'):
 
 filestatement_re=re.compile("^(?P<pre>((((primary)|(secondary)|(extension)|(device)|(variant))(\[0x[0-9a-zA-Z]+\])?=)|((file)|(data)|(bootbinary))=))(?P<filename>\S+)(?P<tail>.*)$")
 
-for line in sys.stdin.xreadlines():
+for line in sys.stdin:
 	line = line.rstrip()
 	m = filestatement_re.search(line)
 	if m is not None:
@@ -55,19 +55,19 @@ for line in sys.stdin.xreadlines():
 		filename = generic_path.Path(epocroot + fname)
 		filefound = filename.FindCaseless()
 		if filefound is not None:
-			print m.groupdict()['pre'] + str(filefound) + m.groupdict()['tail']
+			print(m.groupdict()['pre'] + str(filefound) + m.groupdict()['tail'])
 			#print filefound
 		else:
 			fillinname = generic_path.Path(romfillin_epocroot+fname)
 			filefound =  fillinname.FindCaseless()
 			if filefound is not None:
 				sys.stderr.write("filledinmissing: %s\n" % str(filefound))
-				print m.groupdict()['pre'] + str(filefound) + m.groupdict()['tail']
+				print(m.groupdict()['pre'] + str(filefound) + m.groupdict()['tail'])
 				#print filefound
 			else:
 				sys.stderr.write("filenotfound: %s\n" % str(filename))
 	else:
-		print line
+		print(line)
 
 	
 

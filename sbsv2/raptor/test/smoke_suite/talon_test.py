@@ -42,11 +42,11 @@ def run():
 		talon = ReplaceEnvs("$(SBS_HOME)/$(HOSTPLATFORM_DIR)/bin/talon.exe")
 	
 	# 2 Bash from a Cygwin
-	if os.environ.has_key("SBS_CYGWIN"):
+	if "SBS_CYGWIN" in os.environ:
 		bash = ReplaceEnvs("$(SBS_CYGWIN)/bin/bash.exe")
 	
 	# 3 Bash from an env. var.
-	if os.environ.has_key("SBS_SHELL"):
+	if "SBS_SHELL" in os.environ:
 		bash = os.environ["SBS_SHELL"]
 	
 	# Talon's command line

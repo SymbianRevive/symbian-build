@@ -79,10 +79,10 @@ class unzip:
         for i, name in enumerate(zf.namelist()):
 
             if self.verbose == True:
-                print "Extracting %s" % name
+                print("Extracting %s" % name)
             elif perc > 0 and (i % perc) == 0 and i > 0:
                 complete = int (i / perc) * percent
-                print "%s%% complete" % complete
+                print("%s%% complete" % complete)
 
             if not name.endswith('/'):
                 # Normalise the path so that it is correct for the current OS
@@ -124,7 +124,7 @@ class unzip:
             # has been made in the meantime. Catch this exception.
             try:
                 os.makedirs(directory)
-            except OSError, aOSError:
+            except OSError as aOSError:
                 # If the OSError is that the file exists then we are OK - this
                 # might occur in a multi-threaded or multi-process environment;
                 # otherwise re-raise the exception since it's something else bad.
@@ -142,14 +142,14 @@ class unzip:
         for name in zf.namelist():
             if name.endswith('/'):
                 if self.verbose == True:
-                    print "Directory \"" + name + "\" will be made."
+                    print("Directory \"" + name + "\" will be made.")
                 dirs.append(name)
         
         zf.close()
         return dirs
 
 def usage():
-    print """usage: unzip.py -z <zipfile> -o <targetdir>
+    print("""usage: unzip.py -z <zipfile> -o <targetdir>
     <zipfile> is the source zipfile to extract
     <targetdir> is the target destination
 
@@ -162,7 +162,7 @@ def usage():
     --verbose
     --percent=10
     --zipfile=<zipfile>
-    --outdir=<targetdir>"""
+    --outdir=<targetdir>""")
     
 
 def main():

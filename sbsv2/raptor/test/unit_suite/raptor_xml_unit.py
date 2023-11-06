@@ -51,7 +51,7 @@ class TestRaptorXML(unittest.TestCase):
 		
 	def testSystemDefinitionProcessing(self):
 		# Make formatting neater
-		print
+		print()
 		expectedBldInfs = [generic_path.Join(self.__sysDefRoot, "simple/bld.inf"),\
 						generic_path.Join(self.__sysDefRoot, "basics/helloworld/Bld.inf")]
 		
@@ -64,7 +64,7 @@ class TestRaptorXML(unittest.TestCase):
 		
 	
 		sourceroot = ""
-		if os.environ.has_key('SOURCEROOT'):
+		if 'SOURCEROOT' in os.environ:
 			sourceroot = os.environ['SOURCEROOT']
 		os.environ['SOURCEROOT'] = self.__sysDefRoot.GetLocalString()
 		systemModel = raptor_xml.SystemModel(self.__logger, generic_path.Join(self.__sysDefFileRoot, "system_definition_2.0.0.xml"), self.__nullSysDefRoot)
@@ -126,7 +126,7 @@ class TestRaptorXML(unittest.TestCase):
 		sysDefPath = sysDefPath.replace("\\","/")
 		bldInfPath = os.path.join(sbsHome, "test/smoke_suite/test_resources/does_not_exist/bld.inf")
 		bldInfPath = bldInfPath.replace("\\","/")
-		self.assertEquals(self.__logger.errors[0],
+		self.assertEqual(self.__logger.errors[0],
 		  ("System Definition layer \"Seventh Layer\" from system definition file \"%s\" refers to non existent bld.inf file %s" % (sysDefPath, bldInfPath)))
 				
 		# Probably redundant, but return local environment (at least its dictionary) to pre-test state
@@ -134,11 +134,11 @@ class TestRaptorXML(unittest.TestCase):
 		
 	def __compareFileLists (self, aListOne, aListTwo):
 		
-		self.assertEquals(len(aListOne), len(aListTwo))
+		self.assertEqual(len(aListOne), len(aListTwo))
 		
 		i = 0
 		while i < len(aListOne) :
-			self.assertEquals(aListOne[i].GetLocalString().lower(), aListTwo[i].GetLocalString().lower())
+			self.assertEqual(aListOne[i].GetLocalString().lower(), aListTwo[i].GetLocalString().lower())
 			i = i + 1
 		
 # run all the tests

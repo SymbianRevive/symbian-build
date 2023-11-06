@@ -20,7 +20,7 @@ import sys
 
 # there are no options, so print help if any are passed
 if len(sys.argv) > 1:
-	print "usage:", sys.argv[0], "(The log data is read from stdin)"
+	print("usage:", sys.argv[0], "(The log data is read from stdin)")
 	sys.exit(0)
 
 whatlogRE = re.compile("<whatlog.*bldinf='([^']*)'")
@@ -66,11 +66,11 @@ while line:
 					# seen this conflict before
 					pass
 				else:
-					print "CONFLICT:", destination, \
+					print("CONFLICT:", destination, \
 						"FROM", source, \
 						"IN", bldinf, \
 						"AND FROM", otherSource, \
-						"IN", otherBldinf
+						"IN", otherBldinf)
 					conflicts.append(conflict)
 		else:
 			sources[source] = [destination, bldinf]
@@ -81,18 +81,18 @@ for destination in destinations:
 	if destination in sources:
 		(nextDestination, inf2) = sources[destination]
 		(source, inf1) = destinations[destination]
-		print "CHAIN:", source, \
+		print("CHAIN:", source, \
 			"TO", destination, \
 			"IN", inf1, \
 			"THEN TO", nextDestination, \
-			"IN", inf2
+			"IN", inf2)
 		chains += 1
 		
 # print a summary
-print "Total exports = ", len(destinations.keys())
-print "Chained exports = ", chains
-print "Repeated exports = ", repeats
-print "Conflicting exports = ", len(conflicts)
+print("Total exports = ", len(list(destinations.keys())))
+print("Chained exports = ", chains)
+print("Repeated exports = ", repeats)
+print("Conflicting exports = ", len(conflicts))
 
 # return the error code
 if conflicts:

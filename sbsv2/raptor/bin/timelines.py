@@ -37,7 +37,7 @@ class Timeline(object):
 		self.ylevel = ylevel
 
 	def append(self, recipe):
-		"" add this recipe to this timeline if it happens after the latest recipe already in the timeline ""
+		""" add this recipe to this timeline if it happens after the latest recipe already in the timeline """
 		if recipe.starttime + recipe.duration > self.maxtime:
 			self.maxtime = recipe.starttime + recipe.duration
 			if self.maxtime > Timeline.globalmax:
@@ -110,7 +110,8 @@ class Recipe(object):
 		glEnd()
 
 
-def resize((width, height)):
+def resize(xxx_todo_changeme):
+	(width, height) = xxx_todo_changeme
 	if height==0:
 		height=1
 	glViewport(0, 0, width, height)
@@ -149,7 +150,7 @@ def main():
 	lines = 4
 	timelines = []
 	ylevel = 0.0
-	for i in xrange(0,4):
+	for i in range(0,4):
 		ylevel += 0.6 
 		timelines.append(Timeline(ylevel))
 
@@ -163,7 +164,7 @@ def main():
 	start_time = 0.0
 
 	
-	for l in f.xreadlines():
+	for l in f:
 		l2 = l.rstrip("\n")
 		rm = recipe_re.match(l2)
 
@@ -217,7 +218,7 @@ def main():
 
 		frames = frames+1
 
-	print "fps:  %de" % ((frames*1000)/(pygame.time.get_ticks()-ticks))
+	print("fps:  %de" % ((frames*1000)/(pygame.time.get_ticks()-ticks)))
 	event = pygame.event.wait()
 
 

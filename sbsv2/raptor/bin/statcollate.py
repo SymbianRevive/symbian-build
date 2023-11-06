@@ -40,8 +40,8 @@ def pullStats(statnames, file):
 	try:
 	    dom = xml.dom.minidom.parse(file)
 
-	except Exception,e: # a whole bag of exceptions can be raised here
-		print "pullStats: %s" % str(e)
+	except Exception as e: # a whole bag of exceptions can be raised here
+		print("pullStats: %s" % str(e))
 		raise StatsFail
 
 	# <build> is always the root element
@@ -77,15 +77,15 @@ parser = OptionParser(prog = "statgraph",
 statfilename = "stdin"
 
 table = sys.stdout
-print >> table, 'Date,',  # add 'Date' in front of names
+print('Date,', end=' ', file=table)  # add 'Date' in front of names
 
 comma=""
 for name in statnames:
-    print >> table, comma+name, #! this order is not the order in dictionary
+    print(comma+name, end=' ', file=table) #! this order is not the order in dictionary
     comma=', '
     #print 'test,',  #test
 
-print >> table, ""
+print("", file=table)
 
 if len(args) > 0:
     for statfilename in args:
@@ -93,19 +93,19 @@ if len(args) > 0:
         file = open(statfilename, "r")
         try:
             stats = pullStats(statnames, file)
-        except StatsFail,e:
+        except StatsFail as e:
             sys.__stderr__.write("Can't process file %s\n" % statfilename)
             sys.exit(1)
         #print stats.items()  # test
         file.close()
         
 	comma=""
-        print >> table, stats['date'] + ",",
+        print(stats['date'] + ",", end=' ', file=table)
         for name in statnames:
-            print >> table, comma+stats[name],
+            print(comma+stats[name], end=' ', file=table)
     	    comma=', '
             #print 'test,',  # test
-        print >> table, ""
+        print("", file=table)
 
 else:
     sys.stderr.write("No files specified")

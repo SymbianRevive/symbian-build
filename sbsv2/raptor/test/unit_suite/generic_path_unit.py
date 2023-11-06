@@ -65,38 +65,38 @@ class TestGenericPaths(unittest.TestCase):
 		# Absolute
 		
 		local1 = generic_path.Path('some\\folder')
-		self.failIf(local1.isAbsolute())
+		self.assertFalse(local1.isAbsolute())
 		
 		abs1 = local1.Absolute()
 		self.assertEqual(str(abs1).lower(), (self.cwd + "/some/folder").lower())
 		
 		local2 = generic_path.Path('C:\\some\\folder')
-		self.failUnless(local2.isAbsolute())
+		self.assertTrue(local2.isAbsolute())
 		
 		abs2 = local2.Absolute()
 		self.assertEqual(str(abs2), "C:/some/folder")
 
 		local3 = generic_path.Path('\\somerandomfolder')
-		self.failUnless(re.match('^[A-Za-z]:/somerandomfolder$',str(local3)))
+		self.assertTrue(re.match('^[A-Za-z]:/somerandomfolder$',str(local3)))
 
 		local4 = generic_path.Path('\\my\\folder\\')
-		self.failUnless(re.match('^[A-Za-z]:/my/folder$',str(local4)))
+		self.assertTrue(re.match('^[A-Za-z]:/my/folder$',str(local4)))
 
 		local5 = generic_path.Path('\\')
-		self.failUnless(re.match('^[A-Za-z]:$',str(local5)))
+		self.assertTrue(re.match('^[A-Za-z]:$',str(local5)))
 		
 		local6 = generic_path.Path("C:")
-		self.failUnless(local6.isAbsolute())
-		self.failUnless(local6.isDir())
-		self.failUnless(local6.Exists())
+		self.assertTrue(local6.isAbsolute())
+		self.assertTrue(local6.isDir())
+		self.assertTrue(local6.Exists())
 		
 		local7 = local6.Absolute()
 		self.assertEqual(str(local7), "C:")
 		
 		local8 = generic_path.Path("C:/")
-		self.failUnless(local8.isAbsolute())
-		self.failUnless(local8.isDir())
-		self.failUnless(local8.Exists())
+		self.assertTrue(local8.isAbsolute())
+		self.assertTrue(local8.isDir())
+		self.assertTrue(local8.Exists())
 		
 		local9 = local8.Absolute()
 		self.assertEqual(str(local9), "C:")
@@ -131,7 +131,7 @@ class TestGenericPaths(unittest.TestCase):
 		self.assertEqual(str(path4), "m:")
 		
 		path5 = generic_path.Path("\\sys\\thing\\")
-		self.failUnless(re.match('^[A-Za-z]:/sys/thing$', str(path5)))
+		self.assertTrue(re.match('^[A-Za-z]:/sys/thing$', str(path5)))
 		
 		path6 = generic_path.Path("m:/")
 		self.assertEqual(str(path6), "m:")
@@ -169,13 +169,13 @@ class TestGenericPaths(unittest.TestCase):
 		# Absolute
 		
 		local1 = generic_path.Path('some/folder')
-		self.failIf(local1.isAbsolute())
+		self.assertFalse(local1.isAbsolute())
 		
 		abs1 = local1.Absolute()
 		self.assertEqual(str(abs1), self.cwd + "/some/folder")
 		
 		local2 = generic_path.Path('/some/folder')
-		self.failUnless(local2.isAbsolute())
+		self.assertTrue(local2.isAbsolute())
 		
 		abs2 = local2.Absolute()
 		self.assertEqual(str(abs2), "/some/folder")

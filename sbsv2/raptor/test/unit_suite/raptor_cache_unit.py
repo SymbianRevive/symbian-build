@@ -34,9 +34,9 @@ class TestRaptorCache(unittest.TestCase):
 		# load a single XML file
 		file = self.raptor.home.Append("test/unit_suite/data", raptor.xml)
 		self.cache.Load(file)
-		self.failUnless(len(self.cache.variants) > 0)
-		self.failUnless(len(self.cache.aliases) > 0)
-		self.failUnless(len(self.cache.groups) > 0)
+		self.assertTrue(len(self.cache.variants) > 0)
+		self.assertTrue(len(self.cache.aliases) > 0)
+		self.assertTrue(len(self.cache.groups) > 0)
 		
 	def testVariant(self):
 		def _testSingleVariant(name):
@@ -45,7 +45,7 @@ class TestRaptorCache(unittest.TestCase):
 			except KeyError:
 				self.fail()
 			else:
-				self.failUnless(var)
+				self.assertTrue(var)
 				self.assertEqual(var.name, name)
 
 		_testSingleVariant("ARMV5_BASE")
@@ -55,8 +55,8 @@ class TestRaptorCache(unittest.TestCase):
 		_testSingleVariant("MOD2")
 		_testSingleVariant("var_redef")
 
-		self.failUnlessRaises( KeyError, self.cache.FindNamedVariant, "XY_123" )
-		self.failUnlessRaises( KeyError, self.cache.FindNamedVariant, "ARMV5" )
+		self.assertRaises( KeyError, self.cache.FindNamedVariant, "XY_123" )
+		self.assertRaises( KeyError, self.cache.FindNamedVariant, "ARMV5" )
 
 	def testAlias(self):
 		def _testSingleAlias(name):
@@ -65,16 +65,16 @@ class TestRaptorCache(unittest.TestCase):
 			except KeyError:
 				self.fail()
 			else:
-				self.failUnless(alias)
+				self.assertTrue(alias)
 				self.assertEqual(alias.name, name)
 
 		_testSingleAlias("ALIAS_1")
 		_testSingleAlias("ALIAS_2")
 		_testSingleAlias("alias_redef")
 
-		self.failUnlessRaises( KeyError, self.cache.FindNamedAlias, "XY_123" )
-		self.failUnlessRaises( KeyError, self.cache.FindNamedAlias, "ARMV5" )
-		self.failUnlessRaises( KeyError, self.cache.FindNamedAlias, "ARMV5_UREL" )
+		self.assertRaises( KeyError, self.cache.FindNamedAlias, "XY_123" )
+		self.assertRaises( KeyError, self.cache.FindNamedAlias, "ARMV5" )
+		self.assertRaises( KeyError, self.cache.FindNamedAlias, "ARMV5_UREL" )
 
 	def testGroup(self):
 		def _testSingleGroup(name):
@@ -83,15 +83,15 @@ class TestRaptorCache(unittest.TestCase):
 			except KeyError:
 				self.fail()
 			else:
-				self.failUnless(group)
+				self.assertTrue(group)
 				self.assertEqual(group.name, name)
 				
 		_testSingleGroup("ARMV5")
 		_testSingleGroup("group_redef")
 
-		self.failUnlessRaises( KeyError, self.cache.FindNamedGroup, "XY_123" )
-		self.failUnlessRaises( KeyError, self.cache.FindNamedGroup, "ARMV5_UDEB" )
-		self.failUnlessRaises( KeyError, self.cache.FindNamedGroup, "ARMV5_UREL" )
+		self.assertRaises( KeyError, self.cache.FindNamedGroup, "XY_123" )
+		self.assertRaises( KeyError, self.cache.FindNamedGroup, "ARMV5_UDEB" )
+		self.assertRaises( KeyError, self.cache.FindNamedGroup, "ARMV5_UREL" )
 
 	def testInterface(self):
 		def _testSingleInterface(name):
@@ -100,14 +100,14 @@ class TestRaptorCache(unittest.TestCase):
 			except KeyError:
 				self.fail()
 			else:
-				self.failUnless(interface)
+				self.assertTrue(interface)
 				self.assertEqual(interface.name, name)
 				
 		_testSingleInterface("interface_redef")
 
-		self.failUnlessRaises( KeyError, self.cache.FindNamedInterface, "foo" )
-		self.failUnlessRaises( KeyError, self.cache.FindNamedInterface, "bar" )
-		self.failUnlessRaises( KeyError, self.cache.FindNamedInterface, "123" )
+		self.assertRaises( KeyError, self.cache.FindNamedInterface, "foo" )
+		self.assertRaises( KeyError, self.cache.FindNamedInterface, "bar" )
+		self.assertRaises( KeyError, self.cache.FindNamedInterface, "123" )
 
 	def testLoadLegacy(self):
 		# load some schema 1.0 XML files
@@ -121,7 +121,7 @@ class TestRaptorCache(unittest.TestCase):
 		except KeyError:
 			self.fail()
 
-		self.failUnlessRaises( KeyError, self.cache.FindNamedVariant, "should_be_ignored" )
+		self.assertRaises( KeyError, self.cache.FindNamedVariant, "should_be_ignored" )
 		
 # run all the tests
 

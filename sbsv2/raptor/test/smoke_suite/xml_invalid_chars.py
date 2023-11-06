@@ -45,7 +45,7 @@ def run():
 	
 	if t.result == SmokeTest.PASS:
 		
-		print "Testing validity of XML..."
+		print("Testing validity of XML...")
 		
 		log = "$(EPOCROOT)/epoc32/build/smoketestlogs/xml_invalid_chars.log"
 		logfile = open(ReplaceEnvs(log), "r")

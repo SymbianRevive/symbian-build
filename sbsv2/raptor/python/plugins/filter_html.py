@@ -168,7 +168,7 @@ class HTML(filter_interface.FilterSAX):
 			self.index.write("</tr>")
 			
 			# the list of configuration names in alphabetical order
-			names = self.configurations.keys()
+			names = list(self.configurations.keys())
 			names.sort()
 			
 			# print the "unknown" configuration results first
@@ -192,7 +192,7 @@ class HTML(filter_interface.FilterSAX):
 			self.index.write("</tr>")
 			
 			# the list of component names in alphabetical order
-			names = self.components.keys()
+			names = list(self.components.keys())
 			names.sort()
 			
 			# print the "unknown" component results first
@@ -207,7 +207,7 @@ class HTML(filter_interface.FilterSAX):
 			self.index.write("</table>")	
 			self.index.write("</body></html>")
 			self.index.close()
-		except Exception, e:
+		except Exception as e:
 			return self.err("could not close index " + str(e))
 		
 	# error and warning exception handlers for FilterSAX
@@ -686,7 +686,7 @@ class HTML(filter_interface.FilterSAX):
 					missing_tag.text += dep + "\n"
 				self.record(missing_tag, Records.ERROR)
 						
-		except Exception,e:
+		except Exception as e:
 			return self.err("could not close temporary file " + str(e))
 	
 	def dumptotals(self):
@@ -736,7 +736,7 @@ class HTML(filter_interface.FilterSAX):
 						regexlist.append((regex, type))
 				except:
 					self.moan("ignored bad regex '%s' in file '%s'" % (row[1], csvfile))
-		except Exception, ex:
+		except Exception as ex:
 			self.err("cannot read regex file '%s': %s" % (csvfile, str(ex)))
 			return []
 		

@@ -55,7 +55,7 @@ class FilterWhat(filter_interface.Filter):
 			
 		if self.check:
 			if not os.path.isfile(abs_filename):
-				print "MISSING:", filename
+				print("MISSING:", filename)
 				self.ok = False
 		else:
 			self.outfile.write(filename+"\n")
@@ -85,7 +85,7 @@ class FilterWhat(filter_interface.Filter):
 			try:
 				self.outfile = open(os.environ['FILTERWHAT_FILE'],"w+")
 				self.outfile_close = True
-			except Exception,e:
+			except Exception as e:
 				raise Exception("The 'What Filter' could not open the output file specified in the FILTER_WHAT environment variable: " + os.environ['FILTERWHAT_FILE'])
 		
 		# repetitions is for tracking repeated lines in the output log

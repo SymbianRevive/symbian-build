@@ -121,7 +121,7 @@ def main():
 	
 	# We need some source files for this script to work
 	if not options.varfile:
-		print "Error: No source files specified "
+		print("Error: No source files specified ")
 		sys.exit()
 		
 	# Set parent node to gibberish
@@ -200,7 +200,7 @@ def main():
 		file.writelines(doc.toprettyxml(indent="  "))
 		file.close()
 	else:
-		print doc.toprettyxml(indent="  ")
+		print(doc.toprettyxml(indent="  "))
 
 
 if __name__ == "__main__":

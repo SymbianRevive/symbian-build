@@ -45,10 +45,11 @@ import time
 import traceback
 import pluginbox
 from xml.sax.saxutils import escape
+from functools import reduce
 
 
 if not "HOSTPLATFORM" in os.environ or not "HOSTPLATFORM_DIR" in os.environ:
-	print "Error: HOSTPLATFORM and HOSTPLATFORM_DIR must be set in the environment (this is usually done automatically by the startup script)."
+	print("Error: HOSTPLATFORM and HOSTPLATFORM_DIR must be set in the environment (this is usually done automatically by the startup script).")
 	sys.exit(1)
 
 hostplatform = os.environ["HOSTPLATFORM"].split(" ")
@@ -307,7 +308,7 @@ class Layer(ModelNode):
 				self.specs = list(build.generic_specs)
 				self.specs.extend(metaReader.ReadBldInfFiles(self.children, doexport = build.doExport, dobuild = not build.doExportOnly))
 
-			except raptor_meta.MetaDataError, e:
+			except raptor_meta.MetaDataError as e:
 				build.Error(e.Text)
 
 		self.unfurled = True
@@ -490,7 +491,7 @@ class Raptor(object):
 				self.raptorXML = sbs_init
 
 		# things that can be overridden by the set-up file
-		for key, value in defaults.items():
+		for key, value in list(defaults.items()):
 			self.__dict__[key] = value
 
 		# things to initialise
@@ -731,7 +732,7 @@ class Raptor(object):
 
 	def PrintVersion(self,dummy):
 		global name
-		print name, "version", raptor_version.fullversion()
+		print(name, "version", raptor_version.fullversion())
 		self.mission = Raptor.M_VERSION
 		return False
 
@@ -757,7 +758,7 @@ class Raptor(object):
 		self.Debug("Python %d.%d.%d", *sys.version_info[:3])
 		self.Debug("Command-line-parser %s", self.CLI)
 
-		for e,value in self.override.items():
+		for e,value in list(self.override.items()):
 			self.Debug("Override %s = %s", e, value)
 
 		for t in self.targets:
@@ -775,14 +776,14 @@ class Raptor(object):
 			var = self.cache.FindNamedVariant("defaults.init")
 			evaluator = self.GetEvaluator( None, raptor_data.BuildUnit(var.name,[var]) )
 
-			for key, value in defaults.items():
+			for key, value in list(defaults.items()):
 				newValue = evaluator.Resolve(key)
 
 				if newValue != None:
 					# got a string for the value
-					if type(value) == types.BooleanType:
+					if type(value) == bool:
 						newValue = (newValue.lower() != "false")
-					elif type(value) == types.IntType:
+					elif type(value) == int:
 						newValue = int(newValue)
 					elif isinstance(value, generic_path.Path):
 						newValue = generic_path.Path(newValue)
@@ -859,7 +860,7 @@ class Raptor(object):
 				return aGenericPath
 
 		# make generic paths absolute (if required)
-		self.configPath = map(mkAbsolute, self.configPath)
+		self.configPath = list(map(mkAbsolute, self.configPath))
 		self.cache.Load(self.configPath)
 
 		if not self.systemFLM.isAbsolute():
@@ -1079,7 +1080,7 @@ class Raptor(object):
 			self.out.write("<buildlog sbs_version=\"%s\" xmlns=\"%s\" xmlns:progress=\"%s\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:schemaLocation=\"%s %s\">\n"
 						   % (raptor_version.fullversion(), namespace, progress_namespace, namespace, schema))
 			self.logOpen = True
-		except Exception,e:
+		except Exception as e:
 			self.out = sys.stdout # make sure that we can actually get errors out.
 			self.logOpen = False
 			self.FatalError("Unable to open the output logs: %s" % str(e))
@@ -1104,7 +1105,7 @@ class Raptor(object):
 	def attributeString(dictionary):
 		"turn a dictionary into a string of XML attributes"
 		atts = ""
-		for a,v in dictionary.items():
+		for a,v in list(dictionary.items()):
 			atts += " " + a + "='" + v + "'"
 		return atts
 
@@ -1120,7 +1121,7 @@ class Raptor(object):
 			try:
 				self.out.write(raptor_timing.Timing.discovery_string(object_type = object_type,
 						count = count))
-			except Exception, exception:
+			except Exception as exception:
 				self.Error(exception.Text, function = "InfoDiscoveryTime")
 
 	def InfoStartTime(self, object_type, task, key):
@@ -1128,7 +1129,7 @@ class Raptor(object):
 			try:
 				self.out.write(raptor_timing.Timing.start_string(object_type = object_type,
 						task = task, key = key))
-			except Exception, exception:
+			except Exception as exception:
 				self.Error(exception.Text, function = "InfoStartTime")
 
 	def InfoEndTime(self, object_type, task, key):
@@ -1136,7 +1137,7 @@ class Raptor(object):
 			try:
 				self.out.write(raptor_timing.Timing.end_string(object_type = object_type,
 						task = task, key = key))
-			except Exception, exception:
+			except Exception as exception:
 				self.Error(exception.Text, function = "InfoEndTime")
 
 	def Debug(self, format, *extras, **attributes):
@@ -1242,16 +1243,16 @@ class Raptor(object):
 		import raptor_api
 		api = raptor_api.Context(self)
 		
-		print "<sbs version='%s'>" % raptor_version.numericversion()
+		print("<sbs version='%s'>" % raptor_version.numericversion())
 		
 		for q in self.queries:
 			try:
-				print api.stringquery(q)
+				print(api.stringquery(q))
 				
-			except Exception, e:
+			except Exception as e:
 				self.Error("exception '%s' with query '%s'", str(e), q)
 		
-		print "</sbs>"	
+		print("</sbs>")	
 		return self.errorCode
 	
 	def Build(self):
@@ -1307,7 +1308,7 @@ class Raptor(object):
 			if not self.maker:
 				try:
 					self.maker = raptor_make.MakeEngine(self, self.makeEngine)
-				except raptor_make.BadMakeEngineException,e:
+				except raptor_make.BadMakeEngineException as e:
 					self.Error("Unable to use make engine: %s " % str(e))
 					
 
@@ -1328,7 +1329,7 @@ class Raptor(object):
 					# create specs for a specific group of components
 					l.realise(self)
 
-		except BuildCannotProgressException,b:
+		except BuildCannotProgressException as b:
 			if str(b) != "":
 				self.Info(str(b))
 

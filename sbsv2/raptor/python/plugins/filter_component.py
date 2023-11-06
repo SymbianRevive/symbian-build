@@ -48,7 +48,7 @@ class FilterComp(filter_interface.FilterSAX):
 	
 	def printElementStart(self, name, attributes):
 		sys.stdout.write("<" + name)
-		for att,val in attributes.items():
+		for att,val in list(attributes.items()):
 			sys.stdout.write(" " + att + "='" + val + "'")
 		sys.stdout.write(">")
 		
@@ -79,18 +79,18 @@ class FilterComp(filter_interface.FilterSAX):
 		
 		if self.nesting == 0:
 			self.inside = False
-			print
+			print()
 	
 	def endDocument(self):
 		pass
 	
 	def error(self, exception):
-		print filter_interface.Filter.formatError("FilterComp:" + str(exception))
+		print(filter_interface.Filter.formatError("FilterComp:" + str(exception)))
 		
 	def fatalError(self, exception):
-		print filter_interface.Filter.formatError("FilterComp:" + str(exception))
+		print(filter_interface.Filter.formatError("FilterComp:" + str(exception)))
 		
 	def warning(self, exception):
-		print filter_interface.Filter.formatWarning("FilterComp:" + str(exception))
+		print(filter_interface.Filter.formatWarning("FilterComp:" + str(exception)))
 	
 # the end

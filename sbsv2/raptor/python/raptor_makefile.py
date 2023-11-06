@@ -55,15 +55,15 @@ class Makefile(object):
 
 	def open(self):
 		if self.dead:
-			raise Exception, "Attempt to reopen completed makefile %s " % (self.filename)
+			raise Exception("Attempt to reopen completed makefile %s " % (self.filename))
 
 		if self.file is None:
 			directory = self.filename.Dir()
 			if not (str(directory) == "" or directory.Exists()):
 				try:
 					os.makedirs(directory.GetLocalString())
-				except Exception,e:
-					raise Exception, "Cannot make directory '%s' for file '%s' in '%s': %s " % (str(directory),str(self.filename),str(self.directory),str(e))
+				except Exception as e:
+					raise Exception("Cannot make directory '%s' for file '%s' in '%s': %s " % (str(directory),str(self.filename),str(self.directory),str(e)))
 
 			self.file = open(str(self.filename),"w+")
 			

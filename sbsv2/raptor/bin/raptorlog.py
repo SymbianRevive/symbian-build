@@ -13,13 +13,14 @@
 #
 # Description: 
 #
-
+"""
 	Raptor log parsing utilities.
 
 	Line-by-line based log reporting.
 """
 
 import re
+from functools import cmp_to_key
 
 
 class LogItem(object):
@@ -48,8 +49,8 @@ class LogItem(object):
 
 		xml += ">\n"
 
-		index = self.keep.keys()
-		index.sort(cmp=lambda y,x: self.keep[x] - self.keep[y])
+		index = list(self.keep.keys())
+		index.sort(key=cmp_to_key(lambda y,x: self.keep[x] - self.keep[y]))
 		for i in index:
 			xml += "<match count='" + str(self.keep[i]) +"'><![CDATA[\n" + i + "]]></match>\n"
 		
@@ -66,6 +67,6 @@ class LogItem(object):
 			if self.subpattern != None:
 				self.subpatterncount += len(self.subpattern.findall(line))
 				for i in self.subpattern.findall(line):
-					print i
+					print(i)
 			self.count += 1
 

@@ -390,7 +390,7 @@ include %s
 					self.WriteConfiguredSpec(config_makefileset, s, c, False)
 
 			makefileset.close()
-		except Exception,e:
+		except Exception as e:
 			tb = traceback.format_exc()
 			if not self.raptor.debugOutput:
 				tb=""
@@ -417,7 +417,7 @@ include %s
 			try:
 				iface = spec.GetInterface(self.raptor.cache)
 
-			except raptor_data.MissingInterfaceError, e:	
+			except raptor_data.MissingInterfaceError as e:	
 				self.raptor.Error("No interface for '%s'", spec.name)
 				return
 
@@ -668,7 +668,7 @@ include %s
 					try:
 						for l in XMLEscapeLog(AnnoFileParseOutput(annofilename)):
 							self.raptor.out.write(l)
-					except Exception,e:
+					except Exception as e:
 						self.raptor.Error("Couldn't complete stdout output from annofile %s for %s - '%s'", annofilename, command, str(e))
 
 
@@ -680,7 +680,7 @@ include %s
 					for line in e:
 						self.raptor.out.write(escape(line))
 					e.close()
-				except Exception,e:
+				except Exception as e:
 					self.raptor.Error("Couldn't complete stderr output for %s - '%s'", command, str(e))
 				# Report end-time of the build
 				self.raptor.InfoEndTime(object_type = "makefile",
@@ -690,7 +690,7 @@ include %s
 					self.Tidy()
 					return False
 
-			except Exception,e:
+			except Exception as e:
 				self.raptor.Error("Exception '%s' during '%s'", str(e), command)
 				self.Tidy()
 				# Still report end-time of the build

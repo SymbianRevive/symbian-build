@@ -29,6 +29,7 @@ import re
 from  optparse import OptionParser
 import annofile
 import datetime
+from functools import reduce
 
 
 class UndeterminedBuildID(Exception):
@@ -224,7 +225,7 @@ class RaptorBuild(HeliumLog):
 			self.annofiles.append(RaptorAnnofile(p[0], buildid, p[1]))
 
 	def __str__(self):
-		recipes = [" <metric name='raptor_%s_recipes' value='%d'/>\n" % x for x in self.recipes.items()]
+		recipes = [" <metric name='raptor_%s_recipes' value='%d'/>\n" % x for x in list(self.recipes.items())]
 		
 		return 	"<raptorbuild logfile='%s'>\n" % os.path.split(self.logfilename)[-1] + \
 			" <metric name='raptor_version'  value='%s' />\n" % (self.version) + \
@@ -266,7 +267,7 @@ class Helium9Build(HeliumBuild):
 		for r in ["dfs_build_ncp_variants.build_input_compile.log","dfs_build_sf_variants.build_input_compile.log","dfs_build_winscw_dfs_build_winscw_input_compile.log", "ncp_symbian_build_symtb_input_compile.log"]:
 			try:
 				self.raptorbuilds.append(RaptorBuild(logpath, buildid, r, options))
-			except LogfileNotFound, ex:
+			except LogfileNotFound as ex:
 				sys.stderr.write(str(ex))
 
 	def __str__(self):
@@ -289,12 +290,12 @@ class HeliumLogDir(object):
 		logs = MainAntLog.findall(self.logpath)
 		self.builds = []
 		
-		for b in logs.keys():
+		for b in list(logs.keys()):
 			try:
 				sys.stderr.write("  Found build with id %s\n" % b)
 				build = Helium9Build(self.logpath, b, options)
 				self.builds.append(build)
-			except IOError,e:
+			except IOError as e:
 				sys.stderr.write("  Buildid %s found but does not refer to a complete build\n" % b)
 				sys.stderr.write(str(e)+"\n")
 

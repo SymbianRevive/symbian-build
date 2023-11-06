@@ -31,7 +31,7 @@ def unlinkall(files):
 			os.unlink(f)
 			#print "testsetup: Erased %s" % f	
 			continue
-		except OSError,e:
+		except OSError as e:
 			#print "testsetup: No need to erase %s" % f
 			continue
 
@@ -40,14 +40,14 @@ def checkall(files):
 	status = True
 	for f in files:
 		if not os.path.isfile(f):
-			print "Missing: %s" % f
+			print("Missing: %s" % f)
 			status = False
 	return status 
 
 class TestMakefile(unittest.TestCase):
 	"Very basic testing of makefile creation class"
 	def setUp(self):
-		print "Setup"
+		print("Setup")
 		self.assertTrue(os.path.isdir(epocroot))
 		unlinkall( [ topdir + "Makefile1",
 			topdir + "Makefile2.testinterface1",
@@ -86,7 +86,7 @@ class TestMakefile(unittest.TestCase):
 
 class TestMakefileSet(unittest.TestCase):
 	def setUp(self):
-		print "Setup TestMakefileSet"
+		print("Setup TestMakefileSet")
 		unlinkall( [ topdir + "Makefile4",
 		  topdir + "Makefile4.bitmap",
 		  topdir + "Makefile4.default",

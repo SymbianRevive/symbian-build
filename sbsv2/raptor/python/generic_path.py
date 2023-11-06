@@ -319,7 +319,7 @@ def CurrentDir():
 
 def NormalisePathList(aList):
 	"""Convert a list of strings into a list of Path objects"""
-	return map(lambda x: Path(x), aList)
+	return [Path(x) for x in aList]
 
 def Where(afile):
 	"""Return the location of a file 'afile' in the system path.

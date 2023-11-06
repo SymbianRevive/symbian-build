@@ -34,7 +34,7 @@ def convertDos2Unix(inputString):
 #------------------------------------------------------------------------------
 def validateInput(argv):
     if not(len(argv) > 1):
-       print "Error No parameter given: fileName to convert."
+       print("Error No parameter given: fileName to convert.")
        sys.exit();
 
 #------------------------------------------------------------------------------

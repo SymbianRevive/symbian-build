@@ -157,7 +157,7 @@ class FilterList(filter_interface.Filter):
 		for filter in self.out:
 			try:
 				filter.write(text)
-			except Exception,e:
+			except Exception as e:
 				traceback.print_exc(file=sys.stdout)
 				sys.stdout.write("Called from: \n")
 				traceback.print_stack(file=sys.stdout)

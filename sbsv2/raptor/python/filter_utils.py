@@ -144,7 +144,7 @@ class Recipe(object):
 		return self.__complete
 
 	def __storeDetail(self, aMatchObject):
-		for key in aMatchObject.groupdict().keys():
+		for key in list(aMatchObject.groupdict().keys()):
 			value = aMatchObject.group(key)
 			if value:
 				if (key in [Recipe.code,Recipe.attempts]):
@@ -188,7 +188,7 @@ class Recipe(object):
 	def getDetail(self, aItem):
 		"""Retrieve attribute detail from recipe tags.
 		Class data flags provide known items e.g. getDetail(Recipe.source)"""
-		if self.__detail.has_key(aItem):
+		if aItem in self.__detail:
 			return self.__detail[aItem]
 		
 	def getCalls(self):

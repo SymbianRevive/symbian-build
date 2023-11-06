@@ -36,6 +36,7 @@ from mmpparser import *
 
 import time
 import generic_path
+from functools import reduce
 
 
 PiggyBackedBuildPlatforms = {'ARMV5':['GCCXML']}
@@ -61,7 +62,8 @@ def getVariantCfgDetail(aEPOCROOT, aVariantCfgFile):
 
 	try:
 		variantCfgFile = open(str(aVariantCfgFile))
-	except IOError, (number, message):
+	except IOError as xxx_todo_changeme:
+		(number, message) = xxx_todo_changeme.args
 		raise MetaDataError("Could not read variant configuration file "+str(aVariantCfgFile)+" ("+message+")")
 
 	for line in variantCfgFile.readlines():
@@ -85,7 +87,7 @@ def getVariantCfgDetail(aEPOCROOT, aVariantCfgFile):
 
 	variantCfgFile.close()
 
-	if not variantCfgDetails.has_key('VARIANT_HRH'):
+	if 'VARIANT_HRH' not in variantCfgDetails:
 		raise MetaDataError("No variant file specified in "+str(aVariantCfgFile))
 	if not variantHrh.isFile():
 		raise MetaDataError("Variant file "+str(variantHrh)+" does not exist")
@@ -143,7 +145,8 @@ def getOsVerFromBuildInfoTxt(aPathToBuildInfoTxt):
 	# it should exist at this point.
 	try:
 		buildInfoTxt = open(pathToBuildInfoTxt)
-	except IOError, (number, message):
+	except IOError as xxx_todo_changeme1:
+		(number, message) = xxx_todo_changeme1.args
 		raise MetaDataError("Could not read buildinfo.txt file at" + pathToBuildInfoTxt + ": (" + message + ")")
 
 	# Example buildinfo.txt contents:
@@ -348,7 +351,7 @@ class PreProcessor(raptor_utilities.ExternalTool):
 			if actualErr:
 				raise MetaDataError("Errors in %s" % str(sourcefilename))
 
-		except Exception,e:
+		except Exception as e:
 			raise MetaDataError("Preprocessor exception: '%s' : in command : '%s'" % (str(e), commandline))
 
 		return 0	# all OK
@@ -458,7 +461,7 @@ class MetaDataFile(object):
 			self.depfiles.append((adepfilename, metatarget))
 			try:
 				os.makedirs(os.path.dirname(adepfilename))
-			except Exception, e:
+			except Exception as e:
 				self.log.Debug("Couldn't make bldinf outputpath for dependency generation")
 
 		if not key in self.__PreProcessedContent:
@@ -748,7 +751,7 @@ class Export(object):
 
 			if isinstance(dest_list, list):
 				# Process each file in the list
-				dest_list = map(process_dest, dest_list)
+				dest_list = list(map(process_dest, dest_list))
 			else:
 				# Process the single destination
 				dest_list = process_dest(dest_list)
@@ -899,13 +902,13 @@ class Extension(object):
 			metaFile = None
 			try:
 				metaFile = open(metaFilename, "r")
-			except IOError, e:
+			except IOError as e:
 				self.__warn("Extension: %s - cannot open Meta file: %s" % (self.__RawMakefile, metaFilename))
 
 			if metaFile:
 				for line in metaFile.readlines():
 					defaultOptionMatch = re.search(r'^OPTION\s+(?P<VARIABLE>\S+)\s+(?P<VALUE>\S+.*)$',line, re.I)
-					if defaultOptionMatch and defaultOptionMatch.group('VARIABLE').upper() not in self.__Options.keys():
+					if defaultOptionMatch and defaultOptionMatch.group('VARIABLE').upper() not in list(self.__Options.keys()):
 						self.__Options[defaultOptionMatch.group('VARIABLE').upper()] = defaultOptionMatch.group('VALUE')
 
 				metaFile.close()
@@ -1002,7 +1005,7 @@ class BldInfFile(MetaDataFile):
 				mmpFileName = m.groupdict()['name']
 				testmmpoption = "auto" # Setup tests to be automatic by default
 				tokens = m.groupdict()
-				for key,item in tokens.iteritems():
+				for key,item in tokens.items():
 					if key=="manual" and item=="manual":
 						testmmpoption = "manual"
 					elif key=="support" and item=="support":
@@ -1022,7 +1025,7 @@ class BldInfFile(MetaDataFile):
 					mmpFileName = bldInfDir.Append(mmpFileName)
 					mmpfe = MMPFileEntry(mmpFileName, testmmpoption, buildasarm)
 					mmpFileList.append(mmpfe)
-				except ValueError, e:
+				except ValueError as e:
 					self.log.Error("invalid .mmp file name: %s" % str(e))
 
 				m = None
@@ -1097,7 +1100,7 @@ class BldInfFile(MetaDataFile):
 
 			try:
 				exportList.append(Export(exportLine.getFilename(), exportLine, aType))
-			except ValueError,e:
+			except ValueError as e:
 				self.log.Error(str(e))
 
 		return exportList
@@ -1303,7 +1306,7 @@ class MMPRaptorBackend(MMPBackend):
 
 		# "ALL" capability calculated based on the total capabilities currently supported
 		allCapabilities = 0
-		for supportedCapability in MMPRaptorBackend.supportedCapabilities.keys():
+		for supportedCapability in list(MMPRaptorBackend.supportedCapabilities.keys()):
 			allCapabilities = allCapabilities | MMPRaptorBackend.supportedCapabilities[supportedCapability]
 		MMPRaptorBackend.supportedCapabilities['all'] = allCapabilities
 
@@ -1553,14 +1556,14 @@ class MMPRaptorBackend(MMPBackend):
 			# Standardise on sending hex numbers to the FLMS.
 
 			if toks[1].lower().startswith('0x'):
-				min = long(toks[1],16)
+				min = int(toks[1],16)
 			else:
-				min = long(toks[1],10)
+				min = int(toks[1],10)
 
 			if toks[2].lower().startswith('0x'):
-				max = long(toks[2],16)
+				max = int(toks[2],16)
 			else:
-				max = long(toks[2],10)
+				max = int(toks[2],10)
 
 			self.BuildVariant.AddOperation(raptor_data.Set(varname+"MIN", "%x" % min))
 			self.__debug("Set "+varname+"MIN  OPTION to '%x' (hex)" % min )
@@ -1578,9 +1581,9 @@ class MMPRaptorBackend(MMPBackend):
 
 		elif varname=='EPOCSTACKSIZE':
 			if toks[1].lower().startswith('0x'):
-				stack = long(toks[1],16)
+				stack = int(toks[1],16)
 			else:
-				stack = long(toks[1],10)
+				stack = int(toks[1],10)
 			self.BuildVariant.AddOperation(raptor_data.Set(varname, "%x" % stack))
 			self.__debug("Set "+varname+"  OPTION to '%x' (hex)" % stack  )
 		elif varname=='EPOCPROCESSPRIORITY':
@@ -1589,8 +1592,8 @@ class MMPRaptorBackend(MMPBackend):
 			prio = toks[1].lower()
 
 			# NOTE: Original validation here didn't actually work.  This has been corrected to provide an error, but probably needs re-examination.
-			if not MMPRaptorBackend.epoc32priorities.has_key(prio):
-				self.__Raptor.Error("Priority setting '%s' is not a valid priority - should be one of %s.", prio, MMPRaptorBackend.epoc32priorities.values())
+			if prio not in MMPRaptorBackend.epoc32priorities:
+				self.__Raptor.Error("Priority setting '%s' is not a valid priority - should be one of %s.", prio, list(MMPRaptorBackend.epoc32priorities.values()))
 			else:
 				self.__debug("Set "+toks[0]+" to " +  MMPRaptorBackend.epoc32priorities[prio])
 				self.BuildVariant.AddOperation(raptor_data.Set(varname,MMPRaptorBackend.epoc32priorities[prio]))
@@ -2248,7 +2251,7 @@ class MMPRaptorBackend(MMPBackend):
 					resolvedDefFile = str(foundfile)
 				else:
 					resolvedDefFile=""
-			except Exception,e:
+			except Exception as e:
 				self.__debug("While Searching for an IMPLIED  DEFFILE: %s: %s" % (str(e),str(findpath)) )
 				resolvedDefFile=""
 		else:
@@ -2258,7 +2261,7 @@ class MMPRaptorBackend(MMPBackend):
 					resolvedDefFile = str(findpath.FindCaseless())
 					if resolvedDefFile=="None":
 						raise IOError("file not found")
-				except Exception,e:
+				except Exception as e:
 					self.__warn("While Searching for a SPECIFIED DEFFILE: %s: %s" % (str(e),str(findpath)) )
 					resolvedDefFile=""
 			else:
@@ -2313,7 +2316,7 @@ class MMPRaptorBackend(MMPBackend):
 				invert = 0xffffffff
 			capability = capability[1:]
 
-			if MMPRaptorBackend.supportedCapabilities.has_key(capability):
+			if capability in MMPRaptorBackend.supportedCapabilities:
 				capabilityFlag1 = capabilityFlag1 ^ invert
 				capabilityFlag1 = capabilityFlag1 | MMPRaptorBackend.supportedCapabilities[capability]
 				capabilityFlag1 = capabilityFlag1 ^ invert
@@ -2433,7 +2436,7 @@ class MMPRaptorBackend(MMPBackend):
 
 		# Not having a default .def file directory is a pretty strong indicator that
 		# .def files aren't supported for the particular platform
-		if PlatformDefaultDefFileDir.has_key(platform):
+		if platform in PlatformDefaultDefFileDir:
 			
 			# Some configurations support both primary and secondary default .def file locations - we need to take this
 			# into account in resolving .def file locations
@@ -2746,7 +2749,7 @@ class MetaReader(object):
 				try:
 					self.AddComponentNodes(c, exportNodes, platformNodes)
 
-				except MetaDataError, e:
+				except MetaDataError as e:
 					self.__Raptor.Error(e.Text, bldinf=str(c.bldinf_filename))
 					if not self.__Raptor.keepGoing:
 						return []
@@ -2790,7 +2793,7 @@ class MetaReader(object):
 					try:
 						self.ProcessExports(s, exportPlatform)
 
-					except MetaDataError, e:
+					except MetaDataError as e:
 						self.__Raptor.Error("%s",e.Text)
 						if not self.__Raptor.keepGoing:
 							return []
@@ -2826,7 +2829,7 @@ class MetaReader(object):
 					self.ProcessTEMs(s, buildPlatform)
 					self.ProcessMMPs(s, buildPlatform)
 
-				except MetaDataError, e:
+				except MetaDataError as e:
 					self.__Raptor.Error(e.Text)
 					if not self.__Raptor.keepGoing:
 						return []
@@ -2972,7 +2975,7 @@ class MetaReader(object):
 							if members != None:
 								exportwhatlog += members
 							exportwhatlog += "</archive>\n"
-					except MetaDataError, e:
+					except MetaDataError as e:
 						if self.__Raptor.keepGoing:
 							self.__Raptor.Error("%s",e.Text, bldinf=bldinf_filename)
 						else:
@@ -3008,7 +3011,7 @@ class MetaReader(object):
 				sourceStat = os.stat(source_str)
 				sourceMTime = sourceStat[stat.ST_MTIME]
 				destMTime = os.stat(dest_str)[stat.ST_MTIME]
-			except OSError, e:
+			except OSError as e:
 				if sourceMTime == 0:
 					message = "Source of export does not exist:  " + str(source)
 					if not self.__Raptor.keepGoing:
@@ -3028,7 +3031,7 @@ class MetaReader(object):
 				self.__Raptor.Info("Up-to-date: %s", dest_str)
 
 
-		except Exception,e:
+		except Exception as e:
 			message = "Could not export " + source_str + " to " + dest_str + " : " + str(e)
 			if not self.__Raptor.keepGoing:
 				raise MetaDataError(message)
@@ -3076,7 +3079,7 @@ class MetaReader(object):
 			try:
 				sourceMTime = os.stat(source)[stat.ST_MTIME]
 				destMTime = os.stat(markerfilename)[stat.ST_MTIME]
-			except OSError, e:
+			except OSError as e:
 				if sourceMTime == 0:
 					raise MetaDataError("Source zip for export does not exist:  " + source)
 			if destMTime != 0 and destMTime >= sourceMTime:
@@ -3105,12 +3108,12 @@ class MetaReader(object):
 				if file.endswith('/'):
 					try:
 						os.makedirs(expfilename)
-					except OSError, e:
+					except OSError as e:
 						pass # errors to do with "already exists" are not interesting.
 				else:
 					try:
 						os.makedirs(os.path.split(expfilename)[0])
-					except OSError, e:
+					except OSError as e:
 						pass # errors to do with "already exists" are not interesting.
 
 					try:
@@ -3121,7 +3124,7 @@ class MetaReader(object):
 						expfile.close()
 						
 						# Resurrect any file execution permissions present in the archived version
-						if (exportzip.getinfo(file).external_attr >> 16L) & 0100:
+						if (exportzip.getinfo(file).external_attr >> 16) & 0o100:
 							os.chmod(expfilename, stat.S_IMODE(os.stat(expfilename).st_mode) | stat.S_IXUSR | stat.S_IXGRP | stat.S_IXOTH)						
 						
 						# Each file keeps its modified time the same as what it was before unzipping
@@ -3134,7 +3137,7 @@ class MetaReader(object):
 
 						filecount += 1
 						exportwhatlog+="<member>" + escape(expfilename) + "</member>\n"
-					except IOError, e:
+					except IOError as e:
 						message = "Could not unzip %s to %s: file %s: %s" %(source, destination, expfilename, str(e))
 						if not self.__Raptor.keepGoing:
 							raise MetaDataError(message)
@@ -3147,7 +3150,7 @@ class MetaReader(object):
 			self.__Raptor.PrintXML("<zipmarker>" + markerfilename +	"</zipmarker>\n")
 			self.__Raptor.PrintXML("</clean>\n")
 
-		except IOError, e:
+		except IOError as e:
 			self.__Raptor.Warn("Problem while unzipping export %s to %s: %s",source,destination,str(e))
 
 		self.__Raptor.Info("Unzipped %d files from %s to %s", filecount, source, destination)
@@ -3211,7 +3214,7 @@ class MetaReader(object):
 			# Path separators need not be parameterised anymore
 			# as bash is the standard shell
 			standardVariables = extension.getStandardVariables()
-			for standardVariable in standardVariables.keys():
+			for standardVariable in list(standardVariables.keys()):
 				self.__Raptor.Debug("Set %s=%s", standardVariable, standardVariables[standardVariable])
 				value = standardVariables[standardVariable].replace('$(', '$$$$(')
 				value = value.replace('$/', '/').replace('$;', ':')
@@ -3295,7 +3298,7 @@ class MetaReader(object):
 			parseresult = None
 			try:
 				parseresult = parser.mmp.parseString(content)
-			except ParseException,e:
+			except ParseException as e:
 				self.__Raptor.Debug(e) # basically ignore parse exceptions
 
 			if (not parseresult) or (parseresult[0] != 'MMP'):
@@ -3447,7 +3450,7 @@ class MetaReader(object):
 			var.AddOperation(raptor_data.Set("DIRECTORY",g.getMakeDirectory()))
 			var.AddOperation(raptor_data.Set("CFG","$(VARIANTTYPE)"))
 			standardVariables = g.getStandardVariables()
-			for standardVariable in standardVariables.keys():
+			for standardVariable in list(standardVariables.keys()):
 				self.__Raptor.Debug("Set %s=%s", standardVariable, standardVariables[standardVariable])
 				value = standardVariables[standardVariable].replace('$(', '$$$$(')
 				value = value.replace('$/', '/').replace('$;', ':')
@@ -3480,7 +3483,7 @@ class MetaReader(object):
 			var.AddOperation(raptor_data.Set("CFG","$(VARIANTTYPE)"))
 			var.AddOperation(raptor_data.Set("USENMAKE","1"))
 			standardVariables = m.getStandardVariables()
-			for standardVariable in standardVariables.keys():
+			for standardVariable in list(standardVariables.keys()):
 				self.__Raptor.Debug("Set %s=%s", standardVariable, standardVariables[standardVariable])
 				value = standardVariables[standardVariable].replace('$(', '$$$$(')
 				value = value.replace('$/', '/').replace('$;', ':')

@@ -93,7 +93,7 @@ class FilterClean(filter_interface.Filter):
 					dirs.add(directory)
 					
 			self.tmp.close()	# this also deletes the temporary file
-		except Exception,e:
+		except Exception as e:
 			sys.stderr.write("sbs: problem reading temporary file for FilterClean: %s\n" % str(e))
 			self.ok = False
 		
@@ -116,7 +116,7 @@ class FilterClean(filter_interface.Filter):
 	def removeFile(self, path):
 		try:
 			os.unlink(path)
-		except Exception, e:
+		except Exception as e:
 			sys.stderr.write("sbs: could not remove " + path + "\n")
 			sys.stderr.write(str(e) + "\n")
 		

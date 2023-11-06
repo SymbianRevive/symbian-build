@@ -25,19 +25,19 @@ import time
 def genstats(file, logitems, logdate):
 	bytecount=0.0
 	lastbytecount=0.0
-	print """<?xml version="1.0" encoding="UTF-8"?>
+	print("""<?xml version="1.0" encoding="UTF-8"?>
        <stats xmlns="http://symbian.com/2007/xml/build/raptor/stats"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xsi:schemaLocation="http://symbian.com/2007/xml/build/raptor/stats http://symbian.com/2007/xml/build/raptor/stats1_0.xsd">
-	"""
+	""")
 
 	if S_ISREG(os.stat(file.name)[ST_MODE]) > 0:
 	 	totalbytes = os.stat(file.name)[ST_SIZE]+0.0
 	else:
 		totalbytes=0.0
 
-	print "<build log='%s' size='%9.0f' date='%s'>" % (file.name,totalbytes,logdate)
-	for l in file.xreadlines():
+	print("<build log='%s' size='%9.0f' date='%s'>" % (file.name,totalbytes,logdate))
+	for l in file:
 		if totalbytes > 0.0:
 			bytecount += len(l)
 			if (bytecount-lastbytecount)/totalbytes > 0.05:
@@ -48,10 +48,10 @@ def genstats(file, logitems, logdate):
 			i.match(l)
 
 	for i in logitems:
-		print i.xml()+"\n"
+		print(i.xml()+"\n")
 		
-	print "</build>"
-	print "</stats>"
+	print("</build>")
+	print("</stats>")
 
 
 

@@ -37,7 +37,7 @@ try:
 	for l in XMLEscapeLog(AnnoFileParseOutput(annofile)):
 		sys.stdout.write(l)
 
-except Exception,e:
+except Exception as e:
 	sys.stderr.write("error: " + str(e) + "\n")
 	retcode = 1
 sys.stdout.write("</build>\n")

@@ -47,7 +47,7 @@ def checkconvert(dirname, filename):
 	(totext, subcount) = re.subn(includeslash_re, fixincludeslash, fromtext)
 
 	if subcount != 0:
-		print '"%s", %d backslash includes\n' % (fromfilename, subcount)
+		print('"%s", %d backslash includes\n' % (fromfilename, subcount))
 		tofile = open( tofilename,"w")
 		tofile.write(totext)
 		tofile.close()
@@ -74,8 +74,8 @@ parser = OptionParser(prog = "fixmeta",
 (options, args) = parser.parse_args()
 
 if len(args) == 0:
-	print "Need at least one argument: a path to the source which is to be fixed."
+	print("Need at least one argument: a path to the source which is to be fixed.")
 	sys.exit(-1)
 
-print "Walking\n"
+print("Walking\n")
 os.path.walk(args[0],visit,None)

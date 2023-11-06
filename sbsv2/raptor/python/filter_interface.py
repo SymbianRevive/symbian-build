@@ -88,7 +88,7 @@ class FilterSAX(Filter, xml.sax.handler.ContentHandler, xml.sax.handler.ErrorHan
 			self.parser.setContentHandler(self)
 			self.parser.setErrorHandler(self)
 			
-		except Exception, ex:
+		except Exception as ex:
 			sys.stderr.write(self.formatError(str(ex)))
 			self.ok = False
 		
@@ -99,7 +99,7 @@ class FilterSAX(Filter, xml.sax.handler.ContentHandler, xml.sax.handler.ErrorHan
 		"process some log text"
 		try:
 			self.parser.feed(text)
-		except Exception, ex:
+		except Exception as ex:
 			sys.stderr.write(self.formatError(str(ex)))
 			self.ok = False
 				
@@ -110,7 +110,7 @@ class FilterSAX(Filter, xml.sax.handler.ContentHandler, xml.sax.handler.ErrorHan
 		"finish off"
 		try:
 			self.parser.close()
-		except Exception, ex:
+		except Exception as ex:
 			sys.stderr.write(self.formatError(str(ex)))
 			self.ok = False
 			

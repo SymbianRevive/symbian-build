@@ -35,9 +35,9 @@ class Annofile(xml.sax.handler.ContentHandler):
 		parser.setContentHandler(self)
 		try:
 			parser.parse(open(name))
-		except xml.sax._exceptions.SAXParseException, e:
-			print "Error:\n" + str(e)
-			print "Ignore that file, parsing continues..."
+		except xml.sax._exceptions.SAXParseException as e:
+			print("Error:\n" + str(e))
+			print("Ignore that file, parsing continues...")
 
 	
 	def startElement(self, name, attrs):
@@ -201,9 +201,9 @@ if __name__ == '__main__':
 		parser.setContentHandler(Annofile(afilename))
 		try:
 			parser.parse(open(afilename))
-		except xml.sax._exceptions.SAXParseException, e:
-			print "Error:\n" + str(e)
-			print "Ignore that file, parsing continues..."
+		except xml.sax._exceptions.SAXParseException as e:
+			print("Error:\n" + str(e))
+			print("Ignore that file, parsing continues...")
 			
 		#num += 1 # <debug> only process num annofiles
 		#if num == 3:

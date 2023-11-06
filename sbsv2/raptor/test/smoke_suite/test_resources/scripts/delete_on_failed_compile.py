@@ -29,7 +29,7 @@ res = objectfile_re.match(" ".join(sys.argv[1:]))
 
 if res:
 	objectpath = res.group(1)
-	print "Found object file %s" % objectpath
+	print("Found object file %s" % objectpath)
 	objectdirectory = os.path.dirname(objectpath)
 	
 	# Make the directory if it doesn't exist
@@ -37,7 +37,7 @@ if res:
 		try:
 			os.makedirs(objectdirectory)
 		except:
-			print "Not making directory %s" % objectdirectory
+			print("Not making directory %s" % objectdirectory)
 	
 	# Try to write something to the .o file
 	try:
@@ -45,11 +45,11 @@ if res:
 		fh.write("Fake object file for delete on failed compile test\n")
 		fh.close()
 	except Exception as error:
-		print "Failed to created object file %s; error was: %s" % (objectfile, str(error))
+		print("Failed to created object file %s; error was: %s" % (objectfile, str(error)))
 else:
-	print "Failed to determine object filename. Commandline used was: %s" % " ".join(sys.argv[1:])
+	print("Failed to determine object filename. Commandline used was: %s" % " ".join(sys.argv[1:]))
 
 # Always exit with an error
-print "Exiting with non-zero exit code." 
+print("Exiting with non-zero exit code.") 
 sys.exit(1)
 

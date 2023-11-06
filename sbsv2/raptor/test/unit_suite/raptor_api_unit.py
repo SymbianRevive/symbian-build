@@ -36,20 +36,20 @@ class TestRaptorApi(unittest.TestCase):
 		api = raptor_api.Context(r)
 	
 		aliases = api.getaliases() # type == ""
-		self.failUnlessEqual(len(aliases), 4)
-		self.failUnlessEqual(set(["alias_A","alias_B","s1","s2"]),
+		self.assertEqual(len(aliases), 4)
+		self.assertEqual(set(["alias_A","alias_B","s1","s2"]),
 							 set(a.name for a in aliases))
 		
 		aliaslist = [a.name for a in aliases] # verify that the list is sorted
-		self.failUnlessEqual(["alias_A","alias_B","s1","s2"], aliaslist)
+		self.assertEqual(["alias_A","alias_B","s1","s2"], aliaslist)
 		
 		aliases = api.getaliases(raptor_api.ALL) # ignore type
-		self.failUnlessEqual(len(aliases), 6)
+		self.assertEqual(len(aliases), 6)
 		
 		aliases = api.getaliases("X") # type == "X"
-		self.failUnlessEqual(len(aliases), 1)
-		self.failUnlessEqual(aliases[0].name, "alias_D")
-		self.failUnlessEqual(aliases[0].meaning, "a.b.c.d")
+		self.assertEqual(len(aliases), 1)
+		self.assertEqual(aliases[0].name, "alias_D")
+		self.assertEqual(aliases[0].meaning, "a.b.c.d")
 	
 	def testConfig(self):
 		r = raptor.Raptor()
@@ -63,55 +63,55 @@ class TestRaptorApi(unittest.TestCase):
 			path = "C:/home/raptor/foo/bar"
 			
 		config = api.getconfig("buildme")
-		self.failUnlessEqual(config.meaning, "buildme")
-		self.failUnlessEqual(config.outputpath, path)
+		self.assertEqual(config.meaning, "buildme")
+		self.assertEqual(config.outputpath, path)
 		
 		# metadata
 				
-		metadatamacros = map(lambda x: str(x.name+"="+x.value) if x.value else str(x.name), config.metadata.platmacros)
+		metadatamacros = [str(x.name+"="+x.value) if x.value else str(x.name) for x in config.metadata.platmacros]
 		metadatamacros.sort()
 		results = ['SBSV2=_____SBSV2', '__GNUC__=3']
 		results.sort()
-		self.failUnlessEqual(metadatamacros, results)
+		self.assertEqual(metadatamacros, results)
 		
-		includepaths = map(lambda x: str(x.path), config.metadata.includepaths)
+		includepaths = [str(x.path) for x in config.metadata.includepaths]
 		includepaths.sort()
 		expected_includepaths = [raptor_tests.ReplaceEnvs("$(EPOCROOT)/epoc32/include/variant"), 
 								raptor_tests.ReplaceEnvs("$(EPOCROOT)/epoc32/include"), "."]
 		expected_includepaths.sort()
-		self.failUnlessEqual(includepaths, expected_includepaths)
+		self.assertEqual(includepaths, expected_includepaths)
 		
 		preincludefile = str(config.metadata.preincludeheader.file)
-		self.failUnlessEqual(preincludefile, raptor_tests.ReplaceEnvs("$(EPOCROOT)/epoc32/include/variant/Symbian_OS.hrh"))
+		self.assertEqual(preincludefile, raptor_tests.ReplaceEnvs("$(EPOCROOT)/epoc32/include/variant/Symbian_OS.hrh"))
 		
 		# build
 		
-		sourcemacros = map(lambda x: str(x.name+"="+x.value) if x.value else str(x.name), config.build.sourcemacros)
+		sourcemacros = [str(x.name+"="+x.value) if x.value else str(x.name) for x in config.build.sourcemacros]
 		results = ['__BBB__', '__AAA__', '__DDD__=first_value', '__CCC__', '__DDD__=second_value']
-		self.failUnlessEqual(sourcemacros, results)
+		self.assertEqual(sourcemacros, results)
 		
 		compilerpreincludefile = str(config.build.compilerpreincludeheader.file)
-		self.failUnlessEqual(compilerpreincludefile, raptor_tests.ReplaceEnvs("$(EPOCROOT)/epoc32/include/preinclude.h"))
+		self.assertEqual(compilerpreincludefile, raptor_tests.ReplaceEnvs("$(EPOCROOT)/epoc32/include/preinclude.h"))
 
 		expectedtypes = ["one", "two"]
 		expectedtypes.sort()
-		types = map(lambda t:t.name, config.build.targettypes)
+		types = [t.name for t in config.build.targettypes]
 		types.sort()
-		self.failUnlessEqual(types, expectedtypes)
+		self.assertEqual(types, expectedtypes)
 
 		# general
 
 		config = api.getconfig("buildme.foo")
-		self.failUnlessEqual(config.meaning, "buildme.foo")
-		self.failUnlessEqual(config.outputpath, path)
+		self.assertEqual(config.meaning, "buildme.foo")
+		self.assertEqual(config.outputpath, path)
 		
 		config = api.getconfig("s1")
-		self.failUnlessEqual(config.meaning, "buildme.foo")
-		self.failUnlessEqual(config.outputpath, path)
+		self.assertEqual(config.meaning, "buildme.foo")
+		self.assertEqual(config.outputpath, path)
 		
 		config = api.getconfig("s2.product_A")
-		self.failUnlessEqual(config.meaning, "buildme.foo.bar.product_A")
-		self.failUnlessEqual(config.outputpath, path)
+		self.assertEqual(config.meaning, "buildme.foo.bar.product_A")
+		self.assertEqual(config.outputpath, path)
 		
 	def testProducts(self):
 		r = raptor.Raptor()
@@ -120,11 +120,11 @@ class TestRaptorApi(unittest.TestCase):
 		api = raptor_api.Context(r)
 		
 		products = api.getproducts() # type == "product"
-		self.failUnlessEqual(len(products), 2)
-		self.failUnlessEqual(set(["product_A","product_C"]),
+		self.assertEqual(len(products), 2)
+		self.assertEqual(set(["product_A","product_C"]),
 							 set(p.name for p in products))
 		productlist = [p.name for p in products] # verify that the list is sorted
-		self.failUnlessEqual(["product_A","product_C"], productlist)
+		self.assertEqual(["product_A","product_C"], productlist)
 		
 # run all the tests
 

@@ -14,4 +14,4 @@
 # Description: 
 #
 
-print "something toolcheck6 would print out to match tool check result"
+print("something toolcheck6 would print out to match tool check result")

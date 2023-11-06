@@ -39,7 +39,7 @@ class FilterBroken(filter_interface.FilterSAX):
 		
 	def fatalError(self, exception):
 		if self.first:
-			print "fatal error:", str(exception)
+			print("fatal error:", str(exception))
 			self.first = False
 		
 	def warning(self, exception):

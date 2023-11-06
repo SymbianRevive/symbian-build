@@ -163,7 +163,7 @@ class VariantContainer(Model):
 
 
 	def AddVariant(self, variant):
-		if type(variant) is types.StringTypes:
+		if type(variant) is (str,):
 			variant = VariantRef(ref = variant)
 
 
@@ -450,14 +450,14 @@ class Filter(Specification):
 
 	def SetVariableCondition(self, variableName, variableValues):
 		self.variableNames = set([variableName])
-		if type(variableValues) == types.ListType:
+		if type(variableValues) == list:
 			self.variableValues[variableName] = set(variableValues)
 		else:
 			self.variableValues[variableName] = set([variableValues])
 
 	def AddVariableCondition(self, variableName, variableValues):
 		self.variableNames.add(variableName)
-		if type(variableValues) == types.ListType:
+		if type(variableValues) == list:
 			self.variableValues[variableName] = set(variableValues)
 		else:
 			self.variableValues[variableName] = set([variableValues])
@@ -736,7 +736,7 @@ class Env(Set):
 					try:
 						path = generic_path.Path(value)
 						value = str(path.Absolute())
-					except ValueError,e:
+					except ValueError as e:
 						raise BadToolValue("the environment variable %s is incorrect: %s" % (self.name, str(e)))
 					
 					if self.type in ["tool", "toolchainpath"]:
@@ -1060,7 +1060,7 @@ class Group(Model, Config):
 				obj.ClearModifiers()
 				try:
 					refMods = r.GetModifiers(cache)
-				except BadReferenceError,e:
+				except BadReferenceError as e:
 					missing_variants.append(str(e))
 				else:
 					for m in refMods + self.modifiers:
@@ -1154,11 +1154,11 @@ def GetBuildUnits(configNames, cache, logger):
 					obj = x.Resolve(cache)
 					modObj = copy.copy(obj)
 					modObj.modifiers = x.GetModifiers(cache)
-				except BadReferenceError,e:
+				except BadReferenceError as e:
 					logger.Error("Unknown reference '%s'" % str(e))
 				else:
 					models.append(modObj)
-		except Exception, e:
+		except Exception as e:
 			logger.Error(str(e))
 
 	return units
@@ -1178,9 +1178,9 @@ class Tool(object):
 	# For use in dealing with tools that return non-ascii version strings.
 	nonascii = ""
 	identity_chartable = chr(0)
-	for c in xrange(1,128):
+	for c in range(1,128):
 		identity_chartable += chr(c)
-	for c in xrange(128,256):
+	for c in range(128,256):
 		nonascii += chr(c)
 		identity_chartable += " "
 
@@ -1225,7 +1225,7 @@ class Tool(object):
 				
 			testfile_stat = os.stat(testfile)
 			self.date = testfile_stat.st_mtime
-		except Exception,e:
+		except Exception as e:
 			# We really don't mind if the tool could not be dated - for any reason
 			Tool.log.Debug("toolcheck: '%s=%s' cannot be dated - this is ok, but the toolcheck won't be able to tell when a new version of the tool is installed. (%s)", self.name, self.command, str(e))
 			pass
@@ -1240,7 +1240,7 @@ class Tool(object):
 			p = subprocess.Popen(args=[shell, "-c", self.versioncommand], stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
 			log.Debug("Checking tool '%s' for version '%s'", self.name, self.versionresult)
 			versionoutput,err = p.communicate()
-		except Exception,e:
+		except Exception as e:
 			versionoutput=None
 
 		# Some tools return version strings with unicode characters! 
@@ -1355,7 +1355,7 @@ class ToolSet(object):
 										ce[name] = val
 									self.__toolcheckcache[toolhistory[0]] = ce
 								log.Info("Loaded toolcheck cache: %s\n", self.cachefilename)
-							except Exception, e:
+							except Exception as e:
 								log.Info("Ignoring garbled toolcheck cache: %s (%s)\n", self.cachefilename, str(e))
 								self.__toolcheckcache = {}
 									
@@ -1364,7 +1364,7 @@ class ToolSet(object):
 					else:
 						log.Info("Toolcheck cache not loaded = marker missing: %s %s\n", self.cachefilename, ToolSet.filemarker)
 					f.close()
-				except IOError, e:
+				except IOError as e:
 					log.Info("Failed to load toolcheck cache: %s\n", self.cachefilename)
 		else:
 			log.Debug("Toolcheck cachefile not created because EPOCROOT not set in environment.\n")
@@ -1379,7 +1379,7 @@ class ToolSet(object):
 			if ToolSet.shell_re.search(shellversion_out) == None:
 				self.log.Error("A critical tool, '%s', did not return the required version '%s':\n%s\nPlease check that '%s' is in the path.", ToolSet.shell, ToolSet.shell_version, shellversion_out, ToolSet.shell)
 				self.valid = False
-		except Exception,e:
+		except Exception as e:
 			self.log.Error("A critical tool could not be found.\nPlease check that '%s' is in the path. (%s)", ToolSet.shell,  str(e))
 			self.valid = False
 
@@ -1402,12 +1402,12 @@ class ToolSet(object):
 				try:
 					t = cache[tool.key]
 						
-				except KeyError,e:
+				except KeyError as e:
 					pass
 				else:
 					# if the cache has an entry for the tool then see if the date on
 					# the tool has changed (assuming the tool is a simple executable file)
-					if t.has_key('date') and (tool.date is None or (tool.date - t['date'] > 0.1))  :
+					if 'date' in t and (tool.date is None or (tool.date - t['date'] > 0.1))  :
 						self.log.Debug("toolcheck forced: '%s'  changed since the last check: %s < %s", tool.command, str(t['date']), str(tool.date))
 					else:
 						t['age'] = 0 # we used it so it's obviously needed
@@ -1420,7 +1420,7 @@ class ToolSet(object):
 
 			try:
 				tool.check(ToolSet.shell, evaluator, log = self.log)
-			except ToolErrorException, e:
+			except ToolErrorException as e:
 				self.valid = False
 				self.log.Error("%s\n" % str(e))
 
@@ -1442,7 +1442,7 @@ class ToolSet(object):
 				f = open(self.cachefilename, "w+")
 				f.write(ToolSet.filemarker+"\n")
 				f.write(ToolSet.tool_env_id+"\n")
-				for k,ce in cache.iteritems():
+				for k,ce in cache.items():
 
 					# If a tool has not been used for an extraordinarily long time
 					# then forget it - to prevent the cache from clogging up with old tools.
@@ -1452,12 +1452,12 @@ class ToolSet(object):
 					if ce['valid'] and ce['age'] < 100:
 						ce['age'] += 1
 						f.write("%s," % k)
-						for n,v in ce.iteritems():
+						for n,v in ce.items():
 							f.write("%s=%s," % (n,str(v)))
 					f.write("\n")
 				f.close()
 				self.log.Info("Created/Updated toolcheck cache: %s\n", self.cachefilename)
-			except Exception, e:
+			except Exception as e:
 				self.log.Info("Could not write toolcheck cache: %s", str(e))
 		return self.valid
 
@@ -1510,7 +1510,7 @@ class Evaluator(object):
 
 				try:
 					newValue = op.Apply(oldValue)
-				except BadToolValue, e:
+				except BadToolValue as e:
 					unfound_values.append(str(e))
 					newValue = "NO_VALUE_FOR_" + op.name
 					
@@ -1524,19 +1524,19 @@ class Evaluator(object):
 			raise UninitialisedVariableException("\n".join(unfound_values))
 
 		if self.gathertools:
-			self.tools = tools.values()
+			self.tools = list(tools.values())
 		else:
 			self.tools=[]
 
 		# resolve inter-variable references in the dictionary
 		unresolved = True
 
-		for k, v in self.dict.items():
+		for k, v in list(self.dict.items()):
 			self.dict[k] = v.replace("$$","__RAPTOR_ESCAPED_DOLLAR__")
 
 		while unresolved:
 			unresolved = False
-			for k, v in self.dict.items():
+			for k, v in list(self.dict.items()):
 				if v.find('$(' + k + ')') != -1:
 						raise RecursionException("Recursion Detected in variable '%s' in configuration '%s' " % (k,configName))
 				else:
@@ -1547,7 +1547,7 @@ class Evaluator(object):
 					unresolved = True			# maybe more to do
 
 		# unquote double-dollar references
-		for k, v in self.dict.items():
+		for k, v in list(self.dict.items()):
 			self.dict[k] = v.replace("__RAPTOR_ESCAPED_DOLLAR__","$")
 
 		for t in self.tools:
@@ -1574,7 +1574,7 @@ class Evaluator(object):
 
 	def ResolveMatching(self, pattern):
 		""" Return a dictionary of all variables that match the pattern """
-		for k,v in self.dict.iteritems():
+		for k,v in self.dict.items():
 			if pattern.match(k):
 				yield (k,v)
 

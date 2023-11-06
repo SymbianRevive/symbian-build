@@ -44,11 +44,11 @@ for line in sys.stdin.readlines():
 		if squashRecipe:
 			for text in recipeLines:
 				if not text.startswith("+"):
-					print text,
+					print(text, end=' ')
 		else:
 			for text in recipeLines:
-				print text,
-		print line,
+				print(text, end=' ')
+		print(line, end=' ')
 		continue
 		
 	# remember the lines during a recipe
@@ -56,7 +56,7 @@ for line in sys.stdin.readlines():
 		recipeLines.append(line)	
 	else:
 	# print all lines outside a recipe 
-		print line,
+		print(line, end=' ')
 	
 # end
 

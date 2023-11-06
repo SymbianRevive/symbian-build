@@ -46,8 +46,8 @@ def run():
 	t.id = "0109a"
 	t.name = "pdll_armv5_rvct"
 	t.command = command % "armv5"
-	t.targets = map(lambda p: p % "armv5", maintargets + armv5targets)[:]	# Shallow, as we optionally extend later and then re-use
-	t.addbuildtargets('smoke_suite/test_resources/simple_dll/pbld.inf', map(lambda p: p % "armv5", buildtargets))
+	t.targets = [p % "armv5" for p in maintargets + armv5targets][:]	# Shallow, as we optionally extend later and then re-use
+	t.addbuildtargets('smoke_suite/test_resources/simple_dll/pbld.inf', [p % "armv5" for p in buildtargets])
 	t.mustmatch = mustmatch
 	t.mustnotmatch = mustnotmatch
 	t.run()
@@ -63,8 +63,8 @@ def run():
 	t.id = "0109c"
 	t.name = "pdll_armv5_gcce"
 	t.command = command % "gcce_armv5"
-	t.targets = map(lambda p: p % "armv5", maintargets + armv5targets)
-	t.addbuildtargets('smoke_suite/test_resources/simple_dll/pbld.inf', map(lambda p: p % "armv5", buildtargets))
+	t.targets = [p % "armv5" for p in maintargets + armv5targets]
+	t.addbuildtargets('smoke_suite/test_resources/simple_dll/pbld.inf', [p % "armv5" for p in buildtargets])
 	t.mustmatch = mustmatch
 	t.mustnotmatch = mustnotmatch
 	t.run()
@@ -80,8 +80,8 @@ def run():
 	t.id = "0109e"
 	t.name = "pdll_armv7_rvct"
 	t.command = command % "armv7"
-	t.targets = map(lambda p: p % "armv7", maintargets)[:]	# Shallow, as we optionally extend later and then re-use
-	t.addbuildtargets('smoke_suite/test_resources/simple_dll/pbld.inf', map(lambda p: p % "armv7", buildtargets))
+	t.targets = [p % "armv7" for p in maintargets][:]	# Shallow, as we optionally extend later and then re-use
+	t.addbuildtargets('smoke_suite/test_resources/simple_dll/pbld.inf', [p % "armv7" for p in buildtargets])
 	t.mustmatch = mustmatch
 	t.mustnotmatch = mustnotmatch
 	t.run()
@@ -97,8 +97,8 @@ def run():
 	t.id = "0109g"
 	t.name = "pdll_armv7_gcce"
 	t.command = command % "arm.v7.udeb.gcce4_3_2 -c arm.v7.urel.gcce4_3_2"
-	t.targets = map(lambda p: p % "armv7", maintargets)
-	t.addbuildtargets('smoke_suite/test_resources/simple_dll/pbld.inf', map(lambda p: p % "armv7", buildtargets))
+	t.targets = [p % "armv7" for p in maintargets]
+	t.addbuildtargets('smoke_suite/test_resources/simple_dll/pbld.inf', [p % "armv7" for p in buildtargets])
 	t.mustmatch = mustmatch
 	t.mustnotmatch = mustnotmatch
 	t.run()

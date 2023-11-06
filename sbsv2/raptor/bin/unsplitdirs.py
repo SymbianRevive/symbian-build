@@ -41,19 +41,19 @@ def mergetwo(firstdir, seconddir):
 	for d in os.listdir(firstdir):
 		fileitem = os.path.join(firstdir,d)
 		dest = os.path.join(seconddir,d)
-		print "moving %s, %s to %s " % (d, fileitem, dest)
+		print("moving %s, %s to %s " % (d, fileitem, dest))
 		if os.path.isdir(dest) and os.path.isdir(fileitem):
 			mergetwo(fileitem, dest)
 			try:
 				os.rmdir(fileitem)
 			except:
-				print "\tfailed rmdir %s" % fileitem
+				print("\tfailed rmdir %s" % fileitem)
 		else:
 			shutil.move(fileitem, dest)
 	try:
 		os.rmdir(firstdir)
 	except:
-		print "\tfailed rmdir %s" % firstdir
+		print("\tfailed rmdir %s" % firstdir)
 	
 	
 
@@ -66,10 +66,10 @@ def visit(dirname, link = False):
 		if os.path.isdir(fullpath) and not os.path.islink(fullpath):
 		#	print "\tmergeable %s" %(f)
 			fl = f.lower()
-			if nameclash.has_key(fl):
+			if fl in nameclash:
 				mergetwo(fullpath, os.path.join(dirname, nameclash[fl]))
 				if link:
-					print "\tlinking %s <- %s" %(nameclash[fl], fullpath)
+					print("\tlinking %s <- %s" %(nameclash[fl], fullpath))
 					os.symlink(nameclash[fl], fullpath)
 			else:
 				nameclash[fl] = f
@@ -77,7 +77,7 @@ def visit(dirname, link = False):
 			pass
 		#	print "%s is not a dir\n" %(f)
 
-	for d in nameclash.values():
+	for d in list(nameclash.values()):
 	#	print "\tVisiting %s" %(d)
 		visit(os.path.join(dirname, d))
 

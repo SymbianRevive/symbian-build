@@ -62,10 +62,10 @@ def depcrunch(file,extensions,assume):
 		raise NoTargetException()
 
 	if len(deps) > 0:
-		print "%s: \\" % target
+		print("%s: \\" % target)
 		for d in deps[:-1]:
-			print " %s \\" % (assume + "/" + d)
-		print " %s " % (assume + "/" + deps[-1])
+			print(" %s \\" % (assume + "/" + d))
+		print(" %s " % (assume + "/" + deps[-1]))
 
 
 
@@ -100,7 +100,7 @@ else:
 	file = sys.stdin
 try:
 	depcrunch(file,options.extensions.split(","), options.assume)
-except NoTargetException,e:
+except NoTargetException as e:
 	sys.stderr.write("Target name not found in dependency file\n");
 	sys.exit(2)
 	

@@ -51,7 +51,7 @@ SYSTEMINCLUDE	/epoc32/include
 	dirlen = len(dirname)
 	fileLen = length_limit - dirlen - numLen - extLen
 	if fileLen < 0:
-		print "Error: Your test path is too long for the longfilenames test to work"
+		print("Error: Your test path is too long for the longfilenames test to work")
 		sys.exit()
 	fileName = string[0:fileLen]
 

@@ -18,5 +18,5 @@
 
 class DummyPlugin(object):
 	def __init__(self):
-		print "DummyPlugin Init"
+		print("DummyPlugin Init")
 

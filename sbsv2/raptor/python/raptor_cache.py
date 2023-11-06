@@ -53,7 +53,7 @@ class Cache:
 		# Create pathlist - this will be of length one if gPathOrGPathList is a
 		# generic path object; otherwise it's a list so just make all supplied paths generic
 		if isinstance(gPathOrGPathList, list):
-			pathlist = map(lambda x: x.GetLocalString(), gPathOrGPathList)
+			pathlist = [x.GetLocalString() for x in gPathOrGPathList]
 		elif isinstance(gPathOrGPathList, generic_path.Path):
 			pathlist = [gPathOrGPathList.GetLocalString()]
 		else:
@@ -159,7 +159,7 @@ class Cache:
 	def FindNamedInterface(self, name, cacheID = ""):
 		try:
 			return self.interfaces[cacheID][name]
-		except KeyError, e:
+		except KeyError as e:
 			if cacheID == "":
 				raise e
 			else:
@@ -185,7 +185,7 @@ class Cache:
 	def AddVariant(self, obj):
 		# anonymous variants can never be referenced, so ignore them
 		if obj.name:
-			if self.variants.has_key(obj.name):
+			if obj.name in self.variants:
 				self.WarnDuplicate("variant", self.variants[obj.name], obj)
 				return
 

@@ -25,11 +25,11 @@ from raptorlog import *
 
 def genstats(file, logitems):
 	linecount=0
-	print "<source>"
-	for l in file.xreadlines():
+	print("<source>")
+	for l in file:
 		for i in logitems:
 			i.match(l)
-	print "</source>"
+	print("</source>")
 
 
 ## Command Line Interface ####################################################

@@ -195,7 +195,7 @@ def DoRaptor(Raptor, args):
 				if ord(c) > 127:
 					Raptor.Error(non_ascii_error)
 					return False
-	except IOError, e:
+	except IOError as e:
 		Raptor.Error(str(e))
 		return False
 	except UnicodeDecodeError:
@@ -262,13 +262,13 @@ def DoRaptor(Raptor, args):
 	# corresponding function with the correct parameter.
 	# Since options is a OptParse.Value instance, it can be iterated over.
 	# This implementation helps avoid lengthy if-else statements
-	for opt in options.__dict__.items():
+	for opt in list(options.__dict__.items()):
 		call_function = functions[str(opt[0])]
 		values = opt[1]
 		if not values:
 			pass
 		else:
-			if type(values) == types.ListType: # Check if the argument type is a list or a string. If list, then iterate through it and call the functions
+			if type(values) == list: # Check if the argument type is a list or a string. If list, then iterate through it and call the functions
 				for val in values:
 					keepGoing = (call_function(val) and keepGoing)
 			else:
@@ -278,7 +278,7 @@ def DoRaptor(Raptor, args):
 
 def CommandFile(file):
 	"this should never be called because we expand --command in this module."
-	print raptor.name + ": error: command file '%s' was not expanded" % file
+	print(raptor.name + ": error: command file '%s' was not expanded" % file)
 	return False
 
 

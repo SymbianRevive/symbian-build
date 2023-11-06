@@ -155,7 +155,7 @@ class TestRaptorMeta(unittest.TestCase):
 		
 		# Get the version of CPP that we are using and hope it's correct
 		# since there is no tool check.
-		if os.environ.has_key('SBS_GNUCPP'):
+		if 'SBS_GNUCPP' in os.environ:
 			self.__gnucpp = os.environ['SBS_GNUCPP']
 		else: 
 			self.__gnucpp = "cpp" 
@@ -169,7 +169,7 @@ class TestRaptorMeta(unittest.TestCase):
 
 		try:
 			 preProcessor.preprocess()
-		except Exception, e:
+		except Exception as e:
 			self.assertTrue(isinstance(e, raptor_meta.MetaDataError))
 			self.assertTrue(re.match('^Preprocessor exception', e.Text))
 
@@ -178,7 +178,7 @@ class TestRaptorMeta(unittest.TestCase):
 		try:
 			configDetails = raptor_meta.getVariantCfgDetail(self.__epocroot, 
 														    self.__variant_cfg_root.Append("missing"))
-		except Exception, e:
+		except Exception as e:
 			self.assertTrue(isinstance(e, raptor_meta.MetaDataError))
 			self.assertTrue(re.match('^Could not read variant configuration file.*$', e.Text))
 			
@@ -186,7 +186,7 @@ class TestRaptorMeta(unittest.TestCase):
 		try:
 			configDetails = raptor_meta.getVariantCfgDetail(self.__epocroot,
 														    self.__variant_cfg_root.Append("empty_cfg.cfg"))
-		except Exception, e:
+		except Exception as e:
 			self.assertTrue(isinstance(e, raptor_meta.MetaDataError))
 			self.assertTrue(re.match('No variant file specified in .*', e.Text))
 					
@@ -194,14 +194,14 @@ class TestRaptorMeta(unittest.TestCase):
 		try:
 			configDetails = raptor_meta.getVariantCfgDetail(self.__epocroot,
 														    self.__variant_cfg_root.Append("invalid_cfg.cfg"))
-		except Exception, e:
+		except Exception as e:
 			self.assertTrue(isinstance(e, raptor_meta.MetaDataError))
 			self.assertTrue(re.match('Variant file .* does not exist', e.Text))
 				
 		# Valid .cfg file
 		configDetails = raptor_meta.getVariantCfgDetail(self.__epocroot, 
 													    self.__variant_cfg)
-		self.failUnless(configDetails)
+		self.assertTrue(configDetails)
 		
 		found_variant_hrh = str(configDetails.get('VARIANT_HRH'))	
 		expected_variant_hrh = str(self.variant_hrh)
@@ -212,13 +212,13 @@ class TestRaptorMeta(unittest.TestCase):
 	def __testBuildPlatforms(self, aRootBldInfLocation, aBldInfFile, 
 							 aExpectedBldInfPlatforms, aExpectedBuildablePlatforms):
 		bldInfFile = aRootBldInfLocation.Append(aBldInfFile)
-		self.failUnless(bldInfFile)
+		self.assertTrue(bldInfFile)
 		
 		depfiles=[]
 		bldInfObject = raptor_meta.BldInfFile(bldInfFile, self.__gnucpp, depfiles=depfiles, log=self.raptor)
 		
 		bp = bldInfObject.getBuildPlatforms(self.defaultPlatform)
-		self.assertEquals(bp, aExpectedBldInfPlatforms)
+		self.assertEqual(bp, aExpectedBldInfPlatforms)
 
 		buildableBldInfBuildPlatforms = raptor_meta.getBuildableBldInfBuildPlatforms(bp,
 				'ARMV5 ARMV7 WINSCW X86',
@@ -252,7 +252,7 @@ class TestRaptorMeta(unittest.TestCase):
 	def __testBldInfTestCode(self, aTestRoot, aBldInf, aActual, aExpected):
 		loop_number = 0
 		for actual in aActual:
-			self.assertEquals(actual, aExpected[loop_number])
+			self.assertEqual(actual, aExpected[loop_number])
 			loop_number += 1
 		
 	def testBldInfTestType(self):
@@ -269,9 +269,9 @@ class TestRaptorMeta(unittest.TestCase):
 				[bldInfObject.testManual, bldInfObject.testAuto], [1, 1])
 	
 	def __testExport(self, aExportObject, aSource, aDestination, aAction):			
-		self.assertEquals(aExportObject.getSource(), aSource)
+		self.assertEqual(aExportObject.getSource(), aSource)
 		self.assertEqualsOrContainsPath(aExportObject.getDestination(), aDestination)
-		self.assertEquals(aExportObject.getAction(), aAction)
+		self.assertEqual(aExportObject.getAction(), aAction)
 	
 	def assertEqualsOrContainsPath(self, aRequirement, aCandidate):
 		# If aRequirement is a list, which it might well be, we should
@@ -493,20 +493,20 @@ class TestRaptorMeta(unittest.TestCase):
 		if not aMakefile.startswith("$("):
 			templateExtensionRoot = '$(MAKEFILE_TEMPLATES)/'
 			
-		self.assertEquals(aExtensionObject.getMakefile(), templateExtensionRoot+aMakefile)
+		self.assertEqual(aExtensionObject.getMakefile(), templateExtensionRoot+aMakefile)
 		
 		testOptions = aExtensionObject.getOptions()
 		testVariables = aExtensionObject.getStandardVariables()
 		
-		for testParameter in aTestParameters.keys():
+		for testParameter in list(aTestParameters.keys()):
 			if (testParameter.startswith("STDVAR_")):
 				stdvar = testParameter.replace("STDVAR_", "")
 				stdvalue = aTestParameters.get(testParameter)
-				self.assertTrue(testVariables.has_key(stdvar))
-				self.assertEquals(testVariables.get(stdvar), aTestParameters.get(testParameter))
+				self.assertTrue(stdvar in testVariables)
+				self.assertEqual(testVariables.get(stdvar), aTestParameters.get(testParameter))
 			else:
-				self.assertTrue(testOptions.has_key(testParameter))
-				self.assertEquals(testOptions.get(testParameter), aTestParameters.get(testParameter))
+				self.assertTrue(testParameter in testOptions)
+				self.assertEqual(testOptions.get(testParameter), aTestParameters.get(testParameter))
 
 
 	def testBldInfExtensions(self):
@@ -617,18 +617,18 @@ class TestRaptorMeta(unittest.TestCase):
 		# the PRJ_EXTENSIONS section is bad for ARMV5
 		extensions = bldInfObject.getExtensions(self.ARMV5)
 		#
-		self.assertEquals(len(logger.errors), 1)
+		self.assertEqual(len(logger.errors), 1)
 		err = logger.errors[0]
-		self.assertEquals(err[0], "unmatched END statement in PRJ_EXTENSIONS section")
+		self.assertEqual(err[0], "unmatched END statement in PRJ_EXTENSIONS section")
 		self.assertTrue("bldinf" in err[1])
 		self.assertTrue(err[1]["bldinf"].endswith("bad_lone_end.inf"))
 		
 		# the PRJ_TESTEXTENSIONS section is bad for WINSCW
 		testextensions = bldInfObject.getTestExtensions(self.WINSCW)
 		#
-		self.assertEquals(len(logger.errors), 2)
+		self.assertEqual(len(logger.errors), 2)
 		err = logger.errors[1]
-		self.assertEquals(err[0], "unmatched END statement in PRJ_TESTEXTENSIONS section")
+		self.assertEqual(err[0], "unmatched END statement in PRJ_TESTEXTENSIONS section")
 		self.assertTrue("bldinf" in err[1])
 		self.assertTrue(err[1]["bldinf"].endswith("bad_lone_end.inf"))
 			
@@ -640,15 +640,15 @@ class TestRaptorMeta(unittest.TestCase):
 		Root = str(bldInfTestRoot)
 		
 		mmpFiles = bldInfObject.getMMPList(self.ARMV5)
-		self.assertEquals(len(mmpFiles['mmpFileList']), 3)	
-		self.assertEquals(str(mmpFiles['mmpFileList'][0].filename), Root + "/dir3/down_dir.mmp")
-		self.assertEquals(str(mmpFiles['mmpFileList'][1].filename), Root + "/dir1/dir2/up_dir.mmp")
-		self.assertEquals(str(mmpFiles['mmpFileList'][2].filename), Root + "/top_level.mmp")
+		self.assertEqual(len(mmpFiles['mmpFileList']), 3)	
+		self.assertEqual(str(mmpFiles['mmpFileList'][0].filename), Root + "/dir3/down_dir.mmp")
+		self.assertEqual(str(mmpFiles['mmpFileList'][1].filename), Root + "/dir1/dir2/up_dir.mmp")
+		self.assertEqual(str(mmpFiles['mmpFileList'][2].filename), Root + "/top_level.mmp")
 
 		exports = bldInfObject.getExports(self.ARMV5)
-		self.assertEquals(exports[0].getSource(), Root + "/dir3/down_dir_export_source.h")
-		self.assertEquals(exports[1].getSource(), Root + "/dir1/dir2/up_dir_export_source.h")
-		self.assertEquals(exports[2].getSource(), Root + "/top_level_export_source.h")
+		self.assertEqual(exports[0].getSource(), Root + "/dir3/down_dir_export_source.h")
+		self.assertEqual(exports[1].getSource(), Root + "/dir1/dir2/up_dir_export_source.h")
+		self.assertEqual(exports[2].getSource(), Root + "/top_level_export_source.h")
 
 	def testMmpIncludes(self):
 		mmpTestRoot = self.__testRoot.Append('metadata/project/mmps/includes')
@@ -666,7 +666,7 @@ class TestRaptorMeta(unittest.TestCase):
 									           depfiles=mmpdeps,
 										   log=self.raptor)
 		
-		self.assertEquals(str(mmpFile.filename), 
+		self.assertEqual(str(mmpFile.filename), 
 						  str(mmpTestRoot.Append("top_level.mmp")))
 	
 	
@@ -676,11 +676,11 @@ class TestRaptorMeta(unittest.TestCase):
 		parseresult = None
 		try:
 			parseresult = mmpParser.mmp.parseString(mmpContent)
-		except Exception,e:
+		except Exception as e:
 			pass
 			
 		self.assertTrue(parseresult)
-		self.assertEquals(parseresult[0],'MMP')
+		self.assertEqual(parseresult[0],'MMP')
 
 		mmpBackend.finalise(self.ARMV5)
 		
@@ -822,7 +822,7 @@ class TestRaptorMeta(unittest.TestCase):
 		
 		for t in defFileTests:
 			result = t.test(self.raptor)			
-			self.assertEquals(result, True)
+			self.assertEqual(result, True)
 	
 	def dummyMetaReader(self):
 		"make raptor_meta.MetaReader.__init__ into a none operation"
@@ -860,11 +860,11 @@ class TestRaptorMeta(unittest.TestCase):
 		self.restoreMetaReader()
 
 	def __assertEqualStringList(self, aListOne, aListTwo):
-		self.assertEquals(len(aListOne), len(aListTwo))
+		self.assertEqual(len(aListOne), len(aListTwo))
 		
 		i = 0
 		while i < len(aListOne) :
-			self.assertEquals(aListOne[i], aListTwo[i])
+			self.assertEqual(aListOne[i], aListTwo[i])
 			i = i + 1
 		
 	def testOptionReplace(self):
@@ -926,7 +926,7 @@ class TestRaptorMeta(unittest.TestCase):
 
 		for result in resultsDictList:
 			moduleName = mockBackend.ModuleName(result["bldinf"])
-			self.assertEquals(moduleName, result["result"])
+			self.assertEqual(moduleName, result["result"])
 
 		self.restoreMetaReader()
 
