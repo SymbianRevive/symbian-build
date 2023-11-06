@@ -17,7 +17,7 @@
 
 from os import listdir
 import re
-from types import TypeType, ModuleType
+from types import ModuleType
 import sys
 
 class PluginModule(object):
@@ -30,7 +30,7 @@ class PluginModule(object):
 	def __findclasses(self,module):
 		for c in module.__dict__:
 			mbr = module.__dict__[c]
-			if type(mbr) == TypeType:
+			if type(mbr) == type:
 				self.classes.append(mbr)
 
 class PluginBox(object):

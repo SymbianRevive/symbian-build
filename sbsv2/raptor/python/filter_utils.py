@@ -30,14 +30,14 @@ mwError = re.compile('(.+:\d+:(?! (note|warning):) .+|mw(ld|cc)sym2(.exe)?:(?! (
 mwWarning = re.compile('.+:\d+: warning: .+|mw(ld|cc)sym2(.exe)?: warning: .+')
 
 
-class AutoFlushedStream(file):
+class AutoFlushedStream:
 	""" Wrapper for STDOUT/STDERR streams to ensure that a flush is performed
 	after write methods.
 	Use to avoid buffering when log output in real time is required."""
 	
 	def __init__(self, aStream):
 		self.__stream = aStream
-    
+
 	def write(self, aText):
 		self.__stream.write(aText)
 		self.__stream.flush()

@@ -100,7 +100,7 @@ def _str2dict(strg):
 class _Constants(object):
     pass
     
-alphas     = string.lowercase + string.uppercase
+alphas     = string.ascii_lowercase + string.ascii_uppercase
 nums       = string.digits
 hexnums    = nums + "ABCDEFabcdef"
 alphanums  = alphas + nums    

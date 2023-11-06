@@ -23,8 +23,8 @@ import filter_what
 
 class FilterCheck(filter_what.FilterWhat):
 
-        def __init__(self): 
-		super(filter_what.FilterWhat,self).__init__()
-		self.check = True
-		self.path_prefix_to_strip = None
+    def __init__(self): 
+        super(filter_what.FilterWhat,self).__init__()
+        self.check = True
+        self.path_prefix_to_strip = None
 

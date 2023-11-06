@@ -26,7 +26,8 @@ import types
 import sys
 import subprocess
 from tempfile import gettempdir
-from time import time, clock
+from time import time
+from time import perf_counter as clock
 import traceback
 import raptor_cache
 
@@ -1262,7 +1263,7 @@ def envhash(irrelevant_vars):
 	envid = hashlib.md5()
 	for k in os.environ:
 		if k not in irrelevant_vars:
-			envid.update(os.environ[k])
+			envid.update(os.environ[k].encode())
 	return envid.hexdigest()[:16]
 
 

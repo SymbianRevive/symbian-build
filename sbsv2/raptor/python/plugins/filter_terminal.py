@@ -164,8 +164,8 @@ class FilterTerminal(filter_interface.Filter):
 		self.recipe_warning_expr = ["warning:"]
 		
 	def isMakeWarning(self, text):
-                """A simple test for warnings.
-                Can be extended do to more comprehensive checking."""
+		"""A simple test for warnings.
+		Can be extended do to more comprehensive checking."""
 		# generic warnings checked
 		# array of make_warning_expr holds all the possible values
 		for warn in self.make_warning_expr:
@@ -316,7 +316,7 @@ class FilterTerminal(filter_interface.Filter):
 								self.recipe_dict['name_to_user']))
 	
 						mmppath = generic_path.Path(self.recipe_dict['mmp']).From(generic_path.CurrentDir()).GetShellPath()
-						if mmppath is not "":
+						if mmppath != "":
 							sys.stderr.write("  mmp: %s\n" % mmppath)
 						if self.timedout:
 							sys.stderr.write( \
@@ -353,7 +353,7 @@ class FilterTerminal(filter_interface.Filter):
 			sys.stdout.write("    %s\n" % text.rstrip())
 			return
 		elif text.startswith("<![CDATA["):
-                	# save CDATA body during a recipe
+			# save CDATA body during a recipe
 			if self.inRecipe:
 				self.inBody = True
 		elif text.startswith("]]>"):
