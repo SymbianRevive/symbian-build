@@ -85,7 +85,7 @@ void Sis2Iby::ProcessSisFile()
 				UpdatePkgFileMap(iExtractPath, sisFile);
 			}
 			break;
-		case STAT_FAILURE:
+		case (TUint32)STAT_FAILURE:
 			{
 				throw SisUtilsException(sisFile.c_str(),"Failed to extract SIS file");
 			}

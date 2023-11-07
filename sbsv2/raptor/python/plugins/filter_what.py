@@ -112,6 +112,9 @@ class FilterWhat(filter_interface.Filter):
 	def write(self, text):
 		"process some log text"
 		
+		if isinstance(text, bytes):
+			text = text.decode()
+		
 		for line in text.splitlines():
 			line = line.rstrip()
 			
