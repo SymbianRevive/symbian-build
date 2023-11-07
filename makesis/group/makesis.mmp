@@ -24,7 +24,7 @@ USERINCLUDE 		../source
 USERINCLUDE 		../include
 
 MW_LAYER_SYSTEMINCLUDE_SYMBIAN
-SYSTEMINCLUDE 		../../openssl/include
+SYSTEMINCLUDE 		/epoc32/include ../../openssl/include
 
 SOURCEPATH			../source
 

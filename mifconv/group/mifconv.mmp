@@ -2,7 +2,7 @@ target			mifconf.exe
 targettype		exe
 
 sourcepath	../source
-source	 	mifconf.cpp
+source	 	mifconv.cpp
 
 systeminclude    /epoc32/include  /epoc32/include/tools
 systeminclude    /epoc32/include/platform
