@@ -1,0 +1,13 @@
+target			mifconf.exe
+targettype		exe
+
+sourcepath	../source
+source	 	mifconf.cpp
+
+systeminclude    /epoc32/include  /epoc32/include/tools
+systeminclude    /epoc32/include/platform
+userinclude		../source
+
+option 	GCC -w
+
+VENDORID 0x70000001
