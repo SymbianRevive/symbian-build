@@ -6,5 +6,6 @@ CAUTION: Currently work in progress!!!
 
 `sbsv2`:: Most stuff works(TM)
 `rcomp`:: Builds using SBSv2
-`elf2e32`:: Don't care, @fedor4ever's is better anyway
+`elf2e32`:: Builds using SBSv2
+`swisistools`:: Currently broken...
 Everything else:: Not tested yet 🙃
