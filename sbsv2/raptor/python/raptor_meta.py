@@ -340,6 +340,9 @@ class PreProcessor(raptor_utilities.ExternalTool):
 			actualErr = False
 			if errors != "":
 				for error in errors.splitlines():
+					if isinstance(error, bytes):
+						error = error.decode()
+
 					if incRE.search(error) or fromRE.search(error):
 						continue
 					if not remarkRE.search(error):

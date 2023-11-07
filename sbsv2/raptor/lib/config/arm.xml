@@ -51,7 +51,7 @@
 		
 		<set name="BLDINF_OUTPUTPATH" value="$(SBS_BUILD_DIR)"/>
 		<set name="CAPABILITY" value=""/>
-		<set name="CDEFS" value="__SUPPORT_CPP_EXCEPTIONS__ _UNICODE __SYMBIAN32__ __EPOC32__ __MARM__ __EABI__ __PRODUCT_INCLUDE__=&quot;$(PRODUCT_INCLUDE)&quot; $(MMPDEFS) $(ARMMACROS)"/>
+		<set name="CDEFS" value="__SUPPORT_CPP_EXCEPTIONS__ _UNICODE __SYMBIAN32__ __EPOC32__ __MARM__ __EABI__ __SYMBIAN_STDCPP_SUPPORT__ __PRODUCT_INCLUDE__=&quot;$(PRODUCT_INCLUDE)&quot; $(MMPDEFS) $(ARMMACROS)"/>
 		<set name="CODE_SEGMENT_START" value=""/>
 		<set name="DEFAULT_STDCPP_NEWLIB" value="stdnew.dso"/>
 		<set name="DEFAULT_SYMBIAN_NEWLIB" value="scppnwdl.dso"/>

@@ -93,7 +93,7 @@
 	<var name="gcce4_3_2" extends="gcce_base">
 		<env name="SBS_GCCE432BIN" type="toolchainpath" />
 		<set name="GCCEBIN" value="$(SBS_GCCE432BIN)" />
-		<set name="GCCECC" value="$(GCCEBIN)/arm-none-symbianelf-g++$(DOTEXE)" type="tool" versionCommand="$(GCCECC) -dumpversion" versionResult="4.3.2"/>
+		<set name="GCCECC" value="$(GCCEBIN)/arm-none-symbianelf-g++$(DOTEXE)" type="tool"/>
 		<set name="RUNTIME_LIBS_LIST" value="drtaeabi.dso dfpaeabi.dso dfprvct3_1.dso drtrvct3_1.dso"/>
 		<set name="PLATMACROS.VAR" value="GCCE_4 GCCE_4_3"/>
 		<set name="ARMMACROS.VAR" value="__GCCE_4__ __GCCE_4_3__"/>
