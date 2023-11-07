@@ -1,0 +1,87 @@
+/*
+* Copyright (c) 2008-2009 Nokia Corporation and/or its subsidiary(-ies).
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of the License "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description: 
+* This mmp file is used to replace calling makefile directly.
+*
+*/
+
+
+TARGET			libsisx.a
+TARGETTYPE		LIB
+
+USERINCLUDE 	../source/sisxlibrary
+USERINCLUDE 	../../swianalysistoolkit/source/common
+USERINCLUDE 	../../swianalysistoolkit/source/common/utf8
+
+
+MW_LAYER_SYSTEMINCLUDE_SYMBIAN
+SYSTEMINCLUDE	../../openssllib/import/inc 
+
+SOURCEPATH		../source/sisxlibrary
+
+SOURCE			basefile.cpp
+SOURCE			datetime.cpp
+SOURCE			exception.cpp
+SOURCE			fieldroot.cpp
+SOURCE			header.cpp
+SOURCE			raw.cpp
+SOURCE			sharedcount.cpp
+SOURCE			siscapabilities.cpp
+SOURCE			siscompressed.cpp
+SOURCE			siscontents.cpp
+SOURCE			siscontroller.cpp
+SOURCE			sisdata.cpp
+SOURCE			sisdate.cpp
+SOURCE			sisdependency.cpp
+SOURCE			sisexpression.cpp
+SOURCE			siselseif.cpp
+SOURCE			sisfiledata.cpp
+SOURCE			sisfiledescription.cpp
+SOURCE			sishash.cpp
+SOURCE			sisif.cpp
+SOURCE			sisinfo.cpp
+SOURCE			sisinstallblock.cpp
+SOURCE			sislanguage.cpp
+SOURCE			sislogo.cpp
+SOURCE			sisprerequisites.cpp
+SOURCE			sisproperties.cpp
+SOURCE			sissignaturealgorithm.cpp
+SOURCE			sisstring.cpp
+SOURCE			sissupportedlanguages.cpp
+SOURCE			sissupportedoption.cpp
+SOURCE			sissupportedoptions.cpp
+SOURCE			sistime.cpp
+SOURCE			sisversion.cpp
+SOURCE			sisversionrange.cpp
+SOURCE			unknownfield.cpp
+SOURCE			utility.cpp
+SOURCE			utils.cpp
+
+#ifndef TOOLS2_LINUX
+SOURCE	utility_windows.cpp
+MACRO	_UNICODE _CONSOLE _STLP_THREADS _WIN32 UNICODE
+#else
+SOURCE  utility_linux.cpp
+MACRO	_UNICODE _CONSOLE UNICODE
+#endif
+
+
+SOURCEPATH		../../swianalysistoolkit/source/common/utf8
+SOURCE			utf8.cpp
+
+
+OPTION			GCC -w
+OPTION			GCC -fno-stack-check
+OPTION			GCC -fpermissive
+

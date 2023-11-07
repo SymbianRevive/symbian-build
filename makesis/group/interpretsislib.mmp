@@ -1,0 +1,111 @@
+/*
+* Copyright (c) 2008-2010 Nokia Corporation and/or its subsidiary(-ies).
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of the License "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description: 
+* This mmp file is used to replace calling makefile directly.
+*
+*/
+
+
+TARGET			libinterpretsis.a
+TARGETTYPE		LIB
+
+USERINCLUDE 	../source/interpretsislib
+USERINCLUDE 	../source/sisxlibrary
+USERINCLUDE 	../../swianalysistoolkit/source/common
+USERINCLUDE 	../../swianalysistoolkit/source/common/utf8
+USERINCLUDE 	../source/common
+
+#ifdef SYMBIAN_UNIVERSAL_INSTALL_FRAMEWORK
+USERINCLUDE		../source/xmlparser
+USERINCLUDE 	../source/dbmanager
+USERINCLUDE 	../source/rscparser
+#endif // SYMBIAN_UNIVERSAL_INSTALL_FRAMEWORK
+
+MW_LAYER_SYSTEMINCLUDE_SYMBIAN
+SYSTEMINCLUDE	../../openssllib/import/inc 
+
+#ifdef SYMBIAN_UNIVERSAL_INSTALL_FRAMEWORK
+SYSTEMINCLUDE 	../source/xmlparser/xerces/include
+#endif // SYMBIAN_UNIVERSAL_INSTALL_FRAMEWORK
+
+SOURCEPATH		../source/interpretsislib
+
+SOURCE			adornedutilities.cpp
+SOURCE			cardinality.cpp
+SOURCE			configmanager.cpp
+SOURCE			controllerinfo.cpp
+SOURCE			deserialiser.cpp
+SOURCE			expressionevaluator.cpp
+SOURCE			filedescription.cpp
+SOURCE			hashcontainer.cpp
+SOURCE			installablefile.cpp
+SOURCE			installer.cpp
+SOURCE			interpretsis.cpp
+SOURCE			is_utils.cpp
+SOURCE			logger.cpp
+SOURCE			parameterlist.cpp
+SOURCE			rommanager.cpp
+SOURCE			serialisable.cpp
+SOURCE			sisfile.cpp
+SOURCE			sisregistry.cpp
+SOURCE			sisregistrydependency.cpp
+SOURCE			sisregistryobject.cpp
+SOURCE			sisregistrypackage.cpp
+SOURCE			sisregistryproperty.cpp
+SOURCE			sisregistrytoken.cpp
+SOURCE			stringutils.cpp
+SOURCE			truststatus.cpp
+SOURCE			ucmp.cpp
+SOURCE			uninstaller.cpp
+SOURCE			version.cpp
+
+#ifdef SYMBIAN_UNIVERSAL_INSTALL_FRAMEWORK
+SOURCE			dbconstants.cpp
+SOURCE			xmlgenerator.cpp
+SOURCE			dbhelper.cpp
+
+
+SOURCEPATH		../source/common
+SOURCE			util.cpp
+
+SOURCEPATH		../source/rscparser
+SOURCE			barsc2.cpp
+SOURCE			barscimpl.cpp
+SOURCE			dictionarycompression.cpp
+SOURCE			commontypes.cpp
+SOURCE			barsread2.cpp
+SOURCE			barsreadimpl.cpp
+SOURCE			parse.cpp
+SOURCE			apmstd.cpp
+SOURCE			apaid.cpp
+SOURCE			aplapplistitem.cpp
+SOURCE			aplappinforeader.cpp
+SOURCE			uidtype.cpp
+SOURCE			dirparse.cpp
+SOURCE			apsecutils.cpp
+
+#endif
+SOURCEPATH		../../swianalysistoolkit/source/common/utf8
+SOURCE			utf8.cpp
+
+#ifndef TOOLS2_LINUX
+MACRO	_UNICODE _CONSOLE _STLP_THREADS _WIN32 UNICODE __GNUG__ XML_LIBRARY
+#else
+MACRO	_UNICODE _CONSOLE UNICODE __GNUG__ XML_LIBRARY
+#endif
+
+OPTION			GCC -w
+OPTION			GCC -fno-stack-check
+OPTION			GCC -fpermissive
+

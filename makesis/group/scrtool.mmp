@@ -1,0 +1,75 @@
+/*
+* Copyright (c) 2010 Nokia Corporation and/or its subsidiary(-ies).
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of the License "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description: 
+* This mmp file is used to replace calling makefile directly.
+*
+*/
+
+
+TARGET			scrtool.exe
+TARGETTYPE		exe
+
+USERINCLUDE 		../source/scrtool
+USERINCLUDE 		../source/common
+USERINCLUDE 		../../swianalysistoolkit/source/common
+USERINCLUDE 		../../swianalysistoolkit/source/common/utf8
+USERINCLUDE 		../source/xmlparser
+USERINCLUDE 		../source/dbmanager
+USERINCLUDE 		../source/dbmanager/sqlite
+USERINCLUDE			../source/sisxlibrary
+
+SYSTEMINCLUDE 		../source/xmlparser/xerces/include
+MW_LAYER_SYSTEMINCLUDE_SYMBIAN
+SYSTEMINCLUDE 		../../openssllib/import/inc/openssl
+SYSTEMINCLUDE 		../../openssllib/import/inc
+
+SOURCEPATH		../source/scrtool
+SOURCE			main.cpp options.cpp
+
+SOURCEPATH		../source/xmlparser
+SOURCE			xmlparser.cpp
+
+SOURCEPATH		../source/dbmanager
+SOURCE			dblayer.cpp dbprocessor.cpp
+
+SOURCEPATH 		../source/common
+SOURCE			logs.cpp exception.cpp util.cpp
+
+
+STATICLIBRARY		xerces
+STATICLIBRARY		sisx
+#ifndef TOOLS2_LINUX
+STATICLIBRARY		eay32
+#else
+STATICLIBRARY		crypto dl c
+#endif
+
+
+#ifndef TOOLS2_LINUX
+MACRO	_UNICODE _CONSOLE _STLP_THREADS _WIN32 UNICODE __GNUG__ XML_LIBRARY
+#else
+MACRO	_UNICODE _CONSOLE UNICODE LINUX __GNUG__ XML_LIBRARY
+#endif
+
+
+SOURCE			../../../swianalysistoolkit/source/common/utf8/utf8.cpp 
+
+OPTION			GCC -w
+OPTION			GCC -fno-stack-check
+OPTION			GCC -fpermissive
+#ifdef TOOLS2_LINUX
+OPTION			GCC -rdynamic
+#endif 
+//OPTION			GCC -masm=intel
+SMPSAFE

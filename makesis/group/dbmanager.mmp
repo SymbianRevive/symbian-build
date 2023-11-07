@@ -1,0 +1,55 @@
+/*
+* Copyright (c) 2008-2010 Nokia Corporation and/or its subsidiary(-ies).
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of the License "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description: 
+* This mmp file is used to replace calling makefile directly.
+*
+*/
+
+
+TARGET			libdbmanager.a
+TARGETTYPE		LIB
+
+USERINCLUDE 	../../swianalysistoolkit/source/common
+USERINCLUDE 	../../swianalysistoolkit/source/common/utf8
+USERINCLUDE 	../source/common
+USERINCLUDE 	../source/dbmanager
+USERINCLUDE 	../source/xmlparser
+USERINCLUDE		../source/sisxlibrary
+
+MW_LAYER_SYSTEMINCLUDE_SYMBIAN
+SYSTEMINCLUDE	../../openssllib/import/inc 
+SYSTEMINCLUDE 		../source/xmlparser/xerces/include
+
+SOURCEPATH		../source/dbmanager
+SOURCE			dblayer.cpp
+SOURCE			dbprocessor.cpp
+
+SOURCEPATH		../source/common
+SOURCE			exception.cpp
+SOURCE			logs.cpp
+SOURCE			util.cpp
+
+SOURCEPATH		../source/sisxlibrary
+SOURCE			utility.cpp
+
+#ifndef TOOLS2_LINUX
+MACRO	_UNICODE _CONSOLE _STLP_THREADS _WIN32 UNICODE __GNUG__
+#else
+MACRO	_UNICODE _CONSOLE UNICODE
+#endif
+
+OPTION			GCC -w
+OPTION			GCC -fno-stack-check
+OPTION			GCC -fpermissive
+SMPSAFE

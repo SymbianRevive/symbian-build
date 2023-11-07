@@ -1,0 +1,64 @@
+/*
+* Copyright (c) 2008-2009 Nokia Corporation and/or its subsidiary(-ies).
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of the License "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description: 
+* This mmp file is used to replace calling makefile directly.
+*
+*/
+
+
+TARGET			makesis.exe
+TARGETTYPE		exe
+
+USERINCLUDE 		../source
+USERINCLUDE 		../include
+
+MW_LAYER_SYSTEMINCLUDE_SYMBIAN
+SYSTEMINCLUDE 		../../openssl/include
+
+SOURCEPATH			../source
+
+SOURCE crc.c
+SOURCE crtsis.cpp
+SOURCE makesis.cpp
+SOURCE parsecmd.cpp
+SOURCE parsepkg.cpp
+SOURCE utf8.cpp
+SOURCE utils.cpp
+SOURCE stub.cpp
+SOURCE wcstub.c
+SOURCE sisfilegen.cpp
+SOURCE sisfield.cpp
+SOURCE signutils.cpp
+
+
+//STATICLIBRARY		makesis
+//STATICLIBRARY		sisx	
+//STATICLIBRARY		seclib 
+
+
+#ifndef TOOLS2_LINUX
+	MACRO				_UNICODE _CONSOLE _STLP_THREADS _WIN32 UNICODE
+	STATICLIBRARY		eay32 
+#else
+	//MACRO				_UNICODE _CONSOLE UNICODE
+	MACRO				_CONSOLE NOMINMAX
+	STATICLIBRARY		crypto
+	OPTION GCC		-lz
+	OPTION GCC		-idirafter ../../openssl/include
+#endif
+
+OPTION			GCC -w
+OPTION			GCC -fno-stack-check
+OPTION			GCC -fpermissive
+

@@ -1,0 +1,243 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<relnotes name="Software Install SIS Tools">
+  <purpose>
+    Tools used to create SIS file ,recreate package file from SIS file and to sign SIS file.
+  </purpose>
+
+  <defect number="DEF131875" title="SMPSAFE MMP file updates for SWI and USIF" revision="052">
+    updated MMP files for SWI and USIF components to declare them SMPSAFE 
+  </defect>
+
+   <deliverystep number="1328" name="CR1125:Security: New SIS Package Run Option to Launch After Installation Completed" osproject="Diran" revision="051">
+	  <milestone project="GT0433" number="MS3.13"/>
+	  <cr number="1544" title="New SIS Package Run Option to Launch After Installation Completed">
+		New SIS Package Run Option to Launch After Installation Completed	  
+	  </cr>
+  </deliverystep>  
+
+  <defect number="DEF127846" title="Interpretsis should fail with proper error message if sqlite.dll is not present." revision="050">
+	Interpretsis fails with proper error message if sqlite.dll is not present
+  </defect>
+  
+  <defect number="DEF128731" title="SITKv1.2 - tinterpretsis/runtests1.pl: 9 test failures " revision="049">
+	Removed the debug string to fix the failures.
+  </defect>
+  
+  <defect number="DEF130707" title="dbmanager causes Raptor build failures" revision="048">
+	Changed filename from dbmanager.lib to libdbmanager.a 
+  </defect>
+
+  <deliverystep number="1117" name="PREQ1269: Crypto Services: Plugin management and highly desirable features
+ (Phase 2)" osproject="Diran" revision="047">
+	  <milestone project="GT0433" number="3.2"/>
+	  <preq number="1269" title="Universal Software Install Framework">
+		  1) Post-manufacture plugin management 2) Complex queries in the SCR
+			3) Additional smaller requirements and changes and 4) Improved security in the SCR
+	  </preq>
+  </deliverystep>
+
+ <defect number="DEF128602" title="PREQ1269 - Application Manager is unresponsive" revision="046">
+	Added caching for the CComponentEntry object in the subsession. Improved the performance of RSisRegistryEntry::OpenL. Several other minor improvements. 
+  </defect>
+  
+  <defect number="DEF128615" title="PREQ1269 - SCR database consumes much more disk space than SIS Registry" revision="045">
+	As N- series devices tend to have many in ROM components, most settings in the SCR DB were changed to favour ROM components as the default settings. Additionally, more settings were made optional for all components (index etc.) 
+  </defect>
+ 
+  <defect number="DEF128618" title="PREQ1269 - Processing of ROM stubs is very slow" revision="044">
+	Removing queries while adding files. Improving bitmask management for installed drives. Making more properties optional. Made default options to favour ROM components.
+  </defect>
+
+  <defect number="DEF129328" title="PREQ1269: Read-Write lock fails" revision="043">
+	State variables were moved to the sub-session class instead of CRequestImpl class. This way the state is not shared across sub-sessions. 
+  </defect>
+ 
+  <defect number="DEF129284" title="security_swi_sistools source can't be build in Linux due to lib target wrong" revision="042">
+ 	library target renamed from .lib to lib.a Where is signsis, dumpsis, makesis, interpretsis and sisx
+  </defect>
+
+  <defect number="DEF127647" title="'tinterpretsisinteg\runtest.pl' WINSCW tests fail on ONB due to 'fail.exe' call" revision="041">
+	Created a perl file which internally calls a batch file which runs the runtest.pl tests. This new perl is called from the test spec. 
+  </defect>
+
+  <deliverystep number="1116" name="PREQ1269: Crypto Services: Core Delivery" osproject="Diran" revision="040">
+    <milestone project="GT0433" number="MS3.1"/>
+    <preq number="1269" title="Universal Software Install Framework">
+      Delivers the main set of features for the Diran Early Phase. Includes the new components (SCR, SIF and STS), migration of the native installer to use       the new components and most reference code. Excludes non-mandatory features and post-production plugin management.
+    </preq>
+  </deliverystep>
+
+  <defect number="DEF126793" title="FILEMIME (FM) with InterpretSIS" revision="039">
+	Warnings will be generated for  RBS, FM, RR, RI, RB options when used with Interpretsis.
+  </defect>
+
+  <defect number="DEF126807" title="Fix copyright errors" revision="038">
+	Copy Right headers has been added in the files.
+  </defect>
+
+  <deliverystep number="1129" name="EC062: Harmonise Security and SymbianSigned PC Tools libraries" osproject="Sphinx" revision="037">
+    <milestone project="GT0379" number="MS3.25"/>
+     Refactoring makesis, signsis, dumpsis and interpretsis into libraries so that the code duplication can be avoided. This will also improve the maintenance of the code.
+  </deliverystep>
+
+  <defect number="DEF126467" title="makesis -c option" revision="036">  
+	InterpretSIS now supports SIS upgrades, HAL attributes and file options. The -c command has been updated to reflect this.
+  </defect>
+
+  <defect number="INC124436" title="Interpretsis fails with Czech SIS file - unicode issue?" revision="035">  
+	InterpretSIS can now install files which contain unicode characters.
+  </defect>
+
+  <defect number="PDEF126468" title="Makesis can confuse filenames with wildcards with run-on-install exes" revision="034">  
+	Removed defect in parsing code that caused the RI flag to be mixed with previous FN flags. This caused makesis
+	to reject wildcardFileNull lines with 'invalid path' errors.
+  </defect> 
+  
+  <defect number="DEF126315" title="makesis does not output diagnostic messages" revision="033">
+     Additional error information is now displayed to the user when MakeSIS is used standalone.
+  </defect> 
+
+  <deliverystep number="1093" name="PREQ2114:Crypto Services - InterpretSIS Support for Device Software Variants" osproject="Sphinx" revision="032">
+    <milestone project="GT0379" number="MS3.27"/>
+    <preq number="2114" title="InterpretSIS Support for Device Software Variants">
+      The Symbian OS InterpretSIS tool shall be enhanced with a number of new functions to support device software variant creation.
+    </preq>
+  </deliverystep>
+
+ <defect number="" title="Fixed memory leak in SisFile::GetControllerInfo()" revision="031">
+     Fixed memory leak in SisFile.
+  </defect> 
+
+ <defect number="" title="Fixed memory leak in InstallableFile class" revision="030">
+     In the class destructor, delete the allocated memory.
+  </defect> 
+
+ <defect number="" title="Put a fix for random hang during InterpretSIS regression" revision="029">
+     util_win32.cpp closedir(DIR* aDir) dir handle wasn't refered correctly.
+  </defect> 
+
+ <defect number="" title="Makesis doesn't output correct error message when the file supplied is too large" revision="028">
+     Added error message for makesis when the file supplied is too large.
+  </defect> 
+
+  <defect number="DEF119363" title="Add signsis sanity checks" revision="027">
+     Check added to ensure hash in file descriptions matches the hash of the files themselves.
+  </defect> 
+
+  <defect number="DEF121684" title="security_sistools component exports Linux library to wrong location on Linux" revision="026">
+     security_sistools component exports Linux library to right location on Linux.
+  </defect> 
+ 
+  <defect number="PDEF120947" title="makesis doesn't work with Linux on a 9.4 build" revision="025">
+     makesis works fine in linux.
+  </defect>   
+
+  <deliverystep number="949" name="CR1125:Crypto Services:Add Package Versions to SIS File Conditionals" osproject="Sphinx" revision="024">
+	  <milestone project="GT0379" number="MS3.9"/>
+	  <cr number="1125" title="Add Package Versions to SIS File Conditionals">
+		Add Package Versions to SIS File Conditionals	  
+	  </cr>
+  </deliverystep>  
+  
+  <defect number="DEF118247" title="makesis debug version is missing GENERATE_ERRORS macro" revision="023">
+     Added the GENERATE_ERRORS in commontypes.h 
+  </defect>   
+  
+  <defect number="DEF117898" title="makesis and signsis fail to compile on Linux with Raptor" revision="022">
+    makesis and signsis builds on raptor too.
+  </defect>   
+  
+  <defect number="DEF117196" title="interpretsis is too strict when parsing HAL config file" revision="021">
+    Made parsing of config file for interpretsis more flexible.
+  </defect>   
+
+  <defect number="DEF117529" title="errors in utility_linux.cpp" revision="020">
+    Correct the errors in linux build
+  </defect>  
+  
+  <defect number="DEF117312" title="Signsis fails after tools changes" revision="019">
+    Disable the stack_check flag in g++ options
+  </defect>  
+
+  <defect number="DEF117248" title="Old style makefile is not compatible with the new build system" revision="018">
+    change makefile to be compatible.
+  </defect>  
+
+  <defect number="DEF117163" title="interpretsis does not display it's version" revision="017">
+    Interpretsis version information added. 
+  </defect>  
+  
+  <defect number="DEF116415" title="Some security pc-tools do not display the Open SSL copyright notice " revision="016">
+    Security pc tools displays openssl copyright notice.
+  </defect>
+  
+ <defect number="INC116685" title=" interpretsis fails when it encounters a path for Delete-File-On-Uninstall" revision="015">
+	interpretsis ignores source file when FN flag is on 
+ </defect>  
+  
+ <defect number="DEF116391" title="InterpretSIS incorrectly enforces SID uniqueness for DLLs" revision="014">
+	Interpretsis will no longer enforces uniqueness of UID3 for DLL.
+ </defect>  
+  
+ <defect number="DEF113292" title="PC tools test fail in ONB" revision="013">
+	Fixed problem with dumpsis not outputting data files.
+ </defect>  
+  
+ <defect number="INC116687" title="interpretsis info message should be warnings" revision="012">
+	Some Interpresis INFO log messages have been chaged to WARN messages.
+ </defect>  
+  
+ <defect number="DEF115968" title="Interpretsis fails with exception after reading 2044 files from stubs" revision="011">
+	Fix for Interpretsis tool defect, which makes tool stop with exception while reading stubs when total number of files in stubs cross 2044.
+ </defect>
+
+  <defect number="DEF113116" title="MakeSIS  and DumpSIS support for new text option FA added." revision="010">
+	MakeSIS  and DumpSIS support for new text option FA added.
+  </defect>
+  
+  <defect number="DEF113349" title="Attempting to embed a PP SIS file in an SA SIS file causes makesis to crash." revision="009">
+	Makesis doesn't support embedded PA/PP sis files.
+  </defect>
+ 
+  <deliverystep number="841" name="Product Usability: interpretsis needs improving for variant creation" osproject="Oregano" revision="008">
+    <milestone project="GT0313" number="MS3.5"/>
+    <cr number="1200" title="Product Usability: interpretsis needs improving for variant creation">
+      Insterpretsis  tool extended to support  extracting Z-drive information from ROM/ROFS logs,  installation of SIS files with HAL attributes and language conditions, installation of PA SIS files and SIS files with embedded SIS files.
+    </cr>
+  </deliverystep>
+ 
+ <defect number="DEF112831" title="makesis crashes on .pkg containing non-existing embedded sis." revision="007">
+    In a function which throws an exception, ensure any local function objects are created on the heap using an auto_ptr so they can be cleaned up correctly when the exception is thrown.
+  </defect>
+  
+  <defect number="DEF111563" title="signsis fails if an embedded package has a dependency" revision="006">
+    An embedded package with dependency is created and signed successfully by MakeSIS and SignSIS respectively.
+  </defect>
+  
+  <defect number="DEF112718" title="Invalid version number" revision="005">
+    Version number in .pkg file is valid.
+  </defect>
+
+  <defect number="DEF110211" title="interpretsis wrongly fails with data_cage_violation" revision="004">
+    Changes done to  "GetSid" function. It was looking at offset (0x80 * 4) in the file, rather than 0x80 in order to read the SID associated with a binary. 
+  </defect>
+  
+  <defect number="DEF111264" title="makesis should warn if wildcards are used in the \sys directory in ROM stubs" revision="003">
+    Makesis warns if wildcards are used in the \sys\bin directory in ROM stubs.
+  </defect>
+  
+  <defect number="DEF110963" title="interpretsis exception when attempting to read lmpro_stub.sis" revision="002">
+    Fixed memory in trample in interpretsis and related code in dumpsis.
+  </defect>
+
+  <defect number="DEF111343" title="makesis version should be 5.1.0.1">
+    The version number has been changed to 5.1.0.1 in makesis.cpp.
+  </defect>
+
+  <deliverystep number="708" name="Security - Alignment of CBR and System Model components" osproject="Oghma" revision="001">
+    <milestone project="GT0313" number="MS3.7"/>
+    <preq number="775" title="Alignment of CBR and System Model components">
+      SIS PC tools are split from SWI component into a new component security_sistools.
+    </preq>
+  </deliverystep>
+</relnotes>

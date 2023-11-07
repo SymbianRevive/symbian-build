@@ -1,0 +1,22 @@
+component	security_sistools
+source	\sf\mw\appinstall\secureswitools\swisistools
+binary	\sf\mw\appinstall\secureswitools\swisistools\group	all
+exports	\sf\mw\appinstall\secureswitools\swisistools\group
+
+# Compensate for not building "tools deb"
+-binary \epoc32\release\winc\deb\signsis.exe
+-binary \epoc32\release\winc\deb\makesis.exe
+-binary \epoc32\release\winc\deb\dumpsis.exe
+-binary \epoc32\release\winc\deb\interpretsis.exe
+-binary \epoc32\release\winc\deb\xmlparser.exe
+-binary \epoc32\release\winc\deb\dbmanager.lib
+-binary \epoc32\tools\xerces-c_2.lib
+-binary \epoc32\tools\xerces-c_2_8.dll
+-binary \epoc32\tools\sqlite3.def
+-binary \epoc32\tools\sqlite3.dll
+
+notes_source	\component_defs\release.src
+
+ipr E 
+ipr T \sf\mw\appinstall\secureswitools\swisistools\test
+ipr T \sf\mw\appinstall\secureswitools\swisistools\examples\interpretsis

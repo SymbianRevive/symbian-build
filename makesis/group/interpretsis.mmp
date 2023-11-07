@@ -1,0 +1,70 @@
+/*
+* Copyright (c) 2008-2010 Nokia Corporation and/or its subsidiary(-ies).
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of the License "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description: 
+* This mmp file is used to replace calling makefile directly.
+*
+*/
+
+
+
+TARGET			interpretsis.exe
+TARGETTYPE		exe
+
+USERINCLUDE 		../source/interpretsis
+USERINCLUDE 		../source/interpretsislib
+USERINCLUDE 		../source/sisxlibrary
+USERINCLUDE 		../source/common
+USERINCLUDE 		../../swianalysistoolkit/source/common
+USERINCLUDE 		../../swianalysistoolkit/source/common/utf8
+
+#ifdef SYMBIAN_UNIVERSAL_INSTALL_FRAMEWORK
+USERINCLUDE 		../source/rscparser
+USERINCLUDE		../source/xmlparser
+#endif // SYMBIAN_UNIVERSAL_INSTALL_FRAMEWORK
+
+MW_LAYER_SYSTEMINCLUDE_SYMBIAN
+SYSTEMINCLUDE 		../../openssllib/import/inc/openssl 
+SYSTEMINCLUDE 		../../openssllib/import/inc
+
+#ifdef SYMBIAN_UNIVERSAL_INSTALL_FRAMEWORK
+	SYSTEMINCLUDE 		../source/xmlparser/xerces/include
+#endif //SYMBIAN_UNIVERSAL_INSTALL_FRAMEWORK
+
+SOURCEPATH		../source/interpretsis
+SOURCE			main.cpp
+SOURCE			commandparser.cpp
+
+STATICLIBRARY		interpretsis
+STATICLIBRARY		sisx
+
+#ifdef SYMBIAN_UNIVERSAL_INSTALL_FRAMEWORK
+STATICLIBRARY		xerces
+STATICLIBRARY		dbmanager
+#endif //SYMBIAN_UNIVERSAL_INSTALL_FRAMEWORK
+
+#ifndef TOOLS2_LINUX
+STATICLIBRARY		eay32 zlib seclib
+#else
+STATICLIBRARY		crypto zlib seclib dl
+LIBRARY c
+#endif
+
+OPTION			GCC -w
+OPTION			GCC -fno-stack-check
+OPTION			GCC -fpermissive
+#ifdef TOOLS2_LINUX
+OPTION			GCC -rdynamic
+#endif // TOOLS2_LINUX
+MACRO			_UNICODE _CONSOLE _STLP_THREADS UNICODE __GNUG__
+
