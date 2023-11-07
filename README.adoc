@@ -7,5 +7,5 @@ CAUTION: Currently work in progress!!!
 `sbsv2`:: Most stuff works(TM)
 `rcomp`:: Builds using SBSv2
 `elf2e32`:: Builds using SBSv2
-`swisistools`:: Currently broken...
+`makesis`:: Builds using SBSv2
 Everything else:: Not tested yet 🙃
