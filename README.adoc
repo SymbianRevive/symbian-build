@@ -8,4 +8,5 @@ CAUTION: Currently work in progress!!!
 `rcomp`:: Builds using SBSv2
 `elf2e32`:: Builds using SBSv2
 `makesis`:: Builds using SBSv2
+`mifconv`:: Builds using SBSv2 (patch required)
 Everything else:: Not tested yet 🙃
