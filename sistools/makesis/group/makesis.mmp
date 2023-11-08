@@ -24,7 +24,7 @@ USERINCLUDE 		../source
 USERINCLUDE 		../include
 
 MW_LAYER_SYSTEMINCLUDE_SYMBIAN
-SYSTEMINCLUDE 		/epoc32/include ../../openssl/include
+SYSTEMINCLUDE 		/epoc32/include ../../../openssl/include
 
 SOURCEPATH			../source
 
@@ -55,7 +55,7 @@ SOURCE signutils.cpp
 	MACRO				_CONSOLE NOMINMAX
 	STATICLIBRARY		crypto
 	OPTION GCC		-lz
-	OPTION GCC		-idirafter ../../openssl/include
+	OPTION GCC		-idirafter ../../../openssl/include
 #endif
 
 OPTION			GCC -w
