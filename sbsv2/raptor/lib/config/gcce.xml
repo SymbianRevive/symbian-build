@@ -36,7 +36,7 @@
 		<set name="CC.SOFTVFP_MAYBE_VFPV2" value="soft"/>
 		<set name="CC.SOFTVFP_MAYBE_VFPV3" value="soft"/>
 		<set name="CC_ERRORS_CONTROL_OPTION" value=""/>
-		<set name="CC_WARNINGS_CONTROL_OPTION" value="-Wall -Wno-unknown-pragmas -Wno-return-local-addr -Wno-deprecated"/>
+		<set name="CC_WARNINGS_CONTROL_OPTION" value="-Wall -Wno-unknown-pragmas -Wno-return-local-addr -Wno-deprecated -Wno-error=narrowing -Wno-comment -Wno-switch -Wno-endif-labels"/>
 		<set name="CIADEFS" value="__CIA__"/>
 		<set name="CODE_SEGMENT_START" value="-Ttext"/>
 		<set name="COMMANDFILE_OPTION" value="@"/>
@@ -47,7 +47,7 @@
         	<set name="COMPILER_NO_HIDE_ALL_OPTION" value="-fvisibility=default"/>
 		<set name="COMPILER_SYSTEM_INCLUDE_OPTION" value="-I"/>
 		<set name="COMPILER_THUMB_DEFINES" value="__MARM_THUMB__"/>
-		<set name="CPP_LANG_OPTION" value="-x c++ -Wno-ctor-dtor-privacy -std=gnu++14 -Wno-invalid-offsetof"/>
+		<set name="CPP_LANG_OPTION" value="-x c++ -Wno-ctor-dtor-privacy -std=gnu++14 -Wno-invalid-offsetof -fpermissive"/>
 		<set name="DATA_SEGMENT_START" value="$(SPLIT_OPTION) $(RW_BASE_OPTION)"/>
 		<set name="DEBUG_OPTIMISATION" value="-O0"/>
 		<set name="DEBUGINFO_OPTIMISATION" value=""/>
