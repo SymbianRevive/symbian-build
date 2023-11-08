@@ -27,10 +27,10 @@ TOOLS2
 
 PRJ_EXPORTS
 
-../../openssl/libcrypto.a	/epoc32/release/tools2/deb/libcrypto.a
-../../openssl/libcrypto.a	/epoc32/release/tools2/linux-x86_64-libc2_38/deb/libcrypto.a
-../../openssl/libcrypto.a	/epoc32/release/tools2/rel/libcrypto.a
-../../openssl/libcrypto.a	/epoc32/release/tools2/linux-x86_64-libc2_38/rel/libcrypto.a
+../../../openssl/libcrypto.a	/epoc32/release/tools2/deb/libcrypto.a
+../../../openssl/libcrypto.a	/epoc32/release/tools2/linux-x86_64-libc2_38/deb/libcrypto.a
+../../../openssl/libcrypto.a	/epoc32/release/tools2/rel/libcrypto.a
+../../../openssl/libcrypto.a	/epoc32/release/tools2/linux-x86_64-libc2_38/rel/libcrypto.a
 
 #if 0
 // export createsis
