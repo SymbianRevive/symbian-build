@@ -132,13 +132,13 @@
 		<set name="STATIC_RUNTIME_DIR" value="$(EPOCROOT)/epoc32/release/armv5/$(VARIANTTYPE)"/>
 	</var>
 
-	<alias name="armv5_urel" meaning="arm.v5.urel.rvct2_2"/>
-	<alias name="armv5_udeb" meaning="arm.v5.udeb.rvct2_2"/>
+	<!--<alias name="armv5_urel" meaning="arm.v5.urel.rvct2_2"/>-->
+	<!--<alias name="armv5_udeb" meaning="arm.v5.udeb.rvct2_2"/>-->
 	<!-- To switch to GCCE for building armv5 code, 
 	comment out the two lines above this comment
 	and comment in the two lines below this comment -->
-	<!-- <alias name="armv5_urel" meaning="arm.v5.urel.gcce4_3_2"/> -->
-	<!-- <alias name="armv5_udeb" meaning="arm.v5.udeb.gcce4_3_2"/> -->
+	<alias name="armv5_urel" meaning="arm.v5.urel.gcce12_1_0"/>
+	<alias name="armv5_udeb" meaning="arm.v5.udeb.gcce12_1_0"/>
 
 	<!-- These aliases are provided to work with the "gcce_armv5" group -->
 	<alias name="armv5_urel_gcce4_3_2" meaning="arm.v5.urel.gcce4_3_2"/>
@@ -150,6 +150,12 @@
 
 	<alias name="armv5_urel_gcce4_4_1" meaning="arm.v5.urel.gcce4_4_1"/>
 	<alias name="armv5_udeb_gcce4_4_1" meaning="arm.v5.udeb.gcce4_4_1"/>
+
+	<alias name="armv5_urel_gcce4_6_3" meaning="arm.v5.urel.gcce4_6_3"/>
+	<alias name="armv5_udeb_gcce4_6_3" meaning="arm.v5.udeb.gcce4_6_3"/>
+
+	<alias name="armv5_urel_gcce12_1_0" meaning="arm.v5.urel.gcce12_1_0"/>
+	<alias name="armv5_udeb_gcce12_1_0" meaning="arm.v5.udeb.gcce12_1_0"/>
 	
 	<alias name="armv6_urel" meaning="arm.v6.urel.rvct2_2"/>
 	<alias name="armv6_udeb" meaning="arm.v6.udeb.rvct2_2"/>
@@ -179,8 +185,8 @@
 	</group>
 	
 	<group name="gcce_armv5">
-		<aliasRef ref="armv5_urel_gcce4_3_2"/>
-		<aliasRef ref="armv5_udeb_gcce4_3_2"/>
+		<aliasRef ref="armv5_urel_gcce12_1_0"/>
+		<aliasRef ref="armv5_udeb_gcce12_1_0"/>
 	</group>
 	
 </build>
