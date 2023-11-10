@@ -5,17 +5,14 @@
 
 	<group name="default">
 		<groupRef ref="armv5"/>
-		<groupRef ref="winscw"/>
 	</group>
 
 	<group name="urel">
 		<aliasRef ref="armv5_urel"/>
-		<aliasRef ref="winscw_urel"/>
 	</group>
 
 	<group name="udeb">
 		<aliasRef ref="armv5_udeb"/>
-		<aliasRef ref="winscw_udeb"/>
 	</group>
 
 	<!-- all known configurations -->
