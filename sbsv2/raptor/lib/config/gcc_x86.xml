@@ -34,7 +34,7 @@
 		<set name="CC.SOFTVFP_MAYBE_VFPV2" value="soft"/>
 		<set name="CC.SOFTVFP_MAYBE_VFPV3" value="soft"/>
 		<set name="CC_ERRORS_CONTROL_OPTION" value=""/>
-		<set name="CC_WARNINGS_CONTROL_OPTION" value="-Wall -Wno-error=narrowing -Wno-switch -Wno-deprecated -Wno-system-headers -Wno-unknown-pragmas"/>
+		<set name="CC_WARNINGS_CONTROL_OPTION" value="-Wall -Wno-error=narrowing -Wno-switch -Wno-deprecated -Wno-system-headers -Wno-unknown-pragmas -fpermissive"/>
 		<set name="CIADEFS" value="__CIA__"/>
 		<set name="CODE_SEGMENT_START" value="-Ttext"/>
 		<set name="COMMANDFILE_OPTION" value="@"/>
@@ -44,7 +44,7 @@
 		<set name="COMPILER_INTERWORK_DEFINES" value=""/>
 		<set name="COMPILER_SYSTEM_INCLUDE_OPTION" value="-isystem "/>
 		<set name="COMPILER_THUMB_DEFINES" value=""/>
-		<set name="CPP_LANG_OPTION" value="-x c++ -masm=intel -fno-rtti -fno-exceptions -fcheck-new -Wno-ctor-dtor-privacy -std=gnu++14 -Wno-invalid-offsetof -Wno-narrowing -fpermissive"/>
+		<set name="CPP_LANG_OPTION" value="-x c++ -masm=intel -fno-rtti -fno-exceptions -fcheck-new -Wno-ctor-dtor-privacy -std=gnu++14 -Wno-invalid-offsetof -Wno-narrowing"/>
 		<set name="DATA_SEGMENT_START" value="$(SPLIT_OPTION) $(RW_BASE_OPTION)"/>
 		<set name="DEBUG_OPTIMISATION" value="-O0"/>
 		<set name="DEBUGINFO_OPTIMISATION" value=""/>
