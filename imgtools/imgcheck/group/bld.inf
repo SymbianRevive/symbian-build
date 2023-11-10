@@ -30,5 +30,7 @@ PRJ_EXPORTS
 ./imgcheck.cmd				/epoc32/tools/imgcheck.cmd
 
 PRJ_MMPFILES
+/*
 imgutils
 imgcheck
+*/

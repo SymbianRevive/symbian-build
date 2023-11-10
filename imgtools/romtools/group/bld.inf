@@ -45,9 +45,13 @@ PRJ_EXPORTS
 #endif
 
 PRJ_MMPFILES 
+/*
 readimage 
 ../rofsbuild/rofsbuild.mmp
 ../rombuild/rombuild.mmp 
+*/
 
 PRJ_TESTMMPFILES
+/*
 ../rombuild/r_t_areaset
+*/
