@@ -33,8 +33,10 @@ PRJ_EXPORTS
 
 
 PRJ_MMPFILES
+/*
 patchdataprocessor
 parameterfileprocessor
 memmap
 filesystem
 uidcrc
+*/
