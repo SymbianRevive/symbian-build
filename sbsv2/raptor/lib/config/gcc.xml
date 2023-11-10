@@ -29,7 +29,7 @@
 		<set name='TRADITIONAL_PLATFORM' value='TOOLS2'/>
 
 		<!-- Java used by Trace Compiler -->
-		<set name='CFLAGS' value='-std=c++0x -fdefer-pop -fmerge-constants -fthread-jumps -floop-optimize -fif-conversion -fif-conversion2 -fguess-branch-probability -fcprop-registers -foptimize-sibling-calls -fstrength-reduce -fcse-follow-jumps -fcse-skip-blocks -frerun-cse-after-loop -frerun-loop-opt -fgcse -fgcse-lm -fgcse-sm -fgcse-las -fdelete-null-pointer-checks -fexpensive-optimizations -fregmove -fschedule-insns -fschedule-insns2 -fsched-interblock -fsched-spec -fcaller-saves -fpeephole2 -freorder-blocks -freorder-functions -fstrict-aliasing -funit-at-a-time -falign-functions -falign-jumps -falign-loops -falign-labels -fcrossjumping -pipe -Wall -Wno-ctor-dtor-privacy -Wno-unknown-pragmas -m32'/>
+		<set name='CFLAGS' value='-std=gnu++14 -fdefer-pop -fmerge-constants -fthread-jumps -floop-optimize -fif-conversion -fif-conversion2 -fguess-branch-probability -fcprop-registers -foptimize-sibling-calls -fstrength-reduce -fcse-follow-jumps -fcse-skip-blocks -frerun-cse-after-loop -frerun-loop-opt -fgcse -fgcse-lm -fgcse-sm -fgcse-las -fdelete-null-pointer-checks -fexpensive-optimizations -fregmove -fschedule-insns -fschedule-insns2 -fsched-interblock -fsched-spec -fcaller-saves -fpeephole2 -freorder-blocks -freorder-functions -fstrict-aliasing -funit-at-a-time -falign-functions -falign-jumps -falign-loops -falign-labels -fcrossjumping -pipe -Wall -Wno-ctor-dtor-privacy -Wno-unknown-pragmas -m32 -Wno-invalid-offsetof -Wno-narrowing -Wno-deprecated -Wno-system-headers -fpermissive -fcheck-new'/>
 		<env name='JAVA_HOME' default='' type='path'/>		
 		<set name='VARIANTPLATFORM' value='tools2'/>
 
