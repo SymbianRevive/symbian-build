@@ -30,7 +30,7 @@ if [[ "${OSTYPE}" =~ "linux" ]]; then
 	LIBC=$(LANG=C /lib/libc.so.6 |sed -rn 's/^GNU C Library .* version ([0-9]+)\.([0-9]+).*/libc\1_\2/p')
         HOSTPLATFORM="linux ${ARCH} ${LIBC}"
 
-	if [ "$LIBC" == "libc2_3" ]; then
+	if [ "$LIBC" == "libc2_"* ]; then
         	HOSTPLATFORM_DIR="linux-${ARCH}"
 	else
         	HOSTPLATFORM_DIR="linux-${ARCH}-${LIBC}"
