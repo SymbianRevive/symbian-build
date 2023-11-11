@@ -21,28 +21,21 @@
 TARGET			signsis.exe
 TARGETTYPE		exe
 
-USERINCLUDE 		../source/signsis
-USERINCLUDE 		../source/signsislib
-USERINCLUDE 		../source/sisxlibrary
-USERINCLUDE 		../../swianalysistoolkit/source/common
+USERINCLUDE 		../source
+USERINCLUDE 		../include
 
-MW_LAYER_SYSTEMINCLUDE_SYMBIAN
-SYSTEMINCLUDE 		../../openssllib/import/inc/openssl 
-SYSTEMINCLUDE 		../../openssllib/import/inc 
+SYSTEMINCLUDE 		/epoc32/include ../../../openssl/include
 
-SOURCEPATH		../source/signsis
-SOURCE			main.cpp
-SOURCE			parameter.cpp
+SOURCEPATH		../source
 
-STATICLIBRARY		signsis
-STATICLIBRARY		sisx
+SOURCE			signsis.cpp
+SOURCE			crc.c
+SOURCE			signutils.cpp
+SOURCE			sisfield.cpp
 
-#ifndef TOOLS2_LINUX
-STATICLIBRARY		eay32 zlib seclib
-#else
-STATICLIBRARY		crypto zlib seclib
-#endif
+STATICLIBRARY		crypto
 
+OPTION			GCC -lz
 OPTION			GCC -w
 OPTION			GCC -fno-stack-check
 OPTION			GCC -fpermissive

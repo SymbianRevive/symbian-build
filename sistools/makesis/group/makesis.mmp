@@ -23,10 +23,9 @@ TARGETTYPE		exe
 USERINCLUDE 		../source
 USERINCLUDE 		../include
 
-MW_LAYER_SYSTEMINCLUDE_SYMBIAN
 SYSTEMINCLUDE 		/epoc32/include ../../../openssl/include
 
-SOURCEPATH			../source
+SOURCEPATH		../source
 
 SOURCE crc.c
 SOURCE crtsis.cpp
@@ -48,14 +47,14 @@ SOURCE signutils.cpp
 
 
 #ifndef TOOLS2_LINUX
-	MACRO				_UNICODE _CONSOLE _STLP_THREADS _WIN32 UNICODE
-	STATICLIBRARY		eay32 
+	MACRO		_UNICODE _CONSOLE _STLP_THREADS _WIN32 UNICODE
+	STATICLIBRARY	eay32 
 #else
-	//MACRO				_UNICODE _CONSOLE UNICODE
-	MACRO				_CONSOLE NOMINMAX
-	STATICLIBRARY		crypto
-	OPTION GCC		-lz
-	OPTION GCC		-idirafter ../../../openssl/include
+	//MACRO		_UNICODE _CONSOLE UNICODE
+	MACRO		_CONSOLE NOMINMAX
+	STATICLIBRARY	crypto
+	OPTION GCC	-lz
+	OPTION GCC	-idirafter ../../../openssl/include
 #endif
 
 OPTION			GCC -w

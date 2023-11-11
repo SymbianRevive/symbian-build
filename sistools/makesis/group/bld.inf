@@ -32,9 +32,10 @@ PRJ_EXPORTS
 ../../../openssl/libcrypto.a	/epoc32/release/tools2/rel/libcrypto.a
 ../../../openssl/libcrypto.a	/epoc32/release/tools2/linux-x86_64-libc2_38/rel/libcrypto.a
 
-#if 0
 // export createsis
-../source/createsis/createsis.pl	/epoc32/tools/createsis.pl
+../source/createsis.pl	/epoc32/tools/createsis.pl
+
+#if 0
 ../source/createsis/createsis.bat	/epoc32/tools/createsis.bat
 
 // scrtool files
@@ -77,7 +78,7 @@ PRJ_MMPFILES
 #ifdef TOOLS2
 //sisxlibrary.mmp
 //signsislib.mmp
-//signsis.mmp
+signsis.mmp
 //makesislib.mmp
 makesis.mmp
 //dumpsislib.mmp
