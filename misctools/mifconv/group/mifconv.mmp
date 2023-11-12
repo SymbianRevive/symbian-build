@@ -1,4 +1,4 @@
-target			mifconf.exe
+target			mifconv.exe
 targettype		exe
 
 sourcepath	../source
