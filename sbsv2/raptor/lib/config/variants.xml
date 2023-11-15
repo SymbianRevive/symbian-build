@@ -136,8 +136,8 @@
 	</var>
 
 	<var name="gcce12_1_0" extends="gcce_base">
-		<env name="SBS_GCC1210BIN" type="toolchainpath" />
-		<set name="GCCEBIN" value="$(SBS_GCC1210BIN)" />
+		<env name="SBS_GCCE1210BIN" type="toolchainpath" />
+		<set name="GCCEBIN" value="$(SBS_GCCE1210BIN)" />
 		<set name="GCCECC" value="$(GCCEBIN)/arm-none-symbianelf-g++$(DOTEXE)" type="tool" versionCommand="$(GCCECC) -dumpversion" versionResult="12.1.0"/>
 		<set name="RUNTIME_LIBS_LIST" value="drtaeabi.dso dfpaeabi.dso"/>
 		<set name="PLATMACROS.VAR" value="GCCE_4 GCCE_4_4 GCCE_12 GCCE_12_1"/>
