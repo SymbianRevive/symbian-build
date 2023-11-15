@@ -76,6 +76,7 @@ PRJ_EXPORTS
 
 PRJ_MMPFILES
 #ifdef TOOLS2
+makekeys.mmp
 //sisxlibrary.mmp
 //signsislib.mmp
 signsis.mmp

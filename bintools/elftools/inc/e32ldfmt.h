@@ -20,11 +20,7 @@
 #ifndef __E32LDFMT_H__
 #define __E32LDFMT_H__
 
-#ifdef __MSVCDOTNET__
 #include <fstream>
-#else //!__MSVCDOTNET__
-#include <fstream.h>
-#endif //__MSVCDOTNET__
 
 #include <e32std.h>
 #include <f32image.h>

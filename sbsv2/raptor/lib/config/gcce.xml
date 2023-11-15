@@ -47,7 +47,7 @@
         	<set name="COMPILER_NO_HIDE_ALL_OPTION" value="-fvisibility=default"/>
 		<set name="COMPILER_SYSTEM_INCLUDE_OPTION" value="-isystem "/>
 		<set name="COMPILER_THUMB_DEFINES" value="__MARM_THUMB__"/>
-		<set name="CPP_LANG_OPTION" value="-x c++ -Wno-ctor-dtor-privacy -std=c++0x -Wno-invalid-offsetof -Wno-narrowing -fpermissive"/>
+		<set name="CPP_LANG_OPTION" value="-x c++ -Wno-ctor-dtor-privacy -std=gnu++0x -Wno-invalid-offsetof -Wno-narrowing -fpermissive"/>
 		<set name="DATA_SEGMENT_START" value="$(SPLIT_OPTION) $(RW_BASE_OPTION)"/>
 		<set name="DEBUG_OPTIMISATION" value="-O0"/>
 		<set name="DEBUGINFO_OPTIMISATION" value=""/>
