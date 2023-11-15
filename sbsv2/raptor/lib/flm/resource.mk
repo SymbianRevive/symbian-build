@@ -31,7 +31,7 @@ define resource.deps
 
     $3: $(SOURCE)
 	$(call startrule,resourcedependencies,FORCESUCCESS) \
-	$(GNUCPP) -DLANGUAGE_$(2) -DLANGUAGE_$(subst sc,SC,$2) $(call makemacrodef,-D,$(MMPDEFS))\
+	$(GNUCPP) -P -DLANGUAGE_$(2) -DLANGUAGE_$(subst sc,SC,$2) $(call makemacrodef,-D,$(MMPDEFS))\
 	$(CPPOPT) $(SOURCE) -M -MG -MT"$1" | \
 	$$(DEPENDENCY_CORRECTOR) >$3 \
 	$(call endrule,resourcedependencies)
@@ -82,7 +82,7 @@ define resource.build
         # can be attempted while we're trying to test.
         $(RESOURCEHEADER) : $1
 	    $(call startrule,resourcecompile.headerfill,FORCESUCCESS) \
-	    if [ ! -f "$(RESOURCEHEADER)" ]; then $(GNUCPP)  -DLANGUAGE_$2 \
+	    if [ ! -f "$(RESOURCEHEADER)" ]; then $(GNUCPP) -P -DLANGUAGE_$2 \
 	      -DLANGUAGE_$(subst sc,SC,$(2)) $(call makemacrodef,-D,$(MMPDEFS))\
 	      $(CPPOPT) $(SOURCE) -o $1.rpp; fi && \
 	    if [ ! -f "$(RESOURCEHEADER)" ]; then $(RCOMP) -m045,046,047 -u -h$$@ -s$1.rpp; fi \
@@ -95,7 +95,7 @@ define resource.build
     
     $1: $(SOURCE)
 	$(call startrule,resourcecompile,FORCESUCCESS) \
-	$(GNUCPP)  -DLANGUAGE_$2 -DLANGUAGE_$(subst sc,SC,$(2)) $(call makemacrodef,-D,$(MMPDEFS))\
+	$(GNUCPP) -P -DLANGUAGE_$2 -DLANGUAGE_$(subst sc,SC,$(2)) $(call makemacrodef,-D,$(MMPDEFS))\
 	$(CPPOPT) $(SOURCE) -o $1.rpp && \
 	$(RCOMP) -m045,046,047 -u $(DOHEADER) -o$$@ -s$1.rpp \
 	$(call endrule,resourcecompile)
@@ -128,7 +128,7 @@ define resource.headeronly
    
     $(DEPENDFILENAME): $(SOURCE)
 	$(call startrule,resource.headeronly.deps,FORCESUCCESS) \
-	$(GNUCPP) -DLANGUAGE_$2 -DLANGUAGE_$(subst sc,SC,$2) $(call makemacrodef,-D,$(MMPDEFS))\
+	$(GNUCPP) -P -DLANGUAGE_$2 -DLANGUAGE_$(subst sc,SC,$2) $(call makemacrodef,-D,$(MMPDEFS))\
 	$(CPPOPT) $(SOURCE) -M -MG -MT"$(RESOURCEHEADER)" | \
 	$$(DEPENDENCY_CORRECTOR) > $$@ \
 	$(call endrule,resource.headeronly.deps)
@@ -142,7 +142,7 @@ define resource.headeronly
     
     $(RESOURCEHEADER): $(SOURCE)
 	$(call startrule,resource.headeronly,FORCESUCCESS) \
-	$(GNUCPP)  -DLANGUAGE_$2 -DLANGUAGE_$(subst sc,SC,$(3)) $(call makemacrodef,-D,$(MMPDEFS))\
+	$(GNUCPP) -P -DLANGUAGE_$2 -DLANGUAGE_$(subst sc,SC,$(3)) $(call makemacrodef,-D,$(MMPDEFS))\
 	$(CPPOPT) $(SOURCE) -o $1_$2.rsg.rpp && \
 	$(RCOMP) -m045,046,047 -u -h$$@ -s$1_$2.rsg.rpp \
 	$(call endrule,resource.headeronly)
