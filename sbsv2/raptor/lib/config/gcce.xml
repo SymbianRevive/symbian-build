@@ -55,8 +55,8 @@
 		<set name="ENUM_OPTION" value=""/>
 		<set name="EXCEPTIONS" value="-fexceptions"/>
 		<set name="EXPORT_VTBL_OPTION" value=""/>
-		<set name="EXTRA_CC_OPTION" value="-fno-threadsafe-statics -fshort-enums"/>
-		<set name="EXTRA_LD_OPTION" value="-fno-optimize-sibling-calls -fshort-enums"/>
+		<set name="EXTRA_CC_OPTION" value="-fno-threadsafe-statics -fshort-enums -nostdlib"/>
+		<set name="EXTRA_LD_OPTION" value="-fno-optimize-sibling-calls -fshort-enums -nostdlib"/>
 		<set name="FPMODE_OPTION" value=""/>
 		<set name="HEADER_FILES_CONTROL_OPTION" value=""/>
 		<set name="INSTRUCTION_SET" value=""/>
