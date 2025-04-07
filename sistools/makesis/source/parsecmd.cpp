@@ -45,7 +45,7 @@ BOOL CParseCmd::ParseCommandLine(int argc, _TCHAR *argv[])
 	// Check for options
 	while(wCount < argc)
 		{
-		if(argv[wCount][0] != '-' && argv[wCount][0] != '/')
+		if(argv[wCount][0] != '-')
 			break;
 		else
 			{
