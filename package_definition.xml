@@ -14,6 +14,9 @@
             <component filter="build_SFPhase1" id="elftools" name="elftools" >
                 <unit bldFile="bintools/elftools/group" mrp="bintools/elftools/group/elftools.mrp"/>
             </component>
+            <component filter="build_SFPhase1" id="makesis" name="makesis" >
+                <unit bldFile="sistools/makesis/group" mrp="sistools/makesis/group/makesis.mrp"/>
+            </component>
         </collection>
         <collection id="srctools" level="middleware" name="Source Tools">
             <component filter="build_SFPhase1" id="tranasm" name="tranasm" >
