@@ -28,28 +28,6 @@
                 <unit bldFile="e32tools/e32lib/group" mrp="e32tools/e32lib/group/e32lib.mrp"/>
             </component>
         </collection>
-        <collection id="buildtoolguides" level="ui" name="Build Tool Guides">
-            <component filter="build_SFPhase3" id="emulconfiguratorguide" name="Emulator Configurator Guide" >
-                <unit bldFile="buildtoolguides/emulconfiguratorguide/group" mrp="buildtoolguides/emulconfiguratorguide/group/emulbuilderguide.mrp"/>
-            </component>
-            <component filter="build_SFPhase3" id="romtoolsguide" name="ROM Tools Guide" >
-                <unit bldFile="buildtoolguides/romtoolsguide/group" mrp="buildtoolguides/romtoolsguide/group/romtoolsguide.mrp"/>
-            </component>
-            <component filter="build_SFPhase3" id="sbsv2guide" name="SBSv2 Guide" >
-                <unit bldFile="buildtoolguides/sbsv2guide/group" mrp="buildtoolguides/sbsv2guide/group/sbsv2guide.mrp"/>
-            </component>
-        </collection>
-        <collection id="sbsv2" level="middleware" name="Symbian Build System v2">
-            <component filter="build_SFPhase3" id="cpp-raptor" name="CPP (Raptor)" >
-                <unit bldFile="sbsv2/cpp-raptor/group" mrp="sbsv2/cpp-raptor/group/cpp-raptor.mrp"/>
-            </component>
-            <component filter="build_SFPhase3" id="pvmgmake" name="PVM Gmake" >
-                <unit bldFile="sbsv2/pvmgmake/group" mrp="sbsv2/pvmgmake/group/pvmgmake.mrp"/>
-            </component>
-            <component filter="build_SFPhase3" id="raptor" name="SBSv2 (Raptor)" >
-                <unit bldFile="sbsv2/raptor/group" mrp="sbsv2/raptor/group/raptor.mrp"/>
-            </component>
-        </collection>
         <collection id="imgtools" level="framework" name="Image Tools">
             <component filter="build_SFPhase3" id="romtools" name="ROM Tools" >
                 <unit bldFile="imgtools/romtools/group" mrp="imgtools/romtools/group/romtools.mrp"/>
