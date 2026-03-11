@@ -20,6 +20,10 @@ aria2c --checksum=sha-256=f1d9f3ed1b85a82ecf80d0e2d389e1fda3fca9a4dba0bf07adbf23
        --stderr=true -o ${_OPENSSL_DIST} "${_MIRRORS[@]/%/source/old/0.9.x/${_OPENSSL_DIST}}"
 tar --strip-components=1 -xzf ${_OPENSSL_DIST}
 rm -f "${_OPENSSL_DIST}"
+sed -i \
+  -e '/^#ifdef TERMIO$/,/^#endif$/d' \
+  -e 's/^#ifdef TERMIOS$/#if 1/' \
+  crypto/ui/ui_openssl.c
 ./Configure no-shared no-dso 386 'linux-generic32:gcc -m32 -Werror=undef -Werror -DHAVE_LONG_LONG=1'
-make -j"${MAKEJOBS}" ${MAKEFLAGS} build_crypto
+make -j"${MAKEJOBS:-}" ${MAKEFLAGS:-} build_crypto
 >&/dev/null popd
