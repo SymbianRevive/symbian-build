@@ -19,6 +19,7 @@
 
 	<group name="all">
 		<groupRef ref="armv5"/>
+		<groupRef ref="armv6"/>
 		<groupRef ref="armv7"/>
 		<groupRef ref="gccxml"/>
 		<groupRef ref="tools"/>

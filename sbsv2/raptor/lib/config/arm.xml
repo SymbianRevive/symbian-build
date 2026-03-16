@@ -156,9 +156,12 @@
 
 	<alias name="armv5_urel_gcce12_1_0" meaning="arm.v5.urel.gcce12_1_0"/>
 	<alias name="armv5_udeb_gcce12_1_0" meaning="arm.v5.udeb.gcce12_1_0"/>
-	
-	<alias name="armv6_urel" meaning="arm.v6.urel.rvct2_2"/>
-	<alias name="armv6_udeb" meaning="arm.v6.udeb.rvct2_2"/>
+
+	<!--<alias name="armv6_urel" meaning="arm.v6.urel.rvct2_2"/>-->
+	<!--<alias name="armv6_udeb" meaning="arm.v6.udeb.rvct2_2"/>-->
+	<alias name="armv6_urel" meaning="arm.v6.urel.gcce12_1_0"/>
+	<alias name="armv6_udeb" meaning="arm.v6.udeb.gcce12_1_0"/>
+
 	<alias name="armv7_urel" meaning="arm.v7.urel.rvct4_0"/>
 	<alias name="armv7_udeb" meaning="arm.v7.udeb.rvct4_0"/>
 
@@ -174,6 +177,7 @@
 		<aliasRef ref="armv6_urel"/>
 		<aliasRef ref="armv6_udeb"/>
 	</group>
+
 	<group name="armv7">
 		<aliasRef ref="armv7_urel"/>
 		<aliasRef ref="armv7_udeb"/>
@@ -187,6 +191,11 @@
 	<group name="gcce_armv5">
 		<aliasRef ref="armv5_urel_gcce12_1_0"/>
 		<aliasRef ref="armv5_udeb_gcce12_1_0"/>
+	</group>
+	
+	<group name="gcce_armv6">
+		<aliasRef ref="armv6_urel_gcce12_1_0"/>
+		<aliasRef ref="armv6_udeb_gcce12_1_0"/>
 	</group>
 	
 </build>

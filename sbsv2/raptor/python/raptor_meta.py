@@ -3525,7 +3525,7 @@ class MetaReader(object):
 			
 	@classmethod		
 	def unzippedPathFragment(self, sanitisedPath):
-		fragment = hashlib.md5(sanitisedPath).hexdigest()[:16]
+		fragment = hashlib.md5(sanitisedPath.encode()).hexdigest()[:16]
 		return fragment
 
 

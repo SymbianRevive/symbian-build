@@ -26,28 +26,28 @@
 		<set name="BPABI_OPTION" value=""/>
 		<set name="C_LANG_OPTION" value="-x c"/>
 		<set name="CC.ARMV5" value="-march=armv5t"/>
-		<set name="CC.ARMV6" value="-march=armv6t2"/>
+		<set name="CC.ARMV6" value="-march=armv6+fp"/>
 		<set name="CC.ARMV7" value="-march=armv7"/>
 		<!-- From the GCC manual: "With this option, GCC uses features of DWARF version 3 when they are useful; ..." -->
 		<!-- There is no -gdwarf-3 option; hence CC.DWARF2 and CC.DWARF3 have the same value. -->
 		<set name="CC.DWARF2" value="-gdwarf-2"/>
 		<set name="CC.DWARF3" value="-gdwarf-2"/>
 		<set name="CC.NO_UNALIGNED_ACCESS" value=""/>
-		<set name="CC.SOFTVFP_MAYBE_VFPV2" value="soft"/>
-		<set name="CC.SOFTVFP_MAYBE_VFPV3" value="soft"/>
+		<set name="CC.SOFTVFP_MAYBE_VFPV2" value="softfp"/>
+		<set name="CC.SOFTVFP_MAYBE_VFPV3" value="softfp"/>
 		<set name="CC_ERRORS_CONTROL_OPTION" value=""/>
-		<set name="CC_WARNINGS_CONTROL_OPTION" value="-Wall -Wno-switch -Wno-deprecated -Wno-system-headers -Wno-error -Wno-psabi"/>
+		<set name="CC_WARNINGS_CONTROL_OPTION" value="-Wall -Wno-error=narrowing -Wno-switch -Wno-deprecated -Wno-system-headers -Wno-error -Wno-psabi"/>
 		<set name="CIADEFS" value="__CIA__"/>
 		<set name="CODE_SEGMENT_START" value="-Ttext"/>
 		<set name="COMMANDFILE_OPTION" value="@"/>
 		<set name="COMPILE_ONLY_OPTION" value="-c"/>
 		<set name="COMPILER_CIA_FLAGS" value="-marm"/>		
-		<set name="COMPILER_FPU_OPTION" value="-mfloat-abi="/>
+		<set name="COMPILER_FPU_OPTION" value="-mfpu=vfpv2 -mfloat-abi="/>
 		<set name="COMPILER_INTERWORK_DEFINES" value="__MARM_INTERWORK__"/>
         	<set name="COMPILER_NO_HIDE_ALL_OPTION" value="-fvisibility=default"/>
-		<set name="COMPILER_SYSTEM_INCLUDE_OPTION" value="-I"/>
+		<set name="COMPILER_SYSTEM_INCLUDE_OPTION" value="-I "/>
 		<set name="COMPILER_THUMB_DEFINES" value="__MARM_THUMB__"/>
-		<set name="CPP_LANG_OPTION" value="-x c++ -Wno-ctor-dtor-privacy -std=gnu++0x -Wno-invalid-offsetof -Wno-psabi -Wno-error -fpermissive -fkeep-inline-functions"/>
+		<set name="CPP_LANG_OPTION" value="-x c++ -Wno-ctor-dtor-privacy -std=gnu++11 -Wno-narrowing -Wno-invalid-offsetof -Wno-psabi -Wno-error -fpermissive -fno-keep-inline-functions -fno-threadsafe-statics -nostdlib"/>
 		<set name="DATA_SEGMENT_START" value="$(SPLIT_OPTION) $(RW_BASE_OPTION)"/>
 		<set name="DEBUG_OPTIMISATION" value="-O0"/>
 		<set name="DEBUGINFO_OPTIMISATION" value=""/>
@@ -55,8 +55,8 @@
 		<set name="ENUM_OPTION" value=""/>
 		<set name="EXCEPTIONS" value="-fexceptions"/>
 		<set name="EXPORT_VTBL_OPTION" value=""/>
-		<set name="EXTRA_CC_OPTION" value="-fno-threadsafe-statics -fshort-enums -nostdlib -fkeep-inline-functions"/>
-		<set name="EXTRA_LD_OPTION" value="-fno-optimize-sibling-calls -fshort-enums -nostdlib -fkeep-inline-functions"/>
+    <set name="EXTRA_CC_OPTION" value="-fno-unit-at-a-time -fno-common -fno-threadsafe-statics -fno-short-enums -nostdlib -fno-keep-inline-functions -fno-optimize-sibling-calls -fvisibility-inlines-hidden"/>
+		<set name="EXTRA_LD_OPTION" value="-fwhole-program -Wl,--fatal-warnings -Wl,--no-relax -fno-optimize-sibling-calls -fno-short-enums -nostdlib -fno-keep-inline-functions -Wl,--pic-veneer -Wl,--demangle -Wl,--target1-abs -fno-optimize-sibling-calls"/>
 		<set name="FPMODE_OPTION" value=""/>
 		<set name="HEADER_FILES_CONTROL_OPTION" value=""/>
 		<set name="INSTRUCTION_SET" value=""/>
@@ -65,7 +65,7 @@
 		<set name="LD.ARMV6" value=""/>
 		<set name="LD.ARMV7" value=""/>
 		<set name="LD_ERRORS_CONTROL_OPTION" value=""/>
-		<set name="LD_WARNINGS_CONTROL_OPTION" value="-Wl,--no-undefined"/>
+		<set name="LD_WARNINGS_CONTROL_OPTION" value="-Wl,--fatal-warnings -Wl,--no-undefined -Wl,--no-relax"/>
 		<set name="LIBPATH" value=""/>
 		<set name="LIBRARY" value=""/>
 		<set name="LICENSERETRY_OPTION" value=""/>
@@ -99,7 +99,7 @@
 		<set name="RVCTBIN" value="" />
 		<set name="RVCTINC" value="" />
 		<set name="RVCTLIB" value=""/>
-		<set name="RW_BASE" value="$(RW_BASE_OPTION)0x400000"/>
+		<set name="RW_BASE" value="$(RW_BASE_OPTION)0xe00000"/>
 		<set name="RW_BASE_OPTION" value="-Wl,-Tdata,"/>
 		<set name="SHARED_OBJECT_OPTION" value="-Wl,-shared"/>
 		<set name="SID" value=""/>
@@ -119,8 +119,8 @@
 		<set name="UNDEFINED_SYMBOL_REF_OPTION" value="-u"/>
 		<set name="UNRESOLVED_SYMBOL_REF_OPTION" value=""/>
 		<set name="USER_LIBS_PATH_OPTION" value="--userlibpath"/>
-		<set name="USER_STATIC_RUNTIME_LIB" value="usrt3_1.lib"/>
-		<set name="USER_STATIC_RUNTIME_LIB_NESTED_EXCEPTIONS" value="usrt_nx_3_1.lib"/>
+		<set name="USER_STATIC_RUNTIME_LIB" value="usrt2_2.lib"/>
+		<set name="USER_STATIC_RUNTIME_LIB_NESTED_EXCEPTIONS" value="usrt2_2.lib"/>
 		<set name="USERINCLUDE" value=""/>
 		<set name="VFE_OPTION" value=""/>
 
