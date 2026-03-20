@@ -1,3 +1,4 @@
+#!/usr/bin/env perl
 # Copyright (c) 2002-2009 Nokia Corporation and/or its subsidiary(-ies).
 # All rights reserved.
 # This component and the accompanying materials are made available
