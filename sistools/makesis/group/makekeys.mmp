@@ -36,7 +36,7 @@ SOURCE makekeys.cpp
 	//MACRO		_UNICODE _CONSOLE UNICODE
 	MACRO		_CONSOLE NOMINMAX
 	STATICLIBRARY	crypto
-	OPTION GCC	-lz
+	STATICLIBRARY	z
 	OPTION GCC	-idirafter ../../../openssl/include
 #endif
 

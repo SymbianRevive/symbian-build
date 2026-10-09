@@ -35,7 +35,7 @@ SOURCE			sisfield.cpp
 
 STATICLIBRARY		crypto
 
-OPTION			GCC -lz
+STATICLIBRARY		z
 OPTION			GCC -w
 OPTION			GCC -fno-stack-check
 OPTION			GCC -fpermissive
